@@ -12,11 +12,13 @@ public partial class Utilisateur
     public int NoUtilisateur { get; set; }
 
     [StringLength(10)]
+    [Required(ErrorMessage = "Le nom ne doit pas être vide")]
     public string NomUtilisateur { get; set; } = null!;
 
     [StringLength(50)]
     public string Courriel { get; set; } = null!;
 
+    [Required(ErrorMessage = "Le mot de passe ne doit pas être vide")]
     public int MotPasse { get; set; }
 
     [StringLength(1)]

@@ -3,12 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\patry\\GitHubDesktopProjet\\ProjetFinalWebServeur\\ProjetWeb\\ProjetWeb\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{E59B775E-698F-4D5C-A459-336C675D92F7}|ProjetWeb\\ProjetWeb.csproj|c:\\users\\patry\\githubdesktopprojet\\projetfinalwebserveur\\projetweb\\projetweb\\projetweb\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E59B775E-698F-4D5C-A459-336C675D92F7}|ProjetWeb\\ProjetWeb.csproj|solutionrelative:projetweb\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E59B775E-698F-4D5C-A459-336C675D92F7}|ProjetWeb\\ProjetWeb.csproj|c:\\users\\patry\\githubdesktopprojet\\projetfinalwebserveur\\projetweb\\projetweb\\projetweb\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E59B775E-698F-4D5C-A459-336C675D92F7}|ProjetWeb\\ProjetWeb.csproj|solutionrelative:projetweb\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E59B775E-698F-4D5C-A459-336C675D92F7}|ProjetWeb\\ProjetWeb.csproj|c:\\users\\patry\\githubdesktopprojet\\projetfinalwebserveur\\projetweb\\projetweb\\projetweb\\controllers\\filmscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E59B775E-698F-4D5C-A459-336C675D92F7}|ProjetWeb\\ProjetWeb.csproj|solutionrelative:projetweb\\controllers\\filmscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E59B775E-698F-4D5C-A459-336C675D92F7}|ProjetWeb\\ProjetWeb.csproj|c:\\users\\patry\\githubdesktopprojet\\projetfinalwebserveur\\projetweb\\projetweb\\projetweb\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E59B775E-698F-4D5C-A459-336C675D92F7}|ProjetWeb\\ProjetWeb.csproj|solutionrelative:projetweb\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E59B775E-698F-4D5C-A459-336C675D92F7}|ProjetWeb\\ProjetWeb.csproj|c:\\users\\patry\\githubdesktopprojet\\projetfinalwebserveur\\projetweb\\projetweb\\projetweb\\models\\filmdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E59B775E-698F-4D5C-A459-336C675D92F7}|ProjetWeb\\ProjetWeb.csproj|solutionrelative:projetweb\\models\\filmdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,19 +26,19 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\patry\\GitHubDesktopProjet\\ProjetFinalWebServeur\\ProjetWeb\\ProjetWeb\\ProjetWeb\\Program.cs",
-              "RelativeDocumentMoniker": "ProjetWeb\\Program.cs",
-              "ToolTip": "C:\\Users\\patry\\GitHubDesktopProjet\\ProjetFinalWebServeur\\ProjetWeb\\ProjetWeb\\ProjetWeb\\Program.cs",
-              "RelativeToolTip": "ProjetWeb\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAADAAAAAAAAAA==",
+              "DocumentIndex": 3,
+              "Title": "FilmDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\patry\\GitHubDesktopProjet\\ProjetFinalWebServeur\\ProjetWeb\\ProjetWeb\\ProjetWeb\\Models\\FilmDbContext.cs",
+              "RelativeDocumentMoniker": "ProjetWeb\\Models\\FilmDbContext.cs",
+              "ToolTip": "C:\\Users\\patry\\GitHubDesktopProjet\\ProjetFinalWebServeur\\ProjetWeb\\ProjetWeb\\ProjetWeb\\Models\\FilmDbContext.cs",
+              "RelativeToolTip": "ProjetWeb\\Models\\FilmDbContext.cs",
+              "ViewState": "AgIAACEAAAAAAAAAAAAkwCoAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-08T18:16:52.867Z",
+              "WhenOpened": "2024-11-08T19:34:52.659Z",
               "EditorCaption": ""
             },
             {
@@ -41,9 +49,35 @@
               "RelativeDocumentMoniker": "ProjetWeb\\Controllers\\FilmsController.cs",
               "ToolTip": "C:\\Users\\patry\\GitHubDesktopProjet\\ProjetFinalWebServeur\\ProjetWeb\\ProjetWeb\\ProjetWeb\\Controllers\\FilmsController.cs",
               "RelativeToolTip": "ProjetWeb\\Controllers\\FilmsController.cs",
-              "ViewState": "AgIAAAsAAAAAAAAAAAAxwAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAAA8AAAA0AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-08T00:37:36.357Z",
+              "WhenOpened": "2024-11-08T19:25:03.458Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "HomeController.cs",
+              "DocumentMoniker": "C:\\Users\\patry\\GitHubDesktopProjet\\ProjetFinalWebServeur\\ProjetWeb\\ProjetWeb\\ProjetWeb\\Controllers\\HomeController.cs",
+              "RelativeDocumentMoniker": "ProjetWeb\\Controllers\\HomeController.cs",
+              "ToolTip": "C:\\Users\\patry\\GitHubDesktopProjet\\ProjetFinalWebServeur\\ProjetWeb\\ProjetWeb\\ProjetWeb\\Controllers\\HomeController.cs*",
+              "RelativeToolTip": "ProjetWeb\\Controllers\\HomeController.cs*",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAQwBoAAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-08T18:26:13.459Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\patry\\GitHubDesktopProjet\\ProjetFinalWebServeur\\ProjetWeb\\ProjetWeb\\ProjetWeb\\Views\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "ProjetWeb\\Views\\Home\\Index.cshtml",
+              "ToolTip": "C:\\Users\\patry\\GitHubDesktopProjet\\ProjetFinalWebServeur\\ProjetWeb\\ProjetWeb\\ProjetWeb\\Views\\Home\\Index.cshtml",
+              "RelativeToolTip": "ProjetWeb\\Views\\Home\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAA2AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-08T18:25:19.846Z",
               "EditorCaption": ""
             }
           ]
