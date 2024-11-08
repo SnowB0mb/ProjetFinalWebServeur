@@ -1,9 +1,13 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\gregd\\Github projects\\ProjetFinalWebServeur\\ProjetWeb\\ProjetWeb\\",
+  "WorkspaceRootPath": "C:\\Users\\patry\\GitHubDesktopProjet\\ProjetFinalWebServeur\\ProjetWeb\\ProjetWeb\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{E59B775E-698F-4D5C-A459-336C675D92F7}|ProjetWeb\\ProjetWeb.csproj|c:\\users\\gregd\\github projects\\projetfinalwebserveur\\projetweb\\projetweb\\projetweb\\controllers\\filmscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{E59B775E-698F-4D5C-A459-336C675D92F7}|ProjetWeb\\ProjetWeb.csproj|c:\\users\\patry\\githubdesktopprojet\\projetfinalwebserveur\\projetweb\\projetweb\\projetweb\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E59B775E-698F-4D5C-A459-336C675D92F7}|ProjetWeb\\ProjetWeb.csproj|solutionrelative:projetweb\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E59B775E-698F-4D5C-A459-336C675D92F7}|ProjetWeb\\ProjetWeb.csproj|c:\\users\\patry\\githubdesktopprojet\\projetfinalwebserveur\\projetweb\\projetweb\\projetweb\\controllers\\filmscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E59B775E-698F-4D5C-A459-336C675D92F7}|ProjetWeb\\ProjetWeb.csproj|solutionrelative:projetweb\\controllers\\filmscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -19,12 +23,25 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\patry\\GitHubDesktopProjet\\ProjetFinalWebServeur\\ProjetWeb\\ProjetWeb\\ProjetWeb\\Program.cs",
+              "RelativeDocumentMoniker": "ProjetWeb\\Program.cs",
+              "ToolTip": "C:\\Users\\patry\\GitHubDesktopProjet\\ProjetFinalWebServeur\\ProjetWeb\\ProjetWeb\\ProjetWeb\\Program.cs",
+              "RelativeToolTip": "ProjetWeb\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAADAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-08T18:16:52.867Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "FilmsController.cs",
-              "DocumentMoniker": "C:\\Users\\gregd\\Github projects\\ProjetFinalWebServeur\\ProjetWeb\\ProjetWeb\\ProjetWeb\\Controllers\\FilmsController.cs",
+              "DocumentMoniker": "C:\\Users\\patry\\GitHubDesktopProjet\\ProjetFinalWebServeur\\ProjetWeb\\ProjetWeb\\ProjetWeb\\Controllers\\FilmsController.cs",
               "RelativeDocumentMoniker": "ProjetWeb\\Controllers\\FilmsController.cs",
-              "ToolTip": "C:\\Users\\gregd\\Github projects\\ProjetFinalWebServeur\\ProjetWeb\\ProjetWeb\\ProjetWeb\\Controllers\\FilmsController.cs",
+              "ToolTip": "C:\\Users\\patry\\GitHubDesktopProjet\\ProjetFinalWebServeur\\ProjetWeb\\ProjetWeb\\ProjetWeb\\Controllers\\FilmsController.cs",
               "RelativeToolTip": "ProjetWeb\\Controllers\\FilmsController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAxwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-11-08T00:37:36.357Z",
               "EditorCaption": ""
