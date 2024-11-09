@@ -1,0 +1,43 @@
+﻿@model ProjetWeb.Models.Utilisateur
+
+@{
+    ViewData["Title"] = "Inscription";
+}
+
+<h1>View</h1>
+
+<h4>Utilisateur</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="NomUtilisateur" class="control-label">Nom d'utilisateur</label>
+                <input asp-for="NomUtilisateur" class="form-control" />
+                <span asp-validation-for="NomUtilisateur" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Courriel" class="control-label">Courriel</label>
+                <input asp-for="Courriel" class="form-control" />
+                <span asp-validation-for="Courriel" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MotPasse" class="control-label">Mot de passe</label>
+                <input asp-for="MotPasse" type="text" class="form-control" />
+                <span asp-validation-for="MotPasse" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="S'inscrire" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a class="btn btn-secondary" asp-action="Index">Retour</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

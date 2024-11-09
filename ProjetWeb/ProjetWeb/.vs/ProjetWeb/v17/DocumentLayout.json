@@ -1,0 +1,105 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\patry\\GitHubDesktopProjet\\ProjetFinalWebServeur\\ProjetWeb\\ProjetWeb\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{E59B775E-698F-4D5C-A459-336C675D92F7}|ProjetWeb\\ProjetWeb.csproj|c:\\users\\patry\\githubdesktopprojet\\projetfinalwebserveur\\projetweb\\projetweb\\projetweb\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E59B775E-698F-4D5C-A459-336C675D92F7}|ProjetWeb\\ProjetWeb.csproj|solutionrelative:projetweb\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E59B775E-698F-4D5C-A459-336C675D92F7}|ProjetWeb\\ProjetWeb.csproj|c:\\users\\patry\\githubdesktopprojet\\projetfinalwebserveur\\projetweb\\projetweb\\projetweb\\views\\home\\inscription.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E59B775E-698F-4D5C-A459-336C675D92F7}|ProjetWeb\\ProjetWeb.csproj|solutionrelative:projetweb\\views\\home\\inscription.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E59B775E-698F-4D5C-A459-336C675D92F7}|ProjetWeb\\ProjetWeb.csproj|c:\\users\\patry\\githubdesktopprojet\\projetfinalwebserveur\\projetweb\\projetweb\\projetweb\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E59B775E-698F-4D5C-A459-336C675D92F7}|ProjetWeb\\ProjetWeb.csproj|solutionrelative:projetweb\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E59B775E-698F-4D5C-A459-336C675D92F7}|ProjetWeb\\ProjetWeb.csproj|c:\\users\\patry\\githubdesktopprojet\\projetfinalwebserveur\\projetweb\\projetweb\\projetweb\\controllers\\filmscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E59B775E-698F-4D5C-A459-336C675D92F7}|ProjetWeb\\ProjetWeb.csproj|solutionrelative:projetweb\\controllers\\filmscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E59B775E-698F-4D5C-A459-336C675D92F7}|ProjetWeb\\ProjetWeb.csproj|c:\\users\\patry\\githubdesktopprojet\\projetfinalwebserveur\\projetweb\\projetweb\\projetweb\\models\\utilisateur.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E59B775E-698F-4D5C-A459-336C675D92F7}|ProjetWeb\\ProjetWeb.csproj|solutionrelative:projetweb\\models\\utilisateur.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\patry\\GitHubDesktopProjet\\ProjetFinalWebServeur\\ProjetWeb\\ProjetWeb\\ProjetWeb\\Views\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "ProjetWeb\\Views\\Home\\Index.cshtml",
+              "ToolTip": "C:\\Users\\patry\\GitHubDesktopProjet\\ProjetFinalWebServeur\\ProjetWeb\\ProjetWeb\\ProjetWeb\\Views\\Home\\Index.cshtml",
+              "RelativeToolTip": "ProjetWeb\\Views\\Home\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAzAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-09T19:36:48.423Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "FilmsController.cs",
+              "DocumentMoniker": "C:\\Users\\patry\\GitHubDesktopProjet\\ProjetFinalWebServeur\\ProjetWeb\\ProjetWeb\\ProjetWeb\\Controllers\\FilmsController.cs",
+              "RelativeDocumentMoniker": "ProjetWeb\\Controllers\\FilmsController.cs",
+              "ToolTip": "C:\\Users\\patry\\GitHubDesktopProjet\\ProjetFinalWebServeur\\ProjetWeb\\ProjetWeb\\ProjetWeb\\Controllers\\FilmsController.cs",
+              "RelativeToolTip": "ProjetWeb\\Controllers\\FilmsController.cs",
+              "ViewState": "AgIAAC8AAAAAAAAAAAAwwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-09T19:14:48.999Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Utilisateur.cs",
+              "DocumentMoniker": "C:\\Users\\patry\\GitHubDesktopProjet\\ProjetFinalWebServeur\\ProjetWeb\\ProjetWeb\\ProjetWeb\\Models\\Utilisateur.cs",
+              "RelativeDocumentMoniker": "ProjetWeb\\Models\\Utilisateur.cs",
+              "ToolTip": "C:\\Users\\patry\\GitHubDesktopProjet\\ProjetFinalWebServeur\\ProjetWeb\\ProjetWeb\\ProjetWeb\\Models\\Utilisateur.cs",
+              "RelativeToolTip": "ProjetWeb\\Models\\Utilisateur.cs",
+              "ViewState": "AgIAACEAAAAAAAAAAAAewC8AAAA7AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-09T19:07:34.437Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "HomeController.cs",
+              "DocumentMoniker": "C:\\Users\\patry\\GitHubDesktopProjet\\ProjetFinalWebServeur\\ProjetWeb\\ProjetWeb\\ProjetWeb\\Controllers\\HomeController.cs",
+              "RelativeDocumentMoniker": "ProjetWeb\\Controllers\\HomeController.cs",
+              "ToolTip": "C:\\Users\\patry\\GitHubDesktopProjet\\ProjetFinalWebServeur\\ProjetWeb\\ProjetWeb\\ProjetWeb\\Controllers\\HomeController.cs",
+              "RelativeToolTip": "ProjetWeb\\Controllers\\HomeController.cs",
+              "ViewState": "AgIAAB0AAAAAAAAAAAAUwC0AAABEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-09T18:36:58Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Inscription.cshtml",
+              "DocumentMoniker": "C:\\Users\\patry\\GitHubDesktopProjet\\ProjetFinalWebServeur\\ProjetWeb\\ProjetWeb\\ProjetWeb\\Views\\Home\\Inscription.cshtml",
+              "RelativeDocumentMoniker": "ProjetWeb\\Views\\Home\\Inscription.cshtml",
+              "ToolTip": "C:\\Users\\patry\\GitHubDesktopProjet\\ProjetFinalWebServeur\\ProjetWeb\\ProjetWeb\\ProjetWeb\\Views\\Home\\Inscription.cshtml",
+              "RelativeToolTip": "ProjetWeb\\Views\\Home\\Inscription.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAABFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-09T18:36:43.157Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
