@@ -508,6 +508,7 @@ C:\Users\patry\GitHubDesktopProjet\ProjetFinalWebServeur\ProjetWeb\ProjetWeb\Pro
 C:\Users\patry\GitHubDesktopProjet\ProjetFinalWebServeur\ProjetWeb\ProjetWeb\ProjetWeb\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.ProjetWeb.props
 C:\Users\patry\GitHubDesktopProjet\ProjetFinalWebServeur\ProjetWeb\ProjetWeb\ProjetWeb\obj\Debug\net8.0\staticwebassets.pack.json
 C:\Users\patry\GitHubDesktopProjet\ProjetFinalWebServeur\ProjetWeb\ProjetWeb\ProjetWeb\obj\Debug\net8.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
+C:\Users\patry\GitHubDesktopProjet\ProjetFinalWebServeur\ProjetWeb\ProjetWeb\ProjetWeb\obj\Debug\net8.0\scopedcss\Views\Shared\_LayoutLogged.cshtml.rz.scp.css
 C:\Users\patry\GitHubDesktopProjet\ProjetFinalWebServeur\ProjetWeb\ProjetWeb\ProjetWeb\obj\Debug\net8.0\scopedcss\bundle\ProjetWeb.styles.css
 C:\Users\patry\GitHubDesktopProjet\ProjetFinalWebServeur\ProjetWeb\ProjetWeb\ProjetWeb\obj\Debug\net8.0\scopedcss\projectbundle\ProjetWeb.bundle.scp.css
 C:\Users\patry\GitHubDesktopProjet\ProjetFinalWebServeur\ProjetWeb\ProjetWeb\ProjetWeb\obj\Debug\net8.0\ProjetWeb.csproj.Up2Date

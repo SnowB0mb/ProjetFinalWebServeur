@@ -50,8 +50,8 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/patry/GitHubDesktopProjet/ProjetFinalWebServeur/ProjetWeb/ProjetWeb/ProjetWeb/Views/Home/Privacy.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+[C:/Users/patry/GitHubDesktopProjet/ProjetFinalWebServeur/ProjetWeb/ProjetWeb/ProjetWeb/Views/Home/Inscription.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbnNjcmlwdGlvbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/patry/GitHubDesktopProjet/ProjetFinalWebServeur/ProjetWeb/ProjetWeb/ProjetWeb/Views/Shared/Error.cshtml]
@@ -73,3 +73,7 @@ build_metadata.AdditionalFiles.CssScope =
 [C:/Users/patry/GitHubDesktopProjet/ProjetFinalWebServeur/ProjetWeb/ProjetWeb/ProjetWeb/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-mm8x9xo3g1
+
+[C:/Users/patry/GitHubDesktopProjet/ProjetFinalWebServeur/ProjetWeb/ProjetWeb/ProjetWeb/Views/Shared/_LayoutLogged.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXRMb2dnZWQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-as02w409w7
