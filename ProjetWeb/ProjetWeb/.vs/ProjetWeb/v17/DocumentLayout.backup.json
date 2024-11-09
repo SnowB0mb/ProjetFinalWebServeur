@@ -42,8 +42,7 @@
               "RelativeToolTip": "ProjetWeb\\Views\\Home\\Index.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAzAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-11-09T19:36:48.423Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-09T19:36:48.423Z"
             },
             {
               "$type": "Document",
@@ -55,8 +54,7 @@
               "RelativeToolTip": "ProjetWeb\\Controllers\\FilmsController.cs",
               "ViewState": "AgIAAC8AAAAAAAAAAAAwwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-09T19:14:48.999Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-09T19:14:48.999Z"
             },
             {
               "$type": "Document",
@@ -68,8 +66,7 @@
               "RelativeToolTip": "ProjetWeb\\Models\\Utilisateur.cs",
               "ViewState": "AgIAACEAAAAAAAAAAAAewC8AAAA7AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-09T19:07:34.437Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-09T19:07:34.437Z"
             },
             {
               "$type": "Document",
@@ -79,7 +76,7 @@
               "RelativeDocumentMoniker": "ProjetWeb\\Controllers\\HomeController.cs",
               "ToolTip": "C:\\Users\\patry\\GitHubDesktopProjet\\ProjetFinalWebServeur\\ProjetWeb\\ProjetWeb\\ProjetWeb\\Controllers\\HomeController.cs",
               "RelativeToolTip": "ProjetWeb\\Controllers\\HomeController.cs",
-              "ViewState": "AgIAACMAAAAAAAAAAAAvwBcAAAAaAAAAAAAAAA==",
+              "ViewState": "AgIAAB0AAAAAAAAAAAAUwC0AAABEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-11-09T18:36:58Z",
               "EditorCaption": ""
@@ -94,8 +91,7 @@
               "RelativeToolTip": "ProjetWeb\\Views\\Home\\Inscription.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAABFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-11-09T18:36:43.157Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-09T18:36:43.157Z"
             }
           ]
         }
