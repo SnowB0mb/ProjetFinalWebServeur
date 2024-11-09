@@ -11,6 +11,10 @@ namespace ProjetWeb.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly FilmDbContext _context;
+        public const string SessionKeyId = "_Id";
+
+        [TempData]
+        public string? nomInscription { get; set; }
 
         public HomeController(ILogger<HomeController> logger, FilmDbContext context)
         {
@@ -20,6 +24,7 @@ namespace ProjetWeb.Controllers
 
         public IActionResult Index()
         {
+            HttpContext.Session.SetInt32(SessionKeyId, -1);
             return View();
         }
         [HttpPost]
@@ -32,6 +37,9 @@ namespace ProjetWeb.Controllers
                 ModelState.AddModelError("MotPasse", "Nom d'utilisateur ou mot de passe incorrect");
                 return View(utilisateur);
             }
+
+            // tout ok
+            HttpContext.Session.SetInt32(SessionKeyId, utilisateurDbContext.NoUtilisateur);
             return Redirect("/Films/Index");
         }
 
@@ -64,6 +72,7 @@ namespace ProjetWeb.Controllers
             }
             _context.Add(utilisateur);
             _context.SaveChanges();
+            nomInscription = utilisateur.NomUtilisateur;
             return Redirect("Index");
         }
 

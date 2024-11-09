@@ -12,6 +12,10 @@ namespace ProjetWeb.Controllers
     public class FilmsController : Controller
     {
         private readonly FilmDbContext _context;
+        public const string SessionKeyId = "_Id";
+
+        // à des fins de déboggages, changer la valeur a true
+        public bool IsConnected => HttpContext.Session.GetInt32(SessionKeyId) > -1;
 
         public FilmsController(FilmDbContext context)
         {
@@ -21,6 +25,10 @@ namespace ProjetWeb.Controllers
         // GET: Films
         public async Task<IActionResult> Index()
         {
+            if (!IsConnected)
+            {
+                return Redirect("/Home/Index");
+            }
             var filmDbContext = _context.Films.Include(f => f.CategorieNavigation).Include(f => f.FormatNavigation).Include(f => f.NoProducteurNavigation).Include(f => f.NoRealisateurNavigation).Include(f => f.NoUtilisateurMajNavigation);
             return View(await filmDbContext.ToListAsync());
         }
@@ -28,6 +36,10 @@ namespace ProjetWeb.Controllers
         // GET: Films/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            if (!IsConnected)
+            {
+                return Redirect("/Home/Index");
+            }
             if (id == null)
             {
                 return NotFound();
@@ -51,6 +63,10 @@ namespace ProjetWeb.Controllers
         // GET: Films/Create
         public IActionResult Create()
         {
+            if (!IsConnected)
+            {
+                return Redirect("/Home/Index");
+            }
             ViewData["Categorie"] = new SelectList(_context.Categories, "NoCategorie", "NoCategorie");
             ViewData["Format"] = new SelectList(_context.Formats, "NoFormat", "NoFormat");
             ViewData["NoProducteur"] = new SelectList(_context.Producteurs, "NoProducteur", "NoProducteur");
@@ -66,6 +82,10 @@ namespace ProjetWeb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("NoFilm,AnneeSortie,Categorie,Format,DateMaj,NoUtilisateurMaj,Resume,DureeMinutes,FilmOriginal,ImagePochette,NbDisques,TitreFrancais,TitreOriginal,VersionEtendue,NoRealisateur,NoProducteur,Xtra")] Film film)
         {
+            if (!IsConnected)
+            {
+                return Redirect("/Home/Index");
+            }
             if (ModelState.IsValid)
             {
                 _context.Add(film);
@@ -83,6 +103,10 @@ namespace ProjetWeb.Controllers
         // GET: Films/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            if (!IsConnected)
+            {
+                return Redirect("/Home/Index");
+            }
             if (id == null)
             {
                 return NotFound();
@@ -108,6 +132,10 @@ namespace ProjetWeb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("NoFilm,AnneeSortie,Categorie,Format,DateMaj,NoUtilisateurMaj,Resume,DureeMinutes,FilmOriginal,ImagePochette,NbDisques,TitreFrancais,TitreOriginal,VersionEtendue,NoRealisateur,NoProducteur,Xtra")] Film film)
         {
+            if (!IsConnected)
+            {
+                return Redirect("/Home/Index");
+            }
             if (id != film.NoFilm)
             {
                 return NotFound();
@@ -144,6 +172,10 @@ namespace ProjetWeb.Controllers
         // GET: Films/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            if (!IsConnected)
+            {
+                return Redirect("/Home/Index");
+            }
             if (id == null)
             {
                 return NotFound();
@@ -169,6 +201,10 @@ namespace ProjetWeb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            if (!IsConnected)
+            {
+                return Redirect("/Home/Index");
+            }
             var film = await _context.Films.FindAsync(id);
             if (film != null)
             {

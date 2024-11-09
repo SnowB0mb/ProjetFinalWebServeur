@@ -12,7 +12,16 @@
             <div class="form-group row">
                 <label asp-for="NomUtilisateur" class="col-sm-2 col-form-label">Nom</label>
                 <div class="col-sm-10">
-                    <input asp-for="NomUtilisateur" type="text" class="form-control" placeholder="Nom">
+                    @{
+                        if (TempData.Peek("nomInscription") != null)
+                        {
+                            <input asp-for="NomUtilisateur" value="@TempData.Peek("nomInscription")" type="text" class="form-control" placeholder="Nom">
+                        }
+                        else
+                        {
+                            <input asp-for="NomUtilisateur" type="text" class="form-control" placeholder="Nom">
+                        }
+                    }
                     <span asp-validation-for="NomUtilisateur" class="text-danger"></span>
                 </div>
             </div>
@@ -25,7 +34,7 @@
             </div>
             <div class="form-group row">
                 <div class="col-sm-10">
-                    <input type="submit" class="btn btn-primary" value="Connexion"/>
+                    <input type="submit" class="btn btn-primary" value="Connexion" />
                     <a class="btn btn-secondary" asp-controller="Home" asp-action="Inscription">Inscription</a>
                 </div>
             </div>
