@@ -23,14 +23,39 @@ namespace ProjetWeb.Controllers
         }
 
         // GET: Films
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int pageNumber = 1, int pageSize = 12)
         {
             if (!IsConnected)
             {
                 return Redirect("/Home/Index");
             }
-            var filmDbContext = _context.Films.Include(f => f.CategorieNavigation).Include(f => f.FormatNavigation).Include(f => f.NoProducteurNavigation).Include(f => f.NoRealisateurNavigation).Include(f => f.NoUtilisateurMajNavigation);
-            return View(await filmDbContext.ToListAsync());
+
+            // Calculer le nombre total de films
+            var totalFilms = await _context.Films.CountAsync();
+
+            // Calculer le nombre total de pages
+            var totalPages = (int)Math.Ceiling(totalFilms / (double)pageSize);
+
+            // Vérifier si la page demandée est valide
+            if (pageNumber < 1) pageNumber = 1;
+            if (pageNumber > totalPages) pageNumber = totalPages;
+
+            // Obtenir la liste des films pour la page demandée
+            var films = await _context.Films
+                .Include(f => f.NoUtilisateurMajNavigation)
+                .OrderBy(f => f.TitreFrancais) // Trier par titre
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            // Passer les données de pagination à la vue
+            ViewData["CurrentPage"] = pageNumber;
+            ViewData["TotalPages"] = totalPages;
+            ViewData["PageSize"] = pageSize;
+
+            return View(films);
+            //var filmDbContext = _context.Films.Include(f => f.CategorieNavigation).Include(f => f.FormatNavigation).Include(f => f.NoProducteurNavigation).Include(f => f.NoRealisateurNavigation).Include(f => f.NoUtilisateurMajNavigation);
+            //return View(await filmDbContext.ToListAsync());
         }
 
         // GET: Films/Details/5

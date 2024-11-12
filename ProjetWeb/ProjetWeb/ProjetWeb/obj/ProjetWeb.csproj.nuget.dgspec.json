@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\patry\\GitHubDesktopProjet\\ProjetFinalWebServeur\\ProjetWeb\\ProjetWeb\\ProjetWeb\\ProjetWeb.csproj": {}
+    "C:\\Users\\maril\\Source\\Repos\\ProjetFinalWebServeur\\ProjetWeb\\ProjetWeb\\ProjetWeb\\ProjetWeb.csproj": {}
   },
   "projects": {
-    "C:\\Users\\patry\\GitHubDesktopProjet\\ProjetFinalWebServeur\\ProjetWeb\\ProjetWeb\\ProjetWeb\\ProjetWeb.csproj": {
+    "C:\\Users\\maril\\Source\\Repos\\ProjetFinalWebServeur\\ProjetWeb\\ProjetWeb\\ProjetWeb\\ProjetWeb.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\patry\\GitHubDesktopProjet\\ProjetFinalWebServeur\\ProjetWeb\\ProjetWeb\\ProjetWeb\\ProjetWeb.csproj",
+        "projectUniqueName": "C:\\Users\\maril\\Source\\Repos\\ProjetFinalWebServeur\\ProjetWeb\\ProjetWeb\\ProjetWeb\\ProjetWeb.csproj",
         "projectName": "ProjetWeb",
-        "projectPath": "C:\\Users\\patry\\GitHubDesktopProjet\\ProjetFinalWebServeur\\ProjetWeb\\ProjetWeb\\ProjetWeb\\ProjetWeb.csproj",
-        "packagesPath": "C:\\Users\\patry\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\patry\\GitHubDesktopProjet\\ProjetFinalWebServeur\\ProjetWeb\\ProjetWeb\\ProjetWeb\\obj\\",
+        "projectPath": "C:\\Users\\maril\\Source\\Repos\\ProjetFinalWebServeur\\ProjetWeb\\ProjetWeb\\ProjetWeb\\ProjetWeb.csproj",
+        "packagesPath": "C:\\Users\\maril\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\maril\\Source\\Repos\\ProjetFinalWebServeur\\ProjetWeb\\ProjetWeb\\ProjetWeb\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\patry\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\maril\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -84,7 +80,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

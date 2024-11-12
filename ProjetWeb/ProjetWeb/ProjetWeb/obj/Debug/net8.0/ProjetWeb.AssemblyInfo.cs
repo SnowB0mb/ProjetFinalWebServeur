@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ProjetWeb")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e5ef432911f4ee5bcb314029e8ded0c3655e971e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+39e8c4c1e19137b2a6d01c80d6a08444da7bfc08")]
 [assembly: System.Reflection.AssemblyProductAttribute("ProjetWeb")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ProjetWeb")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
