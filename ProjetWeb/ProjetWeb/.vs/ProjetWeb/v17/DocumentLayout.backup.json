@@ -1,18 +1,10 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\maril\\source\\repos\\ProjetFinalWebServeur\\ProjetWeb\\ProjetWeb\\",
+  "WorkspaceRootPath": "C:\\Users\\leaev\\OneDrive\\Documents\\GitHub\\ProjetFinalWebServeur\\ProjetWeb\\ProjetWeb\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{E59B775E-698F-4D5C-A459-336C675D92F7}|ProjetWeb\\ProjetWeb.csproj|c:\\users\\maril\\source\\repos\\projetfinalwebserveur\\projetweb\\projetweb\\projetweb\\views\\films\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "AbsoluteMoniker": "D:0:0:{E59B775E-698F-4D5C-A459-336C675D92F7}|ProjetWeb\\ProjetWeb.csproj|c:\\users\\leaev\\onedrive\\documents\\github\\projetfinalwebserveur\\projetweb\\projetweb\\projetweb\\views\\films\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{E59B775E-698F-4D5C-A459-336C675D92F7}|ProjetWeb\\ProjetWeb.csproj|solutionrelative:projetweb\\views\\films\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E59B775E-698F-4D5C-A459-336C675D92F7}|ProjetWeb\\ProjetWeb.csproj|c:\\users\\maril\\source\\repos\\projetfinalwebserveur\\projetweb\\projetweb\\projetweb\\views\\shared\\_layoutlogged.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{E59B775E-698F-4D5C-A459-336C675D92F7}|ProjetWeb\\ProjetWeb.csproj|solutionrelative:projetweb\\views\\shared\\_layoutlogged.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E59B775E-698F-4D5C-A459-336C675D92F7}|ProjetWeb\\ProjetWeb.csproj|c:\\users\\maril\\source\\repos\\projetfinalwebserveur\\projetweb\\projetweb\\projetweb\\controllers\\filmscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E59B775E-698F-4D5C-A459-336C675D92F7}|ProjetWeb\\ProjetWeb.csproj|solutionrelative:projetweb\\controllers\\filmscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,45 +14,23 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 1,
           "Children": [
             {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "_LayoutLogged.cshtml",
-              "DocumentMoniker": "C:\\Users\\maril\\source\\repos\\ProjetFinalWebServeur\\ProjetWeb\\ProjetWeb\\ProjetWeb\\Views\\Shared\\_LayoutLogged.cshtml",
-              "RelativeDocumentMoniker": "ProjetWeb\\Views\\Shared\\_LayoutLogged.cshtml",
-              "ToolTip": "C:\\Users\\maril\\source\\repos\\ProjetFinalWebServeur\\ProjetWeb\\ProjetWeb\\ProjetWeb\\Views\\Shared\\_LayoutLogged.cshtml",
-              "RelativeToolTip": "ProjetWeb\\Views\\Shared\\_LayoutLogged.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAABVAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-11-12T17:03:05.68Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "FilmsController.cs",
-              "DocumentMoniker": "C:\\Users\\maril\\source\\repos\\ProjetFinalWebServeur\\ProjetWeb\\ProjetWeb\\ProjetWeb\\Controllers\\FilmsController.cs",
-              "RelativeDocumentMoniker": "ProjetWeb\\Controllers\\FilmsController.cs",
-              "ToolTip": "C:\\Users\\maril\\source\\repos\\ProjetFinalWebServeur\\ProjetWeb\\ProjetWeb\\ProjetWeb\\Controllers\\FilmsController.cs",
-              "RelativeToolTip": "ProjetWeb\\Controllers\\FilmsController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACgAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-11T19:19:35.098Z",
-              "EditorCaption": ""
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\maril\\source\\repos\\ProjetFinalWebServeur\\ProjetWeb\\ProjetWeb\\ProjetWeb\\Views\\Films\\Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\leaev\\OneDrive\\Documents\\GitHub\\ProjetFinalWebServeur\\ProjetWeb\\ProjetWeb\\ProjetWeb\\Views\\Films\\Index.cshtml",
               "RelativeDocumentMoniker": "ProjetWeb\\Views\\Films\\Index.cshtml",
-              "ToolTip": "C:\\Users\\maril\\source\\repos\\ProjetFinalWebServeur\\ProjetWeb\\ProjetWeb\\ProjetWeb\\Views\\Films\\Index.cshtml",
+              "ToolTip": "C:\\Users\\leaev\\OneDrive\\Documents\\GitHub\\ProjetFinalWebServeur\\ProjetWeb\\ProjetWeb\\ProjetWeb\\Views\\Films\\Index.cshtml",
               "RelativeToolTip": "ProjetWeb\\Views\\Films\\Index.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAMAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAACHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-11-11T18:02:16.783Z",
+              "WhenOpened": "2024-11-12T20:53:58.902Z",
               "EditorCaption": ""
             }
           ]
