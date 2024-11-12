@@ -4,6 +4,7 @@
     var currentPage = (int)(ViewData["CurrentPage"] ?? 1);
     var totalPages = (int)(ViewData["TotalPages"] ?? 1);
     var pageSize = (int)(ViewData["PageSize"] ?? 12);
+    var currentUser = (int?)ViewData["CurrentUser"];
 }
 
 <h1>Nos DVD</h1>
@@ -46,11 +47,23 @@
                     <br />
                 </td>
                 <td>
-                    <div>
-                        <a asp-action="Edit" asp-route-id="@item.NoFilm" class="btn btn-warning btn-sm">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.NoFilm" class="btn btn-info btn-sm">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.NoFilm" class="btn btn-danger btn-sm">Delete</a>
-                    </div>
+                    @if (currentUser == item.NoUtilisateurMajNavigation.NoUtilisateur)
+                    {
+                        <div>
+                            <a asp-action="Edit" asp-route-id="@item.NoFilm" class="btn btn-warning btn-sm">Modifier</a> |
+                            <a asp-action="Details" asp-route-id="@item.NoFilm" class="btn btn-info btn-sm">Détails</a> |
+                            <a asp-action="Delete" asp-route-id="@item.NoFilm" class="btn btn-danger btn-sm">Supprimer</a>
+                        </div>
+                    }
+                    else
+                    {
+                        <div>
+                            <a asp-action="Edit" asp-route-id="@item.NoFilm" class="btn btn-warning btn-sm">Envoyer un courriel</a> |
+                            <a asp-action="Details" asp-route-id="@item.NoFilm" class="btn btn-info btn-sm">Détails</a> |
+                            <a asp-action="Delete" asp-route-id="@item.NoFilm" class="btn btn-danger btn-sm">S'approprier le DVD</a>
+                        </div>
+                        
+                    }
                 </td>
             </tr>
         }
@@ -59,16 +72,16 @@
     <div class="pagination">
         <ul class="pagination">
             <li class="page-item @(currentPage <= 1 ? "disabled" : "")">
-                <a class="page-link" asp-action="Index" asp-route-pageNumber="1" asp-route-sortOrder="@ViewData["SortOrder"]" asp-route-searchString="@ViewData["SearchString"]">First</a>
+                <a class="page-link" asp-action="Index" asp-route-pageNumber="1" asp-route-sortOrder="@ViewData["SortOrder"]" asp-route-searchString="@ViewData["SearchString"]">Première page</a>
             </li>
             <li class="page-item @(currentPage <= 1 ? "disabled" : "")">
-                <a class="page-link" asp-action="Index" asp-route-pageNumber="@(currentPage - 1)" asp-route-sortOrder="@ViewData["SortOrder"]" asp-route-searchString="@ViewData["SearchString"]">Previous</a>
+                <a class="page-link" asp-action="Index" asp-route-pageNumber="@(currentPage - 1)" asp-route-sortOrder="@ViewData["SortOrder"]" asp-route-searchString="@ViewData["SearchString"]">Page précedente</a>
             </li>
             <li class="page-item @(currentPage >= totalPages ? "disabled" : "")">
-                <a class="page-link" asp-action="Index" asp-route-pageNumber="@(currentPage + 1)" asp-route-sortOrder="@ViewData["SortOrder"]" asp-route-searchString="@ViewData["SearchString"]">Next</a>
+                <a class="page-link" asp-action="Index" asp-route-pageNumber="@(currentPage + 1)" asp-route-sortOrder="@ViewData["SortOrder"]" asp-route-searchString="@ViewData["SearchString"]">Page suivante</a>
             </li>
             <li class="page-item @(currentPage >= totalPages ? "disabled" : "")">
-                <a class="page-link" asp-action="Index" asp-route-pageNumber="@totalPages" asp-route-sortOrder="@ViewData["SortOrder"]" asp-route-searchString="@ViewData["SearchString"]">Last</a>
+                <a class="page-link" asp-action="Index" asp-route-pageNumber="@totalPages" asp-route-sortOrder="@ViewData["SortOrder"]" asp-route-searchString="@ViewData["SearchString"]">Dernière page</a>
             </li>
         </ul>
     </div>

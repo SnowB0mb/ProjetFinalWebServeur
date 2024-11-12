@@ -13,6 +13,7 @@ namespace ProjetWeb.Controllers
     {
         private readonly FilmDbContext _context;
         public const string SessionKeyId = "_Id";
+        private int? _userIdConnected;
 
         // à des fins de déboggages, changer la valeur a true
         public bool IsConnected => HttpContext.Session.GetInt32(SessionKeyId) > -1;
@@ -22,6 +23,14 @@ namespace ProjetWeb.Controllers
             _context = context;
         }
 
+        private void InitializeUserId()
+        {
+            if (_userIdConnected == null)
+            {
+                _userIdConnected = HttpContext.Session.GetInt32(SessionKeyId);
+            }
+        }
+
         // GET: Films
         public async Task<IActionResult> Index(int pageNumber = 1, int pageSize = 12, string searchString = "", string sortOrder = "")
         {
@@ -29,6 +38,8 @@ namespace ProjetWeb.Controllers
             {
                 return Redirect("/Home/Index");
             }
+
+            InitializeUserId();
 
             // Calculer nb total de films + nb total de pages
             var totalFilms = await _context.Films.CountAsync();
@@ -76,6 +87,7 @@ namespace ProjetWeb.Controllers
             ViewData["PageSize"] = pageSize;
             ViewData["SortOrder"] = sortOrder;
             ViewData["SearchString"] = searchString;
+            ViewData["CurrentUser"] = _userIdConnected;
 
             return View(films);
         }
