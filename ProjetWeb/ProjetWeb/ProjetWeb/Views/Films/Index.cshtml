@@ -1,7 +1,6 @@
 ﻿@model IEnumerable<ProjetWeb.Models.Film>
 
 @{
-    ViewData["Title"] = "Index";
     var currentPage = (int)(ViewData["CurrentPage"] ?? 1);
     var totalPages = (int)(ViewData["TotalPages"] ?? 1);
     var pageSize = (int)(ViewData["PageSize"] ?? 12);
@@ -9,6 +8,22 @@
 
 <h1>Nos DVD</h1>
 
+<form method="get">
+    <input type="text" name="searchString" value="@ViewData["SearchString"]" placeholder="Rechercher un film" />
+    <button type="submit">Rechercher</button>
+</form>
+<br />
+
+<!-- form>
+    <label for="sortOrder">Trier par:</label>
+    <select name="sortOrder" id="sortOrder" onchange="this.form.submit()">
+        <option value="titre" asp-route-sortOrder="titre" selected="@(ViewData["SortOrder"]?.ToString() == "titre" ? "selected" : "")">Titre</option>
+        <option value="utilisateur" asp-route-sortOrder="utilisateur" selected="@(ViewData["SortOrder"]?.ToString() == "utilisateur" ? "selected" : "")">Utilisateur</option>
+        <option value="utilisateur_titre" asp-route-sortOrder="utilisateur_titre" selected="@(ViewData["SortOrder"]?.ToString() == "utilisateur_titre" ? "selected" : "")">Utilisateur et Titre</option>
+    </select>
+</form-->
+
+<br />
 <p>
     <a asp-action="Create">Create New</a>
 </p>
@@ -26,7 +41,7 @@
                         <strong>Titre Français: </strong> @Html.DisplayFor(modelItem => item.TitreFrancais)
                     </div>
                     <div>
-                        <strong>DVD en main par: </strong> @Html.DisplayFor(modelItem => item.NoUtilisateurMajNavigation.NoUtilisateur)
+                        <strong>DVD en main par: </strong> @Html.DisplayFor(modelItem => item.NoUtilisateurMajNavigation.NomUtilisateur)
                     </div>
                     <br />
                 </td>
@@ -44,16 +59,16 @@
     <div class="pagination">
         <ul class="pagination">
             <li class="page-item @(currentPage <= 1 ? "disabled" : "")">
-                <a class="page-link" asp-action="Index" asp-route-pageNumber="1">First</a>
+                <a class="page-link" asp-action="Index" asp-route-pageNumber="1" asp-route-sortOrder="@ViewData["SortOrder"]" asp-route-searchString="@ViewData["SearchString"]">First</a>
             </li>
             <li class="page-item @(currentPage <= 1 ? "disabled" : "")">
-                <a class="page-link" asp-action="Index" asp-route-pageNumber="@(currentPage - 1)">Previous</a>
+                <a class="page-link" asp-action="Index" asp-route-pageNumber="@(currentPage - 1)" asp-route-sortOrder="@ViewData["SortOrder"]" asp-route-searchString="@ViewData["SearchString"]">Previous</a>
             </li>
             <li class="page-item @(currentPage >= totalPages ? "disabled" : "")">
-                <a class="page-link" asp-action="Index" asp-route-pageNumber="@(currentPage + 1)">Next</a>
+                <a class="page-link" asp-action="Index" asp-route-pageNumber="@(currentPage + 1)" asp-route-sortOrder="@ViewData["SortOrder"]" asp-route-searchString="@ViewData["SearchString"]">Next</a>
             </li>
             <li class="page-item @(currentPage >= totalPages ? "disabled" : "")">
-                <a class="page-link" asp-action="Index" asp-route-pageNumber="@totalPages">Last</a>
+                <a class="page-link" asp-action="Index" asp-route-pageNumber="@totalPages" asp-route-sortOrder="@ViewData["SortOrder"]" asp-route-searchString="@ViewData["SearchString"]">Last</a>
             </li>
         </ul>
     </div>
@@ -62,17 +77,15 @@
         var urlFor12 = Url.Action("Index", new { pageSize = 12, pageNumber = 1 });
         var urlFor24 = Url.Action("Index", new { pageSize = 24, pageNumber = 1 });
         var urlFor48 = Url.Action("Index", new { pageSize = 48, pageNumber = 1 });
-        var currentPageSize = ViewData["PageSize"] ?? 12; // Default to 12 if not set
     }
 
     <div class="form-group">
         <label for="pageSize">Films par page:</label>
         <select class="form-control" id="pageSize" onchange="location = this.value;">
-            <option value="@urlFor12" @(currentPageSize.Equals(12) ? "selected" : "")>12</option>
-            <option value="@urlFor24" @(currentPageSize.Equals(24) ? "selected" : "")>24</option>
-            <option value="@urlFor48" @(currentPageSize.Equals(48) ? "selected" : "")>48</option>
+            <option value="@urlFor12" selected>12</option>
+            <option value="@urlFor24">24</option>
+            <option value="@urlFor48">48</option>
         </select>
     </div>
 
-</div>
 </div>

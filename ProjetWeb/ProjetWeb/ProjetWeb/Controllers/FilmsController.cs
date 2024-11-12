@@ -23,27 +23,49 @@ namespace ProjetWeb.Controllers
         }
 
         // GET: Films
-        public async Task<IActionResult> Index(int pageNumber = 1, int pageSize = 12)
+        public async Task<IActionResult> Index(int pageNumber = 1, int pageSize = 12, string searchString = "", string sortOrder = "")
         {
             if (!IsConnected)
             {
                 return Redirect("/Home/Index");
             }
 
-            // Calculer le nombre total de films
+            // Calculer nb total de films + nb total de pages
             var totalFilms = await _context.Films.CountAsync();
-
-            // Calculer le nombre total de pages
             var totalPages = (int)Math.Ceiling(totalFilms / (double)pageSize);
 
-            // Vérifier si la page demandée est valide
+            // Vérifier si page demandée valide
             if (pageNumber < 1) pageNumber = 1;
             if (pageNumber > totalPages) pageNumber = totalPages;
 
-            // Obtenir la liste des films pour la page demandée
-            var films = await _context.Films
+            // Requête de base pour récupérer les films
+            IQueryable<Film> filmsQuery = _context.Films
                 .Include(f => f.NoUtilisateurMajNavigation)
-                .OrderBy(f => f.TitreFrancais) // Trier par titre
+                .AsQueryable();
+
+            // Trier selon searchQuery
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                filmsQuery = filmsQuery.Where(f => f.TitreFrancais.Contains(searchString) || f.TitreOriginal.Contains(searchString));
+            }
+            switch (sortOrder)
+            {
+                case "utilisteur":
+                    filmsQuery = filmsQuery.OrderBy(f => f.NoUtilisateurMajNavigation.NomUtilisateur);
+                    break;
+                case "titre":
+                    filmsQuery = filmsQuery.OrderBy(f => f.TitreFrancais);
+                    break;
+                case "utilisateur_titre":
+                    filmsQuery = filmsQuery.OrderBy(f => f.NoUtilisateurMajNavigation.NomUtilisateur).ThenBy(f => f.TitreFrancais);
+                    break;
+                default:
+                    filmsQuery = filmsQuery.OrderBy(f => f.TitreFrancais);
+                    break;
+            }
+
+            // Appliquer pagination
+            var films = await filmsQuery
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
@@ -52,10 +74,10 @@ namespace ProjetWeb.Controllers
             ViewData["CurrentPage"] = pageNumber;
             ViewData["TotalPages"] = totalPages;
             ViewData["PageSize"] = pageSize;
+            ViewData["SortOrder"] = sortOrder;
+            ViewData["SearchString"] = searchString;
 
             return View(films);
-            //var filmDbContext = _context.Films.Include(f => f.CategorieNavigation).Include(f => f.FormatNavigation).Include(f => f.NoProducteurNavigation).Include(f => f.NoRealisateurNavigation).Include(f => f.NoUtilisateurMajNavigation);
-            //return View(await filmDbContext.ToListAsync());
         }
 
         // GET: Films/Details/5
