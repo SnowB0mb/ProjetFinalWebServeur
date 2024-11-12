@@ -1,125 +1,123 @@
 ﻿@model IEnumerable<ProjetWeb.Models.Film>
 
 @{
-    ViewData["Title"] = "Index";
+    var currentPage = (int)(ViewData["CurrentPage"] ?? 1);
+    var totalPages = (int)(ViewData["TotalPages"] ?? 1);
+    var pageSize = (int)(ViewData["PageSize"] ?? 12);
+    var currentUser = (int?)ViewData["CurrentUser"];
+
+    Layout = "_LayoutLogged";
 }
 
-<h1>Index</h1>
+<h1>Tous les DVD</h1>
+<br />
 
+<form method="get">
+    <div class="input-group">
+        <input type="text" class="form-control" name="searchString" value="@ViewData["SearchString"]" placeholder="Rechercher un film" />
+        <div class="input-group-append">
+            <button class="btn btn-dark" type="submit">
+                Rechercher
+            </button>
+        </div>
+    </div>
+</form>
+
+<br />
+
+<!-- form>
+    <label for="sortOrder">Trier par:</label>
+    <select name="sortOrder" id="sortOrder" onchange="this.form.submit()">
+        <option value="titre" asp-route-sortOrder="titre" selected="@(ViewData["SortOrder"]?.ToString() == "titre" ? "selected" : "")">Titre</option>
+        <option value="utilisateur" asp-route-sortOrder="utilisateur" selected="@(ViewData["SortOrder"]?.ToString() == "utilisateur" ? "selected" : "")">Utilisateur</option>
+        <option value="utilisateur_titre" asp-route-sortOrder="utilisateur_titre" selected="@(ViewData["SortOrder"]?.ToString() == "utilisateur_titre" ? "selected" : "")">Utilisateur et Titre</option>
+    </select>
+</form-->
+
+<br />
 <p>
-    <a asp-action="Create">Create New</a>
+    <a class="btn btn-dark" asp-action="Create">Ajouter un DVD</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.AnneeSortie)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DateMaj)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Resume)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DureeMinutes)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FilmOriginal)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ImagePochette)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NbDisques)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TitreFrancais)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TitreOriginal)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.VersionEtendue)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Xtra)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CategorieNavigation)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FormatNavigation)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NoProducteurNavigation)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NoRealisateurNavigation)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NoUtilisateurMajNavigation)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.AnneeSortie)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateMaj)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Resume)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DureeMinutes)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FilmOriginal)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ImagePochette)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NbDisques)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TitreFrancais)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TitreOriginal)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.VersionEtendue)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Xtra)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CategorieNavigation.NoCategorie)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FormatNavigation.NoFormat)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NoProducteurNavigation.NoProducteur)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NoRealisateurNavigation.NoRealisateur)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NoUtilisateurMajNavigation.NoUtilisateur)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.NoFilm">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.NoFilm">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.NoFilm">Delete</a>
-            </td>
-        </tr>
+
+<div class="container mt-5">
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-6 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        @if (item.ImagePochette != null)
+                        {
+                            <div>
+                                <img src="~/images/@(item.ImagePochette)" class="img-fluid" width="150px" />
+                            </div>
+                        }
+                        else
+                        {
+                            <div>
+                                <img src="~/images/defaut.jpg" class="img-fluid" width="150px" />
+                            </div>
+                        }
+                        <div>
+                            <strong>Titre Français: </strong> @Html.DisplayFor(modelItem => item.TitreFrancais)
+                        </div>
+                        <div>
+                            <strong>DVD en main par: </strong> @Html.DisplayFor(modelItem => item.NoUtilisateurMajNavigation.NomUtilisateur)
+                        </div>
+                        <br />
+                        @if (currentUser == item.NoUtilisateurMajNavigation.NoUtilisateur)
+                        {
+                            <div>
+                                <a asp-action="Edit" asp-route-id="@item.NoFilm" class="btn btn-info btn-sm">Modifier</a> |
+                                <a asp-action="Details" asp-route-id="@item.NoFilm" class="btn btn-info btn-sm">Détails</a> |
+                                <a asp-action="Delete" asp-route-id="@item.NoFilm" class="btn btn-danger btn-sm">Supprimer</a>
+                            </div>
+                        }
+                        else
+                        {
+                            <div>
+                                <a asp-action="Edit" asp-route-id="@item.NoFilm" class="btn btn-info btn-sm">Envoyer un courriel</a> |
+                                <a asp-action="Details" asp-route-id="@item.NoFilm" class="btn btn-info btn-sm">Détails</a> |
+                                <a asp-action="Delete" asp-route-id="@item.NoFilm" class="btn btn-info btn-sm">S'approprier le DVD</a>
+                            </div>                            
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="pagination">
+    <ul class="pagination">
+        <li class="page-item @(currentPage <= 1 ? "disabled" : "")">
+            <a class="page-link" asp-action="Index" asp-route-pageNumber="1" asp-route-sortOrder="@ViewData["SortOrder"]" asp-route-searchString="@ViewData["SearchString"]">Première page</a>
+        </li>
+        <li class="page-item @(currentPage <= 1 ? "disabled" : "")">
+            <a class="page-link" asp-action="Index" asp-route-pageNumber="@(currentPage - 1)" asp-route-sortOrder="@ViewData["SortOrder"]" asp-route-searchString="@ViewData["SearchString"]">Page précedente</a>
+        </li>
+        <li class="page-item @(currentPage >= totalPages ? "disabled" : "")">
+            <a class="page-link" asp-action="Index" asp-route-pageNumber="@(currentPage + 1)" asp-route-sortOrder="@ViewData["SortOrder"]" asp-route-searchString="@ViewData["SearchString"]">Page suivante</a>
+        </li>
+        <li class="page-item @(currentPage >= totalPages ? "disabled" : "")">
+            <a class="page-link" asp-action="Index" asp-route-pageNumber="@totalPages" asp-route-sortOrder="@ViewData["SortOrder"]" asp-route-searchString="@ViewData["SearchString"]">Dernière page</a>
+        </li>
+    </ul>
+</div>
+
+@{
+    var urlFor12 = Url.Action("Index", new { pageSize = 12, pageNumber = 1 });
+    var urlFor24 = Url.Action("Index", new { pageSize = 24, pageNumber = 1 });
+    var urlFor48 = Url.Action("Index", new { pageSize = 48, pageNumber = 1 });
 }
-    </tbody>
-</table>
+
+<div class="form-group">
+    <label for="pageSize">Films par page:</label>
+    <select class="form-control" id="pageSize" onchange="location = this.value;">
+        <option value="@urlFor12" selected>12</option>
+        <option value="@urlFor24">24</option>
+        <option value="@urlFor48">48</option>
+    </select>
+</div>
+
+</div>
