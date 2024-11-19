@@ -1,4 +1,4 @@
-﻿@model ProjetWeb.Models.Film
+﻿@model ProjetWeb.Models.FilmViewModel
 
 @{
     ViewData["Title"] = "Ajouter";
@@ -14,78 +14,87 @@
     </div>
     <div class="card-body">
         <div class="row">
-            <div class="col-md-4">
-                <form asp-action="Create">
+            <form asp-action="Create" id="form" enctype="multipart/form-data">
+                <div id="drop-area">
+                    <p>Drag and drop an image file here or click to select a file</p>
+                    <input asp-for="Image" type="file" id="fileElem" name="Image" accept="image/*" style="display:none" onchange="previewFile()" />
+                    <label class="button">Choisir une image</label>
+                </div>
+                <div id="preview">
+                    <img id="previewImg" style="display:none; max-width: 100%; height: 250px;" />
+                    <input class="btn btn-primary" type="button" id="removeBtn" style="display:none;" onclick="removeImage()" value="Retirer l'image" />
+                </div>
+                <div class="col-md-4">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
-                        <label asp-for="AnneeSortie" class="control-label">Année de sortie</label>
-                        <input asp-for="AnneeSortie" class="form-control" />
-                        <span asp-validation-for="AnneeSortie" class="text-danger"></span>
+                        <label asp-for="Film.ImagePochette" class="control-label">Affiche du film</label>
+                        <input asp-for="Film.ImagePochette" id="imagePochette" class="form-control" />
+                        <span asp-validation-for="Film.ImagePochette" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Categorie" class="control-label">Catégorie</label>
-                        <select asp-for="Categorie" class="form-control" asp-items="ViewBag.Categorie"></select>
+                        <label asp-for="Film.AnneeSortie" class="control-label">Année de sortie</label>
+                        <input asp-for="Film.AnneeSortie" class="form-control" />
+                        <span asp-validation-for="Film.AnneeSortie" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Format" class="control-label"></label>
-                        <select asp-for="Format" class="form-control" asp-items="ViewBag.Format"></select>
+                        <label asp-for="Film.Categorie" class="control-label">Catégorie</label>
+                        <select asp-for="Film.Categorie" class="form-control" asp-items="ViewBag.Categorie"></select>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Resume" class="control-label">Résumé</label>
-                        <input asp-for="Resume" class="form-control" />
-                        <span asp-validation-for="Resume" class="text-danger"></span>
+                        <label asp-for="Film.Format" class="control-label"></label>
+                        <select asp-for="Film.Format" class="form-control" asp-items="ViewBag.Format"></select>
                     </div>
                     <div class="form-group">
-                        <label asp-for="DureeMinutes" class="control-label">Durée en minutes</label>
-                        <input asp-for="DureeMinutes" class="form-control" />
-                        <span asp-validation-for="DureeMinutes" class="text-danger"></span>
+                        <label asp-for="Film.Resume" class="control-label">Résumé</label>
+                        <input asp-for="Film.Resume" class="form-control" />
+                        <span asp-validation-for="Film.Resume" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Film.DureeMinutes" class="control-label">Durée en minutes</label>
+                        <input asp-for="Film.DureeMinutes" class="form-control" />
+                        <span asp-validation-for="Film.DureeMinutes" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label class="control-label">Film original?</label>
                         <input type="checkbox" id="checkFilmOriginal" name="checkFilmOriginal" />
                     </div>
                     <div class="form-group">
-                        <label asp-for="ImagePochette" class="control-label">Affiche du film</label>
-                        <input asp-for="ImagePochette" class="form-control" />
-                        <span asp-validation-for="ImagePochette" class="text-danger"></span>
+                        <label asp-for="Film.NbDisques" class="control-label">Nombre de disques</label>
+                        <input asp-for="Film.NbDisques" class="form-control" />
+                        <span asp-validation-for="Film.NbDisques" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="NbDisques" class="control-label">Nombre de disques</label>
-                        <input asp-for="NbDisques" class="form-control" />
-                        <span asp-validation-for="NbDisques" class="text-danger"></span>
+                        <label asp-for="Film.TitreFrancais" class="control-label">Titre français</label>
+                        <input asp-for="Film.TitreFrancais" class="form-control" />
+                        <span asp-validation-for="Film.TitreFrancais" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="TitreFrancais" class="control-label">Titre français</label>
-                        <input asp-for="TitreFrancais" class="form-control" />
-                        <span asp-validation-for="TitreFrancais" class="text-danger"></span>
+                        <label asp-for="Film.TitreOriginal" class="control-label">Titre original</label>
+                        <input asp-for="Film.TitreOriginal" class="form-control" />
+                        <span asp-validation-for="Film.TitreOriginal" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="TitreOriginal" class="control-label">Titre original</label>
-                        <input asp-for="TitreOriginal" class="form-control" />
-                        <span asp-validation-for="TitreOriginal" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="VersionEtendue" class="control-label">Version étendue?</label>
+                        <label asp-for="Film.VersionEtendue" class="control-label">Version étendue?</label>
                         <input type="checkbox" id="checkVersionEtendue" name="checkVersionEtendue" />
                     </div>
                     <div class="form-group">
-                        <label asp-for="NoRealisateur" class="control-label">Réalisateur</label>
-                        <select asp-for="NoRealisateur" class="form-control" asp-items="ViewBag.NoRealisateur"></select>
+                        <label asp-for="Film.NoRealisateur" class="control-label">Réalisateur</label>
+                        <select asp-for="Film.NoRealisateur" class="form-control" asp-items="ViewBag.NoRealisateur"></select>
                     </div>
                     <div class="form-group">
-                        <label asp-for="NoProducteur" class="control-label">Producteur</label>
-                        <select asp-for="NoProducteur" class="form-control" asp-items="ViewBag.NoProducteur"></select>
+                        <label asp-for="Film.NoProducteur" class="control-label">Producteur</label>
+                        <select asp-for="Film.NoProducteur" class="form-control" asp-items="ViewBag.NoProducteur"></select>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Xtra" class="control-label">Extra</label>
-                        <input asp-for="Xtra" class="form-control" />
-                        <span asp-validation-for="Xtra" class="text-danger"></span>
+                        <label asp-for="Film.Xtra" class="control-label">Extra</label>
+                        <input asp-for="Film.Xtra" class="form-control" />
+                        <span asp-validation-for="Film.Xtra" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <input type="submit" value="Ajouter le film" class="btn btn-primary" />
                     </div>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
         <div>
             <a class="btn btn-secondary" asp-action="Index">Retour à la liste</a>
@@ -94,8 +103,107 @@
 </div>
 
 
+<style>
+    #drop-area {
+        border: 2px dashed #ccc;
+        border-radius: 20px;
+        width: 100%;
+        padding: 20px;
+        text-align: center;
+    }
+
+    .button {
+        display: inline-block;
+        padding: 10px 20px;
+        cursor: pointer;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+    }
+</style>
+
+<script>
+    let dropArea = document.getElementById('drop-area');
+
+    // Prevent default drag behaviors
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        dropArea.addEventListener(eventName, preventDefaults, false)
+        document.body.addEventListener(eventName, preventDefaults, false)
+    });
+
+    // Highlight drop area when item is dragged over it
+    ['dragenter', 'dragover'].forEach(eventName => {
+        dropArea.addEventListener(eventName, highlight, false)
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+        dropArea.addEventListener(eventName, unhighlight, false)
+    });
+
+    // Handle dropped files
+    dropArea.addEventListener('drop', handleDrop, false);
+
+    function preventDefaults(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+
+    function highlight(e) {
+        dropArea.classList.add('highlight');
+    }
+
+    function unhighlight(e) {
+        dropArea.classList.remove('highlight');
+    }
+
+    function handleDrop(e) {
+        let dt = e.dataTransfer;
+        let files = dt.files;
+
+        handleFiles(files);
+    }
+
+    function handleFiles(files) {
+        let fileInput = document.getElementById('fileElem');
+        fileInput.files = files;
+        previewFile();
+    }
+
+    function previewFile() {
+        const preview = document.getElementById('previewImg');
+        const file = document.getElementById('fileElem').files[0];
+        const reader = new FileReader();
+
+        reader.addEventListener("load", function () {
+            // convert image file to base64 string
+            preview.src = reader.result;
+            preview.style.display = 'block';
+            document.getElementById('removeBtn').style.display = 'inline-block'
+            document.getElementById('imagePochette').disabled = true
+        }, false);
+
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+    }
+    function removeImage() {
+        const preview = document.getElementById('previewImg');
+        const fileInput = document.getElementById('fileElem');
+        preview.src = '';
+        fileInput.value = ''
+        document.getElementById('removeBtn').style.display = 'none'
+        document.getElementById('imagePochette').disabled = false
+    }
+
+    dropArea.addEventListener('click', () => {
+        document.getElementById('fileElem').click();
+    });
+</script>
+
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }
+
