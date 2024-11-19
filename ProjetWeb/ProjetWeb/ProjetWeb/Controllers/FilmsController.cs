@@ -153,7 +153,7 @@ namespace ProjetWeb.Controllers
             if (filmViewModel.Image != null)
             {
                 string chemin = "wwwroot/images/";
-                string nomFichier = filmViewModel.Film.NoFilm; + Path.GetExtension(filmViewModel.Image.FileName);
+                string nomFichier = filmViewModel.Film.NoFilm + Path.GetExtension(filmViewModel.Image.FileName);
                 filmViewModel.Film.ImagePochette = nomFichier;
                 string cheminFichier = chemin + nomFichier;
 
