@@ -13,17 +13,12 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="NoFilm" class="control-label"></label>
-                <input asp-for="NoFilm" class="form-control" />
-                <span asp-validation-for="NoFilm" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="AnneeSortie" class="control-label"></label>
+                <label asp-for="AnneeSortie" class="control-label">Année de sortie</label>
                 <input asp-for="AnneeSortie" class="form-control" />
                 <span asp-validation-for="AnneeSortie" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Categorie" class="control-label"></label>
+                <label asp-for="Categorie" class="control-label">Catégorie</label>
                 <select asp-for="Categorie" class ="form-control" asp-items="ViewBag.Categorie"></select>
             </div>
             <div class="form-group">
@@ -31,78 +26,69 @@
                 <select asp-for="Format" class ="form-control" asp-items="ViewBag.Format"></select>
             </div>
             <div class="form-group">
-                <label asp-for="DateMaj" class="control-label"></label>
-                <input asp-for="DateMaj" class="form-control" />
-                <span asp-validation-for="DateMaj" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="NoUtilisateurMaj" class="control-label"></label>
-                <select asp-for="NoUtilisateurMaj" class ="form-control" asp-items="ViewBag.NoUtilisateurMaj"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="Resume" class="control-label"></label>
+                <label asp-for="Resume" class="control-label">Résumé</label>
                 <input asp-for="Resume" class="form-control" />
                 <span asp-validation-for="Resume" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DureeMinutes" class="control-label"></label>
+                <label asp-for="DureeMinutes" class="control-label">Durée en minutes</label>
                 <input asp-for="DureeMinutes" class="form-control" />
                 <span asp-validation-for="DureeMinutes" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="FilmOriginal" class="control-label"></label>
-                <input asp-for="FilmOriginal" class="form-control" />
-                <span asp-validation-for="FilmOriginal" class="text-danger"></span>
+                <label class="control-label">Film original?</label>
+                <input type="checkbox" id="checkFilmOriginal" name="checkFilmOriginal" />
             </div>
             <div class="form-group">
-                <label asp-for="ImagePochette" class="control-label"></label>
+                <label asp-for="ImagePochette" class="control-label">Affiche du film</label>
                 <input asp-for="ImagePochette" class="form-control" />
                 <span asp-validation-for="ImagePochette" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="NbDisques" class="control-label"></label>
+                <label asp-for="NbDisques" class="control-label">Nombre de disques</label>
                 <input asp-for="NbDisques" class="form-control" />
                 <span asp-validation-for="NbDisques" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="TitreFrancais" class="control-label"></label>
+                <label asp-for="TitreFrancais" class="control-label">Titre français</label>
                 <input asp-for="TitreFrancais" class="form-control" />
                 <span asp-validation-for="TitreFrancais" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="TitreOriginal" class="control-label"></label>
+                <label asp-for="TitreOriginal" class="control-label">Titre original</label>
                 <input asp-for="TitreOriginal" class="form-control" />
                 <span asp-validation-for="TitreOriginal" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="VersionEtendue" class="control-label"></label>
-                <input asp-for="VersionEtendue" class="form-control" />
-                <span asp-validation-for="VersionEtendue" class="text-danger"></span>
+                <label asp-for="VersionEtendue" class="control-label">Version étendue?</label>
+                <input type="checkbox" id="checkVersionEtendue" name="checkVersionEtendue"/>
             </div>
             <div class="form-group">
-                <label asp-for="NoRealisateur" class="control-label"></label>
+                <label asp-for="NoRealisateur" class="control-label">Réalisateur</label>
                 <select asp-for="NoRealisateur" class ="form-control" asp-items="ViewBag.NoRealisateur"></select>
             </div>
             <div class="form-group">
-                <label asp-for="NoProducteur" class="control-label"></label>
+                <label asp-for="NoProducteur" class="control-label">Producteur</label>
                 <select asp-for="NoProducteur" class ="form-control" asp-items="ViewBag.NoProducteur"></select>
             </div>
             <div class="form-group">
-                <label asp-for="Xtra" class="control-label"></label>
+                <label asp-for="Xtra" class="control-label">Extra</label>
                 <input asp-for="Xtra" class="form-control" />
                 <span asp-validation-for="Xtra" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Ajouter le film" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a class="btn btn-secondary" asp-action="Index">Retour à la liste</a>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

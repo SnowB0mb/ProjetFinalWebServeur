@@ -13,7 +13,7 @@ namespace ProjetWeb.Controllers
     {
         private readonly FilmDbContext _context;
         public const string SessionKeyId = "_Id";
-        private int? _userIdConnected;
+        private int? _userIdConnected => HttpContext.Session.GetInt32(SessionKeyId);
 
         // à des fins de déboggages, changer la valeur a true
         public bool IsConnected => HttpContext.Session.GetInt32(SessionKeyId) > -1;
@@ -23,13 +23,13 @@ namespace ProjetWeb.Controllers
             _context = context;
         }
 
-        private void InitializeUserId()
-        {
-            if (_userIdConnected == null)
-            {
-                _userIdConnected = HttpContext.Session.GetInt32(SessionKeyId);
-            }
-        }
+        //private void InitializeUserId()
+        //{
+        //    if (_userIdConnected == null)
+        //    {
+        //        //_userIdConnected = HttpContext.Session.GetInt32(SessionKeyId);
+        //    }
+        //}
 
         // GET: Films
         public async Task<IActionResult> Index(int pageNumber = 1, int pageSize = 12, string searchString = "", string sortOrder = "")
@@ -38,8 +38,6 @@ namespace ProjetWeb.Controllers
             {
                 return Redirect("/Home/Index");
             }
-
-            InitializeUserId();
 
             // Calculer nb total de films + nb total de pages
             var totalFilms = await _context.Films.CountAsync();
@@ -126,12 +124,14 @@ namespace ProjetWeb.Controllers
             {
                 return Redirect("/Home/Index");
             }
-            ViewData["Categorie"] = new SelectList(_context.Categories, "NoCategorie", "NoCategorie");
-            ViewData["Format"] = new SelectList(_context.Formats, "NoFormat", "NoFormat");
-            ViewData["NoProducteur"] = new SelectList(_context.Producteurs, "NoProducteur", "NoProducteur");
-            ViewData["NoRealisateur"] = new SelectList(_context.Realisateurs, "NoRealisateur", "NoRealisateur");
-            ViewData["NoUtilisateurMaj"] = new SelectList(_context.Utilisateurs, "NoUtilisateur", "NoUtilisateur");
-            return View();
+            ViewData["Categorie"] = new SelectList(_context.Categories, "NoCategorie", "Description");
+            ViewData["Format"] = new SelectList(_context.Formats, "NoFormat", "Description");
+            ViewData["NoProducteur"] = new SelectList(_context.Producteurs, "NoProducteur", "Nom");
+            ViewData["NoRealisateur"] = new SelectList(_context.Realisateurs, "NoRealisateur", "Nom");
+            ViewData["NoUtilisateurMaj"] = new SelectList(_context.Utilisateurs, "NoUtilisateur", "NomUtilisateur");
+            Film film = new Film();
+            film.FilmOriginal = false;
+            return View(film);
         }
 
         // POST: Films/Create
@@ -141,21 +141,30 @@ namespace ProjetWeb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("NoFilm,AnneeSortie,Categorie,Format,DateMaj,NoUtilisateurMaj,Resume,DureeMinutes,FilmOriginal,ImagePochette,NbDisques,TitreFrancais,TitreOriginal,VersionEtendue,NoRealisateur,NoProducteur,Xtra")] Film film)
         {
+
             if (!IsConnected)
             {
                 return Redirect("/Home/Index");
             }
+            film.NoFilm = _context.Films.Max(f => f.NoFilm) + 1;
+            film.DateMaj = DateTime.Now;
+            film.NoUtilisateurMaj = _userIdConnected ?? 1;
+            film.FilmOriginal = Convert.ToBoolean(Request.Form["checkFilmOriginal"]);
+            film.VersionEtendue = Convert.ToBoolean(Request.Form["checkVersionEtendue"]);
             if (ModelState.IsValid)
             {
+                //FilmOriginal = check state
+                //VersionEtendue = check state
+                //Gestion imporation image
                 _context.Add(film);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Categorie"] = new SelectList(_context.Categories, "NoCategorie", "NoCategorie", film.Categorie);
-            ViewData["Format"] = new SelectList(_context.Formats, "NoFormat", "NoFormat", film.Format);
-            ViewData["NoProducteur"] = new SelectList(_context.Producteurs, "NoProducteur", "NoProducteur", film.NoProducteur);
-            ViewData["NoRealisateur"] = new SelectList(_context.Realisateurs, "NoRealisateur", "NoRealisateur", film.NoRealisateur);
-            ViewData["NoUtilisateurMaj"] = new SelectList(_context.Utilisateurs, "NoUtilisateur", "NoUtilisateur", film.NoUtilisateurMaj);
+            ViewData["Categorie"] = new SelectList(_context.Categories, "NoCategorie", "Description", film.Categorie);
+            ViewData["Format"] = new SelectList(_context.Formats, "NoFormat", "Description", film.Format);
+            ViewData["NoProducteur"] = new SelectList(_context.Producteurs, "NoProducteur", "Nom", film.NoProducteur);
+            ViewData["NoRealisateur"] = new SelectList(_context.Realisateurs, "NoRealisateur", "Nom", film.NoRealisateur);
+            ViewData["NoUtilisateurMaj"] = new SelectList(_context.Utilisateurs, "NoUtilisateur", "NomUtilisateur", film.NoUtilisateurMaj);
             return View(film);
         }
 
