@@ -153,9 +153,7 @@ namespace ProjetWeb.Controllers
             film.VersionEtendue = Convert.ToBoolean(Request.Form["checkVersionEtendue"]);
             if (ModelState.IsValid)
             {
-                //FilmOriginal = check state
-                //VersionEtendue = check state
-                //Gestion imporation image
+                //Gestion importation image
                 _context.Add(film);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
