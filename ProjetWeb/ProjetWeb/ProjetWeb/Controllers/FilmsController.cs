@@ -287,6 +287,7 @@ namespace ProjetWeb.Controllers
             var film = await _context.Films.FindAsync(id);
             if (film != null)
             {
+                System.IO.File.Delete("wwwroot/images/" + film.ImagePochette);
                 _context.Films.Remove(film);
             }
 
