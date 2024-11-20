@@ -29,90 +29,126 @@
                     </div>
                 }
             </dd>
+            <hr />
             <dt class="col-sm-2">
                <label>Année de sortie</label>
             </dt>
             <dd class="col-sm-10">
                 @Html.DisplayFor(model => model.AnneeSortie)
             </dd>
+            <hr />
             <dt class="col-sm-2">
                 <label>Date mise à jour</label>
             </dt>
             <dd class="col-sm-10">
                 @Html.DisplayFor(model => model.DateMaj)
             </dd>
+            <hr />
             <dt class="col-sm-2">
                 <label>Utilisateur mise à jour</label>
             </dt>
             <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.NoUtilisateurMajNavigation.NoUtilisateur)
+                @Html.DisplayFor(model => model.NoUtilisateurMajNavigation.NomUtilisateur)
             </dd>
+            <hr />
             <dt class="col-sm-2">
                 <label>Résumé</label>
             </dt>
             <dd class="col-sm-10">
                 @Html.DisplayFor(model => model.Resume)
             </dd>
+            <hr />
             <dt class="col-sm-2">
                 <label>Durée en minute</label>
             </dt>
             <dd class="col-sm-10">
                 @Html.DisplayFor(model => model.DureeMinutes)
             </dd>
+            <hr />
             <dt class="col-sm-2">
                 <label>Film original?</label>
             </dt>
             <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.FilmOriginal)
+                @if(Model.FilmOriginal == true){
+                    <label>Oui</label>
+                }
+                else if(Model.FilmOriginal == false){
+                    <label>Non</label>
+                }
+                else
+                {
+                    <label>Inconnu</label>
+                }
             </dd>
+            <hr />
             <dt class="col-sm-2">
                 <label>Nombre de disques</label>
             </dt>
             <dd class="col-sm-10">
                 @Html.DisplayFor(model => model.NbDisques)
             </dd>
+            <hr />
             <dt class="col-sm-2">
                 <label>Titre français</label>
             </dt>
             <dd class="col-sm-10">
                 @Html.DisplayFor(model => model.TitreFrancais)
             </dd>
+            <hr />
             <dt class="col-sm-2">
                 <label>Titre original</label>
             </dt>
+            <hr />
             <dd class="col-sm-10">
                 @Html.DisplayFor(model => model.TitreOriginal)
             </dd>
+            <hr />
             <dt class="col-sm-2">
                 <label>Version étendue?</label>
             </dt>
             <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.VersionEtendue)
+                @if (Model.VersionEtendue == true)
+                {
+                    <label>Oui</label>
+                }
+                else if (Model.VersionEtendue == false)
+                {
+                    <label>Non</label>
+                }
+                else
+                {
+                    <label>Inconnu</label>
+                }
             </dd>
+            <hr />
             <dt class="col-sm-2">
                <label>Catégorie</label>
             </dt>
             <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.CategorieNavigation.NoCategorie)
+                @Html.DisplayFor(model => model.CategorieNavigation.Description)
             </dd>
+            <hr />
             <dt class="col-sm-2">
                 <label>Format</label>
             </dt>
             <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.FormatNavigation.NoFormat)
+                @Html.DisplayFor(model => model.FormatNavigation.Description)
             </dd>
+            <hr />
             <dt class="col-sm-2">
                 <label>Producteur</label>
             </dt>
             <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.NoProducteurNavigation.NoProducteur)
+                @Html.DisplayFor(model => model.NoProducteurNavigation.Nom)
             </dd>
+            <hr />
             <dt class="col-sm-2">
                 <label>Réalisateur</label>
             </dt>
             <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.NoRealisateurNavigation.NoRealisateur)
+                @Html.DisplayFor(model => model.NoRealisateurNavigation.Nom)
             </dd>
+            <hr />
             <dt class="col-sm-2">
                 <label>Extra</label>
             </dt>
