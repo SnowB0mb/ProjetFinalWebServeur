@@ -25,10 +25,15 @@
                     else{
                         <img id="previewImg" src="~/images/defaut.jpg" style="display:none; max-width: 100%; height: 250px;" />
                     }
+                    <img id="previewImg" style="display:none; max-width: 100%; height: 250px;" />
                     <input class="btn btn-primary" type="button" id="removeBtn" style="display:none;" onclick="removeImage()" value="Retirer l'image" />
                 </div>
                 <div class="col-md-4">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    @* conserve l'id en mémoire *@
+                    <input asp-for="Film.NoFilm" type="hidden" id="noFilm" class="form-control" />
+
                     <div class="form-group">
                         <label asp-for="Film.ImagePochette" class="control-label">Affiche du film</label>
                         <input asp-for="Film.ImagePochette" id="imagePochette" class="form-control" />
@@ -110,7 +115,7 @@
                         <span asp-validation-for="Film.Xtra" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <input type="submit" value="Ajouter le film" class="btn btn-primary" />
+                        <input type="submit" value="Modifier" class="btn btn-primary" />
                     </div>
                     <div>
                         <a class="btn btn-secondary" asp-action="Index" class="btn btn-primary">Annuler/Retour à la liste</a>

@@ -164,6 +164,8 @@ namespace ProjetWeb.Controllers
                     await filmViewModel.Image.CopyToAsync(fileStream);
                 }
             }
+            ModelState.Remove("ImagePochette");
+            ModelState.Remove("Image");
             if (ModelState.IsValid)
             {
                 //Gestion importation image
@@ -197,6 +199,7 @@ namespace ProjetWeb.Controllers
                 return NotFound();
             }
             filmViewModel.Film = film;
+            filmViewModel.Film.NoFilm = film.NoFilm;
             ViewData["Categorie"] = new SelectList(_context.Categories, "NoCategorie", "Description", filmViewModel.Film.Categorie);
             ViewData["Format"] = new SelectList(_context.Formats, "NoFormat", "Description", filmViewModel.Film.Format);
             ViewData["NoProducteur"] = new SelectList(_context.Producteurs, "NoProducteur", "Nom", filmViewModel.Film.NoProducteur);
@@ -220,10 +223,25 @@ namespace ProjetWeb.Controllers
             {
                 return NotFound();
             }
-            //DateMaj
-            //UtilisateurMaj
+            filmViewModel.Film.DateMaj = DateTime.Now;
+            filmViewModel.Film.NoUtilisateurMaj = _userIdConnected ?? 1;
+            ModelState.Remove("ImagePochette");
+            ModelState.Remove("Image");
             if (ModelState.IsValid)
             {
+                if (filmViewModel.Image != null)
+                {
+                    string chemin = "wwwroot/images/";
+                    //System.IO.File.Delete("wwwroot/images/" + filmViewModel.Film.ImagePochette + ".*");
+                    string nomFichier = filmViewModel.Film.NoFilm + Path.GetExtension(filmViewModel.Image.FileName);
+                    filmViewModel.Film.ImagePochette = nomFichier;
+                    string cheminFichier = chemin + nomFichier;
+
+                    using (var fileStream = new FileStream(cheminFichier, FileMode.Create))
+                    {
+                        await filmViewModel.Image.CopyToAsync(fileStream);
+                    }
+                }
                 try
                 {
                     _context.Update(filmViewModel.Film);
