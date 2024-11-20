@@ -5,7 +5,7 @@
     Layout = "_LayoutLogged";
 }
 
-<h1>Details</h1>
+<h1>Détails</h1>
 <div class="card border-success">
     <div class="card-header bg-success text-white">
         <h4>Film</h4>
@@ -16,7 +16,18 @@
                 <label>Affiche du film</label>
             </dt>
             <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.ImagePochette)
+                @if (Model.ImagePochette != null)
+                {
+                    <div>
+                        <img src="~/images/@(Model.ImagePochette)" class="img-fluid" width="150px" />
+                    </div>
+                }
+                else
+                {
+                    <div>
+                        <img src="~/images/defaut.jpg" class="img-fluid" width="150px" />
+                    </div>
+                }
             </dd>
             <dt class="col-sm-2">
                <label>Année de sortie</label>
