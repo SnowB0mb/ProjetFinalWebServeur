@@ -190,18 +190,19 @@ namespace ProjetWeb.Controllers
             {
                 return NotFound();
             }
-
+            FilmViewModel filmViewModel = new FilmViewModel();
             var film = await _context.Films.FindAsync(id);
             if (film == null)
             {
                 return NotFound();
             }
-            ViewData["Categorie"] = new SelectList(_context.Categories, "NoCategorie", "NoCategorie", film.Categorie);
-            ViewData["Format"] = new SelectList(_context.Formats, "NoFormat", "NoFormat", film.Format);
-            ViewData["NoProducteur"] = new SelectList(_context.Producteurs, "NoProducteur", "NoProducteur", film.NoProducteur);
-            ViewData["NoRealisateur"] = new SelectList(_context.Realisateurs, "NoRealisateur", "NoRealisateur", film.NoRealisateur);
-            ViewData["NoUtilisateurMaj"] = new SelectList(_context.Utilisateurs, "NoUtilisateur", "NoUtilisateur", film.NoUtilisateurMaj);
-            return View(film);
+            filmViewModel.Film = film;
+            ViewData["Categorie"] = new SelectList(_context.Categories, "NoCategorie", "Description", filmViewModel.Film.Categorie);
+            ViewData["Format"] = new SelectList(_context.Formats, "NoFormat", "Description", filmViewModel.Film.Format);
+            ViewData["NoProducteur"] = new SelectList(_context.Producteurs, "NoProducteur", "Nom", filmViewModel.Film.NoProducteur);
+            ViewData["NoRealisateur"] = new SelectList(_context.Realisateurs, "NoRealisateur", "Nom", filmViewModel.Film.NoRealisateur);
+            ViewData["NoUtilisateurMaj"] = new SelectList(_context.Utilisateurs, "NoUtilisateur", "NomUtilisateur", filmViewModel.Film.NoUtilisateurMaj);
+            return View(filmViewModel);
         }
 
         // POST: Films/Edit/5
@@ -209,13 +210,13 @@ namespace ProjetWeb.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("NoFilm,AnneeSortie,Categorie,Format,DateMaj,NoUtilisateurMaj,Resume,DureeMinutes,FilmOriginal,ImagePochette,NbDisques,TitreFrancais,TitreOriginal,VersionEtendue,NoRealisateur,NoProducteur,Xtra")] Film film)
+        public async Task<IActionResult> Edit(int id, FilmViewModel filmViewModel)
         {
             if (!IsConnected)
             {
                 return Redirect("/Home/Index");
             }
-            if (id != film.NoFilm)
+            if (id != filmViewModel.Film.NoFilm)
             {
                 return NotFound();
             }
@@ -225,12 +226,12 @@ namespace ProjetWeb.Controllers
             {
                 try
                 {
-                    _context.Update(film);
+                    _context.Update(filmViewModel.Film);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!FilmExists(film.NoFilm))
+                    if (!FilmExists(filmViewModel.Film.NoFilm))
                     {
                         return NotFound();
                     }
@@ -241,12 +242,12 @@ namespace ProjetWeb.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Categorie"] = new SelectList(_context.Categories, "NoCategorie", "NoCategorie", film.Categorie);
-            ViewData["Format"] = new SelectList(_context.Formats, "NoFormat", "NoFormat", film.Format);
-            ViewData["NoProducteur"] = new SelectList(_context.Producteurs, "NoProducteur", "NoProducteur", film.NoProducteur);
-            ViewData["NoRealisateur"] = new SelectList(_context.Realisateurs, "NoRealisateur", "NoRealisateur", film.NoRealisateur);
-            ViewData["NoUtilisateurMaj"] = new SelectList(_context.Utilisateurs, "NoUtilisateur", "NoUtilisateur", film.NoUtilisateurMaj);
-            return View(film);
+            ViewData["Categorie"] = new SelectList(_context.Categories, "NoCategorie", "Description", filmViewModel.Film.Categorie);
+            ViewData["Format"] = new SelectList(_context.Formats, "NoFormat", "Description", filmViewModel.Film.Format);
+            ViewData["NoProducteur"] = new SelectList(_context.Producteurs, "NoProducteur", "Nom", filmViewModel.Film.NoProducteur);
+            ViewData["NoRealisateur"] = new SelectList(_context.Realisateurs, "NoRealisateur", "Nom", filmViewModel.Film.NoRealisateur);
+            ViewData["NoUtilisateurMaj"] = new SelectList(_context.Utilisateurs, "NoUtilisateur", "NomUtilisateur", filmViewModel.Film.NoUtilisateurMaj);
+            return View(filmViewModel);
         }
 
         // GET: Films/Delete/5
