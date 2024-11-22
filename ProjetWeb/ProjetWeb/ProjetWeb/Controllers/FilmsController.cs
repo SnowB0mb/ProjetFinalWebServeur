@@ -315,6 +315,51 @@ namespace ProjetWeb.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        // GET: Films/Approprier/5
+        public async Task<IActionResult> Approprier(int? id)
+        {
+            if (!IsConnected)
+            {
+                return Redirect("/Home/Index");
+            }
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var film = await _context.Films
+                .Include(f => f.CategorieNavigation)
+                .Include(f => f.FormatNavigation)
+                .Include(f => f.NoProducteurNavigation)
+                .Include(f => f.NoRealisateurNavigation)
+                .Include(f => f.NoUtilisateurMajNavigation)
+                .FirstOrDefaultAsync(m => m.NoFilm == id);
+            if (film == null)
+            {
+                return NotFound();
+            }
+
+            return View(film);
+        }
+
+        // POST: Films/Approprier/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Approprier(int id)
+        {
+            if (!IsConnected)
+            {
+                return Redirect("/Home/Index");
+            }
+            var film = await _context.Films.FindAsync(id);
+            if (film != null)
+            {
+                film.NoUtilisateurMaj = _userIdConnected ?? 1;
+                _context.Update(film);
+            }
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
         private bool FilmExists(int id)
         {
             return _context.Films.Any(e => e.NoFilm == id);
