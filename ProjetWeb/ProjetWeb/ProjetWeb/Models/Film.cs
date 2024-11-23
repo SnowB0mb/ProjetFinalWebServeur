@@ -35,7 +35,6 @@ public partial class Film
     public int? NbDisques { get; set; }
 
     [StringLength(50)]
-    [Required(ErrorMessage = "Le titre français est obligatoire")]
     public string? TitreFrancais { get; set; }
 
     [StringLength(50)]
@@ -68,7 +67,7 @@ public partial class Film
 
     [ForeignKey("NoUtilisateurMaj")]
     [InverseProperty("Films")]
-    public virtual Utilisateur? NoUtilisateurMajNavigation { get; set; }
+    public virtual Utilisateur NoUtilisateurMajNavigation { get; set; } = null!;
 
     [ForeignKey("NoFilm")]
     [InverseProperty("NoFilms")]
