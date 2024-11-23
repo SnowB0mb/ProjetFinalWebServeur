@@ -2,116 +2,168 @@
 
 @{
     ViewData["Title"] = "Delete";
+    Layout = "_LayoutLogged";
 }
 
-<h1>Delete</h1>
+<h1>Supprimer</h1>
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>Film</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.AnneeSortie)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.AnneeSortie)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DateMaj)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DateMaj)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Resume)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Resume)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DureeMinutes)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DureeMinutes)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FilmOriginal)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FilmOriginal)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ImagePochette)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ImagePochette)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NbDisques)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NbDisques)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TitreFrancais)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TitreFrancais)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TitreOriginal)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TitreOriginal)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.VersionEtendue)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.VersionEtendue)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Xtra)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Xtra)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CategorieNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CategorieNavigation.NoCategorie)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FormatNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FormatNavigation.NoFormat)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NoProducteurNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NoProducteurNavigation.NoProducteur)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NoRealisateurNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NoRealisateurNavigation.NoRealisateur)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NoUtilisateurMajNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NoUtilisateurMajNavigation.NoUtilisateur)
-        </dd>
-    </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="NoFilm" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
-    </form>
+<div class="card border-danger">
+    <div class="card-header bg-danger text-white">
+        <h3>Voulez-vous vraiment supprimer ce film?</h3>
+    </div>
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-2">
+                <label>Affiche du film</label>
+            </dt>
+            <dd class="col-sm-10">
+                @if (Model.ImagePochette != null)
+                {
+                    <div>
+                        <img src="~/images/@(Model.ImagePochette)" class="img-fluid" width="150px" />
+                    </div>
+                }
+                else
+                {
+                    <div>
+                        <img src="~/images/defaut.jpg" class="img-fluid" width="150px" />
+                    </div>
+                }
+            </dd>
+            <hr />
+            <dt class="col-sm-2">
+                <label>Année de sortie</label>
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.AnneeSortie)
+            </dd>
+            <hr />
+            <dt class="col-sm-2">
+                <label>Date mise à jour</label>
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.DateMaj)
+            </dd>
+            <hr />
+            <dt class="col-sm-2">
+                <label>Utilisateur mise à jour</label>
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.NoUtilisateurMajNavigation.NomUtilisateur)
+            </dd>
+            <hr />
+            <dt class="col-sm-2">
+                <label>Résumé</label>
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Resume)
+            </dd>
+            <hr />
+            <dt class="col-sm-2">
+                <label>Durée en minute</label>
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.DureeMinutes)
+            </dd>
+            <hr />
+            <dt class="col-sm-2">
+                <label>Film original?</label>
+            </dt>
+            <dd class="col-sm-10">
+                @if (Model.FilmOriginal == true)
+                {
+                    <label>Oui</label>
+                }
+                else if (Model.FilmOriginal == false)
+                {
+                    <label>Non</label>
+                }
+                else
+                {
+                    <label>Inconnu</label>
+                }
+            </dd>
+            <hr />
+            <dt class="col-sm-2">
+                <label>Nombre de disques</label>
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.NbDisques)
+            </dd>
+            <hr />
+            <dt class="col-sm-2">
+                <label>Titre français</label>
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.TitreFrancais)
+            </dd>
+            <hr />
+            <dt class="col-sm-2">
+                <label>Titre original</label>
+            </dt>
+            <hr />
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.TitreOriginal)
+            </dd>
+            <hr />
+            <dt class="col-sm-2">
+                <label>Version étendue?</label>
+            </dt>
+            <dd class="col-sm-10">
+                @if (Model.VersionEtendue == true)
+                {
+                    <label>Oui</label>
+                }
+                else if (Model.VersionEtendue == false)
+                {
+                    <label>Non</label>
+                }
+                else
+                {
+                    <label>Inconnu</label>
+                }
+            </dd>
+            <hr />
+            <dt class="col-sm-2">
+                <label>Catégorie</label>
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.CategorieNavigation.Description)
+            </dd>
+            <hr />
+            <dt class="col-sm-2">
+                <label>Format</label>
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.FormatNavigation.Description)
+            </dd>
+            <hr />
+            <dt class="col-sm-2">
+                <label>Producteur</label>
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.NoProducteurNavigation.Nom)
+            </dd>
+            <hr />
+            <dt class="col-sm-2">
+                <label>Réalisateur</label>
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.NoRealisateurNavigation.Nom)
+            </dd>
+            <hr />
+            <dt class="col-sm-2">
+                <label>Extra</label>
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Xtra)
+            </dd>
+        </dl>
+    </div>
 </div>
+
+<form asp-action="Delete">
+    <input type="hidden" asp-for="NoFilm" />
+    <input type="submit" value="Supprimer" class="btn btn-danger" />
+    <a class="btn btn-secondary" asp-action="Index">Retour à la liste</a>
+</form>
