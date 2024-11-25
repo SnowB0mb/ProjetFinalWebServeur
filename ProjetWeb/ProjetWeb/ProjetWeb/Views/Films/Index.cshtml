@@ -5,34 +5,48 @@
     var totalPages = (int)(ViewData["TotalPages"] ?? 1);
     var pageSize = (int)(ViewData["PageSize"] ?? 12);
     var currentUser = (int?)ViewData["CurrentUser"];
+    var filtrerUser = (int?)ViewData["FiltrerUser"];
+    var totalFilms = (int?)ViewData["TotalFilms"];
 
     Layout = "_LayoutLogged";
 }
-
-<h1>Tous les DVD</h1>
+@if(filtrerUser == currentUser)
+{
+    <h1>DVDs en main</h1>
+}
+else if (filtrerUser is not null)
+{
+    <h1>DVDs de l'utilisateur @Model.FirstOrDefault(u => u.NoUtilisateurMaj == filtrerUser)?.NoUtilisateurMajNavigation?.NomUtilisateur </h1>
+}
+else
+{
+    <h1>Tous les DVD</h1>
+}
 <br />
 
-<form method="get">
-    <div class="input-group">
-        <input type="text" class="form-control" name="searchString" value="@ViewData["SearchString"]" placeholder="Rechercher un film" />
-        <div class="input-group-append">
-            <button class="btn btn-dark" type="submit">
-                Rechercher
-            </button>
+@if(filtrerUser is null)
+{
+    <form method="get">
+        <div class="input-group">
+            <input type="text" class="form-control" name="searchString" value="@ViewData["SearchString"]" placeholder="Rechercher un film" />
+            <div class="input-group-append">
+                <button class="btn btn-dark" type="submit">
+                    Rechercher
+                </button>
+            </div>
         </div>
-    </div>
-</form>
+    </form>
 
-<br />
+    <br />
 
-<!-- form>
-    <label for="sortOrder">Trier par:</label>
-    <select name="sortOrder" id="sortOrder" onchange="this.form.submit()">
-        <option value="titre" asp-route-sortOrder="titre" selected="@(ViewData["SortOrder"]?.ToString() == "titre" ? "selected" : "")">Titre</option>
-        <option value="utilisateur" asp-route-sortOrder="utilisateur" selected="@(ViewData["SortOrder"]?.ToString() == "utilisateur" ? "selected" : "")">Utilisateur</option>
-        <option value="utilisateur_titre" asp-route-sortOrder="utilisateur_titre" selected="@(ViewData["SortOrder"]?.ToString() == "utilisateur_titre" ? "selected" : "")">Utilisateur et Titre</option>
-    </select>
-</form-->
+    <!-- form>
+        <label for="sortOrder">Trier par:</label>
+        <select name="sortOrder" id="sortOrder" onchange="this.form.submit()">
+            <option value="titre" asp-route-sortOrder="titre" selected="@(ViewData["SortOrder"]?.ToString() == "titre" ? "selected" : "")">Titre</option>
+            <option value="utilisateur" asp-route-sortOrder="utilisateur" selected="@(ViewData["SortOrder"]?.ToString() == "utilisateur" ? "selected" : "")">Utilisateur</option>
+            <option value="utilisateur_titre" asp-route-sortOrder="utilisateur_titre" selected="@(ViewData["SortOrder"]?.ToString() == "utilisateur_titre" ? "selected" : "")">Utilisateur et Titre</option>
+        </select>
+    </form-->
 
 <br />
 <p>
@@ -50,7 +64,7 @@
                         {
                             <div>
                                 <img src="~/images/@(item.ImagePochette)" class="img-fluid" width="150px" />
-                            </div>
+                            </div>                            
                         }
                         else
                         {
@@ -88,36 +102,35 @@
     </div>
 </div>
 
-<div class="pagination">
-    <ul class="pagination">
-        <li class="page-item @(currentPage <= 1 ? "disabled" : "")">
-            <a class="page-link" asp-action="Index" asp-route-pageNumber="1" asp-route-sortOrder="@ViewData["SortOrder"]" asp-route-searchString="@ViewData["SearchString"]">Première page</a>
-        </li>
-        <li class="page-item @(currentPage <= 1 ? "disabled" : "")">
-            <a class="page-link" asp-action="Index" asp-route-pageNumber="@(currentPage - 1)" asp-route-sortOrder="@ViewData["SortOrder"]" asp-route-searchString="@ViewData["SearchString"]">Page précedente</a>
-        </li>
-        <li class="page-item @(currentPage >= totalPages ? "disabled" : "")">
-            <a class="page-link" asp-action="Index" asp-route-pageNumber="@(currentPage + 1)" asp-route-sortOrder="@ViewData["SortOrder"]" asp-route-searchString="@ViewData["SearchString"]">Page suivante</a>
-        </li>
-        <li class="page-item @(currentPage >= totalPages ? "disabled" : "")">
-            <a class="page-link" asp-action="Index" asp-route-pageNumber="@totalPages" asp-route-sortOrder="@ViewData["SortOrder"]" asp-route-searchString="@ViewData["SearchString"]">Dernière page</a>
-        </li>
-    </ul>
-</div>
+    <div class="pagination">
+        <ul class="pagination">
+            <li class="page-item @(currentPage <= 1 ? "disabled" : "")">
+                <a class="page-link" asp-action="Index" asp-route-pageNumber="1" asp-route-pageSize="@ViewData["PageSize"]" asp-route-sortOrder="@ViewData["SortOrder"]" asp-route-searchString="@ViewData["SearchString"]" asp-route-filtrerUser="@ViewData["FiltrerUser"]">Première page</a>
+            </li>
+            <li class="page-item @(currentPage <= 1 ? "disabled" : "")">
+                <a class="page-link" asp-action="Index" asp-route-pageNumber="@(currentPage - 1)" asp-route-pageSize="@ViewData["PageSize"]" asp-route-sortOrder="@ViewData["SortOrder"]" asp-route-searchString="@ViewData["SearchString"]" asp-route-filtrerUser="@ViewData["FiltrerUser"]">Page précédente</a>
+            </li>
+            <li class="page-item @(currentPage >= totalPages ? "disabled" : "")">
+                <a class="page-link" asp-action="Index" asp-route-pageNumber="@(currentPage + 1)" asp-route-pageSize="@ViewData["PageSize"]" asp-route-sortOrder="@ViewData["SortOrder"]" asp-route-searchString="@ViewData["SearchString"]" asp-route-filtrerUser="@ViewData["FiltrerUser"]">Page suivante</a>
+            </li>
+            <li class="page-item @(currentPage >= totalPages ? "disabled" : "")">
+                <a class="page-link" asp-action="Index" asp-route-pageNumber="@totalPages" asp-route-pageSize="@ViewData["PageSize"]" asp-route-sortOrder="@ViewData["SortOrder"]" asp-route-searchString="@ViewData["SearchString"]" asp-route-filtrerUser="@ViewData["FiltrerUser"]">Dernière page</a>
+            </li>
+        </ul>
+    </div>
 
-@{
-    var urlFor12 = Url.Action("Index", new { pageSize = 12, pageNumber = 1 });
-    var urlFor24 = Url.Action("Index", new { pageSize = 24, pageNumber = 1 });
-    var urlFor48 = Url.Action("Index", new { pageSize = 48, pageNumber = 1 });
+    
+    var urlFor12 = Url.Action("Index", new { pageSize = 12, pageNumber = 1, filtrerUser = filtrerUser });
+    var urlFor24 = Url.Action("Index", new { pageSize = 24, pageNumber = 1, filtrerUser = filtrerUser });
+    var urlFor48 = Url.Action("Index", new { pageSize = 48, pageNumber = 1, filtrerUser = filtrerUser });
+    
+
+    <div class="form-group">
+        <label for="pageSize">Films par page:</label>
+        <select class="form-control" id="pageSize" onchange="location = this.value;">
+            <option value="@urlFor12" selected>12</option>
+            <option value="@urlFor24">24</option>
+            <option value="@urlFor48">48</option>
+        </select>
+    </div>
 }
-
-<div class="form-group">
-    <label for="pageSize">Films par page:</label>
-    <select class="form-control" id="pageSize" onchange="location = this.value;">
-        <option value="@urlFor12" selected>12</option>
-        <option value="@urlFor24">24</option>
-        <option value="@urlFor48">48</option>
-    </select>
-</div>
-
-</div>

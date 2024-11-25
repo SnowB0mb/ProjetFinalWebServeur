@@ -32,7 +32,7 @@ namespace ProjetWeb.Controllers
         }
 
         // GET: Films
-        public async Task<IActionResult> Index(int pageNumber = 1, int pageSize = 12, string searchString = "", string sortOrder = "")
+        public async Task<IActionResult> Index(int pageNumber = 1, int pageSize = 12, string searchString = "", string sortOrder = "", int filtrerUser = -1)
         {
             if (!IsConnected)
             {
@@ -41,18 +41,16 @@ namespace ProjetWeb.Controllers
 
             InitializeUserId();
 
-            // Calculer nb total de films + nb total de pages
-            var totalFilms = await _context.Films.CountAsync();
-            var totalPages = (int)Math.Ceiling(totalFilms / (double)pageSize);
-
-            // Vérifier si page demandée valide
-            if (pageNumber < 1) pageNumber = 1;
-            if (pageNumber > totalPages) pageNumber = totalPages;
-
             // Requête de base pour récupérer les films
             IQueryable<Film> filmsQuery = _context.Films
                 .Include(f => f.NoUtilisateurMajNavigation)
                 .AsQueryable();
+
+            if (filtrerUser != -1)
+            {
+                filmsQuery = filmsQuery.Where(f => f.NoUtilisateurMaj == filtrerUser);
+                ViewData["FiltrerUser"] = filtrerUser;
+            }
 
             // Trier selon searchQuery
             if (!String.IsNullOrEmpty(searchString))
@@ -75,6 +73,21 @@ namespace ProjetWeb.Controllers
                     break;
             }
 
+            // Calculer nb total de films + nb total de pages
+            var totalFilms = await filmsQuery.CountAsync();
+
+            if (totalFilms == 0)
+            {
+                ViewData["TotalFilms"] = 0;
+                return View("Index", new List<Film>());
+            }
+
+            var totalPages = (int)Math.Ceiling(totalFilms / (double)pageSize);
+
+            // Vérifier si page demandée valide
+            if (pageNumber < 1) pageNumber = 1;
+            if (pageNumber > totalPages) pageNumber = totalPages;
+
             // Appliquer pagination
             var films = await filmsQuery
                 .Skip((pageNumber - 1) * pageSize)
@@ -88,6 +101,7 @@ namespace ProjetWeb.Controllers
             ViewData["SortOrder"] = sortOrder;
             ViewData["SearchString"] = searchString;
             ViewData["CurrentUser"] = _userIdConnected;
+
 
             return View(films);
         }
@@ -278,5 +292,8 @@ namespace ProjetWeb.Controllers
         {
             return _context.Films.Any(e => e.NoFilm == id);
         }
+
+
+
     }
 }
