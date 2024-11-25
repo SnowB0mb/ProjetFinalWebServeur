@@ -39,7 +39,6 @@ namespace ProjetWeb.Controllers
                 return Redirect("/Home/Index");
             }
 
-            InitializeUserId();
 
             // Calculer nb total de films + nb total de pages
             var totalFilms = await _context.Films.CountAsync();
@@ -80,21 +79,6 @@ namespace ProjetWeb.Controllers
                     filmsQuery = filmsQuery.OrderBy(f => f.TitreFrancais);
                     break;
             }
-
-            // Calculer nb total de films + nb total de pages
-            var totalFilms = await filmsQuery.CountAsync();
-
-            if (totalFilms == 0)
-            {
-                ViewData["TotalFilms"] = 0;
-                return View("Index", new List<Film>());
-            }
-
-            var totalPages = (int)Math.Ceiling(totalFilms / (double)pageSize);
-
-            // Vérifier si page demandée valide
-            if (pageNumber < 1) pageNumber = 1;
-            if (pageNumber > totalPages) pageNumber = totalPages;
 
             // Appliquer pagination
             var films = await filmsQuery
