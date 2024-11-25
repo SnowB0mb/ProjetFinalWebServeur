@@ -66,6 +66,12 @@ else
                                 <img src="~/images/@(item.ImagePochette)" class="img-fluid" width="150px" />
                             </div>                            
                         }
+                        else
+                        {
+                            <div>
+                                <img src="~/images/defaut.jpg" class="img-fluid" width="150px" />
+                            </div>
+                        }
                         <div>
                             <strong>Titre Français: </strong> @Html.DisplayFor(modelItem => item.TitreFrancais)
                         </div>
