@@ -48,73 +48,53 @@ else
         </select>
     </form-->
 
-    <br />
-    <p>
-        <a class="btn btn-dark" asp-action="Create">Ajouter un DVD</a>
-    </p>
-}
+<br />
+<p>
+    <a class="btn btn-dark" asp-action="Create">Ajouter un DVD</a>
+</p>
 
-@if(filtrerUser is not null && filtrerUser != currentUser)
-{
-    <p>
-        <a class="btn btn-dark" asp-action="Index">Retour à la liste de DVDs</a>
-    </p>
-}
-
-@if(totalFilms == 0)
-{
-    <h3>Aucun DVDs!</h3>
-} else
-{
-    <div class="container mt-5">
-        <div class="row">
-            @foreach (var item in Model)
-            {
-                <div class="col-md-6 mb-3">
-                    <div class="card">
-                        <div class="card-body">
-                            @if (item.ImagePochette != null)
-                            {
-                                <div>
-                                    <img src="~/images/@(item.ImagePochette)" class="img-fluid" width="150px" />
-                                </div>
-                            }
+<div class="container mt-5">
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-6 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        @if (item.ImagePochette != null)
+                        {
                             <div>
-                                <strong>Titre Français: </strong> @Html.DisplayFor(modelItem => item.TitreFrancais)
-                            </div>
-                            @if (filtrerUser is null)
-                            {
-                                <div>
-                                    <strong>DVD en main par: </strong> 
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Films" asp-action="Index" asp-route-filtrerUser="@(item.NoUtilisateurMaj)"
-                                       style="text-decoration: underline">
-                                        @Html.DisplayFor(modelItem => item.NoUtilisateurMajNavigation.NomUtilisateur)
-                                    </a>
-                                </div>
-                                <br />
-                            }
-                            @if (currentUser == item.NoUtilisateurMajNavigation.NoUtilisateur)
-                            {
-                                <div>
-                                    <a asp-action="Edit" asp-route-id="@item.NoFilm" class="btn btn-info btn-sm">Modifier</a> |
-                                    <a asp-action="Details" asp-route-id="@item.NoFilm" class="btn btn-info btn-sm">Détails</a> |
-                                    <a asp-action="Delete" asp-route-id="@item.NoFilm" class="btn btn-danger btn-sm">Supprimer</a>
-                                </div>
-                            }
-                            else
-                            {
-                                <div>
-                                    <a asp-action="Edit" asp-route-id="@item.NoFilm" class="btn btn-info btn-sm">Envoyer un courriel</a> |
-                                    <a asp-action="Details" asp-route-id="@item.NoFilm" class="btn btn-info btn-sm">Détails</a> |
-                                    <a asp-action="Delete" asp-route-id="@item.NoFilm" class="btn btn-info btn-sm">S'approprier le DVD</a>
-                                </div>
-                            }
+                                <img src="~/images/@(item.ImagePochette)" class="img-fluid" width="150px" />
+                            </div>                            
+                        }
+                        <div>
+                            <strong>Titre Français: </strong> @Html.DisplayFor(modelItem => item.TitreFrancais)
                         </div>
+                        <div>
+                            <strong>DVD en main par: </strong> @Html.DisplayFor(modelItem => item.NoUtilisateurMajNavigation.NomUtilisateur)
+                        </div>
+                        <br />
+                        @if (currentUser == item.NoUtilisateurMajNavigation.NoUtilisateur)
+                        {
+                            <div>
+                                <a asp-action="Edit" asp-route-id="@item.NoFilm" class="btn btn-info btn-sm">Modifier</a> |
+                                <a asp-action="Details" asp-route-id="@item.NoFilm" class="btn btn-info btn-sm">Détails</a> |
+                                <a asp-action="Delete" asp-route-id="@item.NoFilm" class="btn btn-danger btn-sm">Supprimer</a>
+                            </div>
+                        }
+                        else
+                        {
+                            <div>
+                                <a asp-action="Edit" asp-route-id="@item.NoFilm" class="btn btn-info btn-sm">Envoyer un courriel</a> |
+                                <a asp-action="Details" asp-route-id="@item.NoFilm" class="btn btn-info btn-sm">Détails</a> |
+                                <a asp-action="Delete" asp-route-id="@item.NoFilm" class="btn btn-info btn-sm">S'approprier le DVD</a>
+                            </div>                            
+                        }
                     </div>
                 </div>
-            }
-        </div>
+            </div>
+        }
     </div>
+</div>
 
     <div class="pagination">
         <ul class="pagination">
