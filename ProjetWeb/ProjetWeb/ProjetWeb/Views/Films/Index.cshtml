@@ -5,119 +5,152 @@
     var totalPages = (int)(ViewData["TotalPages"] ?? 1);
     var pageSize = (int)(ViewData["PageSize"] ?? 12);
     var currentUser = (int?)ViewData["CurrentUser"];
+    var filtrerUser = (int?)ViewData["FiltrerUser"];
+    var totalFilms = (int?)ViewData["TotalFilms"];
 
     Layout = "_LayoutLogged";
 }
-
-<h1>Tous les DVD</h1>
+@if(filtrerUser == currentUser)
+{
+    <h1>DVDs en main</h1>
+}
+else if (filtrerUser is not null)
+{
+    <h1>DVDs de l'utilisateur @Model.FirstOrDefault(u => u.NoUtilisateurMaj == filtrerUser)?.NoUtilisateurMajNavigation?.NomUtilisateur </h1>
+}
+else
+{
+    <h1>Tous les DVD</h1>
+}
 <br />
 
-<form method="get">
-    <div class="input-group">
-        <input type="text" class="form-control" name="searchString" value="@ViewData["SearchString"]" placeholder="Rechercher un film" />
-        <div class="input-group-append">
-            <button class="btn btn-dark" type="submit">
-                Rechercher
-            </button>
+@if(filtrerUser is null)
+{
+    <form method="get">
+        <div class="input-group">
+            <input type="text" class="form-control" name="searchString" value="@ViewData["SearchString"]" placeholder="Rechercher un film" />
+            <div class="input-group-append">
+                <button class="btn btn-dark" type="submit">
+                    Rechercher
+                </button>
+            </div>
         </div>
-    </div>
-</form>
+    </form>
 
-<br />
+    <br />
 
-<!-- form>
-    <label for="sortOrder">Trier par:</label>
-    <select name="sortOrder" id="sortOrder" onchange="this.form.submit()">
-        <option value="titre" asp-route-sortOrder="titre" selected="@(ViewData["SortOrder"]?.ToString() == "titre" ? "selected" : "")">Titre</option>
-        <option value="utilisateur" asp-route-sortOrder="utilisateur" selected="@(ViewData["SortOrder"]?.ToString() == "utilisateur" ? "selected" : "")">Utilisateur</option>
-        <option value="utilisateur_titre" asp-route-sortOrder="utilisateur_titre" selected="@(ViewData["SortOrder"]?.ToString() == "utilisateur_titre" ? "selected" : "")">Utilisateur et Titre</option>
-    </select>
-</form-->
+    <!-- form>
+        <label for="sortOrder">Trier par:</label>
+        <select name="sortOrder" id="sortOrder" onchange="this.form.submit()">
+            <option value="titre" asp-route-sortOrder="titre" selected="@(ViewData["SortOrder"]?.ToString() == "titre" ? "selected" : "")">Titre</option>
+            <option value="utilisateur" asp-route-sortOrder="utilisateur" selected="@(ViewData["SortOrder"]?.ToString() == "utilisateur" ? "selected" : "")">Utilisateur</option>
+            <option value="utilisateur_titre" asp-route-sortOrder="utilisateur_titre" selected="@(ViewData["SortOrder"]?.ToString() == "utilisateur_titre" ? "selected" : "")">Utilisateur et Titre</option>
+        </select>
+    </form-->
 
-<br />
-<p>
-    <a class="btn btn-dark" asp-action="Create">Ajouter un DVD</a>
-</p>
+    <br />
+    <p>
+        <a class="btn btn-dark" asp-action="Create">Ajouter un DVD</a>
+    </p>
+}
 
-<div class="container mt-5">
-    <div class="row">
-        @foreach (var item in Model)
-        {
-            <div class="col-md-6 mb-3">
-                <div class="card">
-                    <div class="card-body">
-                        @if (item.ImagePochette != null)
-                        {
-                            <div>
-                                <img src="~/images/@(item.ImagePochette)" class="img-fluid" width="150px" />
-                            </div>
-                        }
-                        else
+@if(filtrerUser is not null && filtrerUser != currentUser)
+{
+    <p>
+        <a class="btn btn-dark" asp-action="Index">Retour à la liste de DVDs</a>
+    </p>
+}
+
+@if(totalFilms == 0)
+{
+    <h3>Aucun DVDs!</h3>
+} else
+{
+    <div class="container mt-5">
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                <div class="col-md-6 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            @if (item.ImagePochette != null)
+                            {
+                                <div>
+                                    <img src="~/images/@(item.ImagePochette)" class="img-fluid" width="150px" />
+                                </div>
+                            }
+                              else
                         {
                             <div>
                                 <img src="~/images/defaut.jpg" class="img-fluid" width="150px" />
                             </div>
                         }
-                        <div>
-                            <strong>Titre Français: </strong> @Html.DisplayFor(modelItem => item.TitreFrancais)
-                        </div>
-                        <div>
-                            <strong>DVD en main par: </strong> @Html.DisplayFor(modelItem => item.NoUtilisateurMajNavigation.NomUtilisateur)
-                        </div>
-                        <br />
-                        @if (currentUser == item.NoUtilisateurMajNavigation.NoUtilisateur)
-                        {
                             <div>
-                                <a asp-action="Edit" asp-route-id="@item.NoFilm" class="btn btn-info btn-sm">Modifier</a> |
-                                <a asp-action="Details" asp-route-id="@item.NoFilm" class="btn btn-info btn-sm">Détails</a> |
-                                <a asp-action="Delete" asp-route-id="@item.NoFilm" class="btn btn-danger btn-sm">Supprimer</a>
+                                <strong>Titre Français: </strong> @Html.DisplayFor(modelItem => item.TitreFrancais)
                             </div>
-                        }
-                        else
-                        {
-                            <div>
-                                <a asp-action="Edit" asp-route-id="@item.NoFilm" class="btn btn-info btn-sm">Envoyer un courriel</a> |
-                                <a asp-action="Details" asp-route-id="@item.NoFilm" class="btn btn-info btn-sm">Détails</a> |
-                                <a asp-action="Approprier" asp-route-id="@item.NoFilm" class="btn btn-info btn-sm">S'approprier le DVD</a>
-                            </div>                            
-                        }
+                            @if (filtrerUser is null)
+                            {
+                                <div>
+                                    <strong>DVD en main par: </strong> 
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Films" asp-action="Index" asp-route-filtrerUser="@(item.NoUtilisateurMaj)"
+                                       style="text-decoration: underline">
+                                        @Html.DisplayFor(modelItem => item.NoUtilisateurMajNavigation.NomUtilisateur)
+                                    </a>
+                                </div>
+                                <br />
+                            }
+                            @if (currentUser == item.NoUtilisateurMajNavigation.NoUtilisateur)
+                            {
+                                <div>
+                                    <a asp-action="Edit" asp-route-id="@item.NoFilm" class="btn btn-info btn-sm">Modifier</a> |
+                                    <a asp-action="Details" asp-route-id="@item.NoFilm" class="btn btn-info btn-sm">Détails</a> |
+                                    <a asp-action="Delete" asp-route-id="@item.NoFilm" class="btn btn-danger btn-sm">Supprimer</a>
+                                </div>
+                            }
+                            else
+                            {
+                                <div>
+                                    <a asp-action="Edit" asp-route-id="@item.NoFilm" class="btn btn-info btn-sm">Envoyer un courriel</a> |
+                                    <a asp-action="Details" asp-route-id="@item.NoFilm" class="btn btn-info btn-sm">Détails</a> |
+                                    <a asp-action="Approprier" asp-route-id="@item.NoFilm" class="btn btn-info btn-sm">S'approprier le DVD</a>
+                                </div>
+                            }
+                        </div>
                     </div>
                 </div>
-            </div>
-        }
+            }
+        </div>
     </div>
-</div>
 
-<div class="pagination">
-    <ul class="pagination">
-        <li class="page-item @(currentPage <= 1 ? "disabled" : "")">
-            <a class="page-link" asp-action="Index" asp-route-pageNumber="1" asp-route-sortOrder="@ViewData["SortOrder"]" asp-route-searchString="@ViewData["SearchString"]">Première page</a>
-        </li>
-        <li class="page-item @(currentPage <= 1 ? "disabled" : "")">
-            <a class="page-link" asp-action="Index" asp-route-pageNumber="@(currentPage - 1)" asp-route-sortOrder="@ViewData["SortOrder"]" asp-route-searchString="@ViewData["SearchString"]">Page précedente</a>
-        </li>
-        <li class="page-item @(currentPage >= totalPages ? "disabled" : "")">
-            <a class="page-link" asp-action="Index" asp-route-pageNumber="@(currentPage + 1)" asp-route-sortOrder="@ViewData["SortOrder"]" asp-route-searchString="@ViewData["SearchString"]">Page suivante</a>
-        </li>
-        <li class="page-item @(currentPage >= totalPages ? "disabled" : "")">
-            <a class="page-link" asp-action="Index" asp-route-pageNumber="@totalPages" asp-route-sortOrder="@ViewData["SortOrder"]" asp-route-searchString="@ViewData["SearchString"]">Dernière page</a>
-        </li>
-    </ul>
-</div>
+    <div class="pagination">
+        <ul class="pagination">
+            <li class="page-item @(currentPage <= 1 ? "disabled" : "")">
+                <a class="page-link" asp-action="Index" asp-route-pageNumber="1" asp-route-pageSize="@ViewData["PageSize"]" asp-route-sortOrder="@ViewData["SortOrder"]" asp-route-searchString="@ViewData["SearchString"]" asp-route-filtrerUser="@ViewData["FiltrerUser"]">Première page</a>
+            </li>
+            <li class="page-item @(currentPage <= 1 ? "disabled" : "")">
+                <a class="page-link" asp-action="Index" asp-route-pageNumber="@(currentPage - 1)" asp-route-pageSize="@ViewData["PageSize"]" asp-route-sortOrder="@ViewData["SortOrder"]" asp-route-searchString="@ViewData["SearchString"]" asp-route-filtrerUser="@ViewData["FiltrerUser"]">Page précédente</a>
+            </li>
+            <li class="page-item @(currentPage >= totalPages ? "disabled" : "")">
+                <a class="page-link" asp-action="Index" asp-route-pageNumber="@(currentPage + 1)" asp-route-pageSize="@ViewData["PageSize"]" asp-route-sortOrder="@ViewData["SortOrder"]" asp-route-searchString="@ViewData["SearchString"]" asp-route-filtrerUser="@ViewData["FiltrerUser"]">Page suivante</a>
+            </li>
+            <li class="page-item @(currentPage >= totalPages ? "disabled" : "")">
+                <a class="page-link" asp-action="Index" asp-route-pageNumber="@totalPages" asp-route-pageSize="@ViewData["PageSize"]" asp-route-sortOrder="@ViewData["SortOrder"]" asp-route-searchString="@ViewData["SearchString"]" asp-route-filtrerUser="@ViewData["FiltrerUser"]">Dernière page</a>
+            </li>
+        </ul>
+    </div>
 
-@{
-    var urlFor12 = Url.Action("Index", new { pageSize = 12, pageNumber = 1 });
-    var urlFor24 = Url.Action("Index", new { pageSize = 24, pageNumber = 1 });
-    var urlFor48 = Url.Action("Index", new { pageSize = 48, pageNumber = 1 });
+    
+    var urlFor12 = Url.Action("Index", new { pageSize = 12, pageNumber = 1, filtrerUser = filtrerUser });
+    var urlFor24 = Url.Action("Index", new { pageSize = 24, pageNumber = 1, filtrerUser = filtrerUser });
+    var urlFor48 = Url.Action("Index", new { pageSize = 48, pageNumber = 1, filtrerUser = filtrerUser });
+    
+
+    <div class="form-group">
+        <label for="pageSize">Films par page:</label>
+        <select class="form-control" id="pageSize" onchange="location = this.value;">
+            <option value="@urlFor12" selected>12</option>
+            <option value="@urlFor24">24</option>
+            <option value="@urlFor48">48</option>
+        </select>
+    </div>
 }
-
-<div class="form-group">
-    <label for="pageSize">Films par page:</label>
-    <select class="form-control" id="pageSize" onchange="location = this.value;">
-        <option value="@urlFor12" selected>12</option>
-        <option value="@urlFor24">24</option>
-        <option value="@urlFor48">48</option>
-    </select>
-</div>
-
-</div>
