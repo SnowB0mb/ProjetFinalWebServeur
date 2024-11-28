@@ -121,6 +121,7 @@ namespace ProjetWeb.Controllers
             {
                 return NotFound();
             }
+            ViewData["CurrentUser"] = _userIdConnected;
 
             return View(film);
         }

@@ -49,16 +49,29 @@ else
     </form-->
 
     <br />
-    <p>
-        <a class="btn btn-dark" asp-action="Create">Ajouter un DVD</a>
-    </p>
+    @if((int?)ViewData["CurrentUser"] != 1)
+    {
+        <p>
+            <a class="btn btn-dark" asp-action="Create">Ajouter un DVD</a>
+        </p>
+    } 
 }
 
-@if(filtrerUser is not null && filtrerUser != currentUser)
+@if(filtrerUser is not null)
 {
-    <p>
-        <a class="btn btn-dark" asp-action="Index">Retour à la liste de DVDs</a>
-    </p>
+    @if((int?)ViewData["CurrentUser"] == 1)
+    {
+        <p>
+            <a class="btn btn-dark" asp-controller="Utilisateurs" asp-action="Index" asp-route-id="@currentUser">Modifier l'utilisateur</a>
+        </p>
+    }
+    else if (filtrerUser != currentUser)
+    {
+        <p>
+            <a class="btn btn-dark" asp-action="Index">Retour à la liste de DVDs</a>
+        </p>
+    }
+
 }
 
 @if(totalFilms == 0)
@@ -111,8 +124,12 @@ else
                             {
                                 <div>
                                     <a asp-action="Edit" asp-route-id="@item.NoFilm" class="btn btn-info btn-sm">Envoyer un courriel</a> |
-                                    <a asp-action="Details" asp-route-id="@item.NoFilm" class="btn btn-info btn-sm">Détails</a> |
-                                    <a asp-action="Approprier" asp-route-id="@item.NoFilm" class="btn btn-info btn-sm">S'approprier le DVD</a>
+                                    <a asp-action="Details" asp-route-id="@item.NoFilm" class="btn btn-info btn-sm">Détails</a> 
+                                    @if(currentUser != 1)
+                                    {
+
+                                        <a asp-action="Approprier" asp-route-id="@item.NoFilm" class="btn btn-info btn-sm">| S'approprier le DVD</a>
+                                    }
                                 </div>
                             }
                         </div>
