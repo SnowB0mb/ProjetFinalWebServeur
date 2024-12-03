@@ -11,25 +11,20 @@ namespace ProjetWeb.Controllers
 {
     public class FilmsController : Controller
     {
-        private readonly FilmDbContext _context;
-        public const string SessionKeyId = "_Id";
         private int? _userIdConnected => HttpContext.Session.GetInt32(SessionKeyId);
 
         // à des fins de déboggages, changer la valeur a true
         public bool IsConnected => HttpContext.Session.GetInt32(SessionKeyId) > -1;
 
-        public FilmsController(FilmDbContext context)
+        private readonly FilmDbContext _context;
+        public const string SessionKeyId = "_Id";
+        private readonly IWebHostEnvironment _webHostEnvironment;
+
+        public FilmsController(FilmDbContext context, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
+            _webHostEnvironment = webHostEnvironment;
         }
-
-        //private void InitializeUserId()
-        //{
-        //    if (_userIdConnected == null)
-        //    {
-        //        //_userIdConnected = HttpContext.Session.GetInt32(SessionKeyId);
-        //    }
-        //}
 
         // GET: Films
         public async Task<IActionResult> Index(int pageNumber = 1, int pageSize = 12, string searchString = "", string sortOrder = "", int filtrerUser = -1)
@@ -94,9 +89,44 @@ namespace ProjetWeb.Controllers
             ViewData["SearchString"] = searchString;
             ViewData["CurrentUser"] = _userIdConnected;
 
+            ViewData["BackgroundImagePath"] = HttpContext.Session.GetString("BackgroundImagePath");
 
             return View(films);
         }
+            
+
+            [HttpGet("/environement")]
+            public IActionResult Environement()
+            {
+                if (!IsConnected)
+                {
+                    return Redirect("/Home/Index");
+                }
+
+            ViewData["BackgroundImagePath"] = HttpContext.Session.GetString("BackgroundImagePath");
+            return View();
+            }
+
+        [HttpPost("/environement/upload")]
+        public async Task<IActionResult> UploadBackground(IFormFile backgroundImage)
+        {
+            if (backgroundImage != null && backgroundImage.Length > 0)
+            {
+                var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "uploads");
+                Directory.CreateDirectory(uploadsFolder);
+                var filePath = Path.Combine(uploadsFolder, backgroundImage.FileName);
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await backgroundImage.CopyToAsync(fileStream);
+                }
+
+                HttpContext.Session.SetString("BackgroundImagePath", $"/uploads/{backgroundImage.FileName}");
+            }
+
+            return RedirectToAction("Environement");
+        }
+
 
         // GET: Films/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -121,7 +151,7 @@ namespace ProjetWeb.Controllers
             {
                 return NotFound();
             }
-
+            ViewData["BackgroundImagePath"] = HttpContext.Session.GetString("BackgroundImagePath");
             return View(film);
         }
 
@@ -138,6 +168,7 @@ namespace ProjetWeb.Controllers
             ViewData["NoRealisateur"] = new SelectList(_context.Realisateurs, "NoRealisateur", "Nom");
             ViewData["NoUtilisateurMaj"] = new SelectList(_context.Utilisateurs, "NoUtilisateur", "NomUtilisateur");
             FilmViewModel filmViewModel = new FilmViewModel();
+            ViewData["BackgroundImagePath"] = HttpContext.Session.GetString("BackgroundImagePath");
             return View(filmViewModel);
         }
 
@@ -186,6 +217,7 @@ namespace ProjetWeb.Controllers
             ViewData["NoProducteur"] = new SelectList(_context.Producteurs, "NoProducteur", "Nom", filmViewModel.Film.NoProducteur);
             ViewData["NoRealisateur"] = new SelectList(_context.Realisateurs, "NoRealisateur", "Nom", filmViewModel.Film.NoRealisateur);
             ViewData["NoUtilisateurMaj"] = new SelectList(_context.Utilisateurs, "NoUtilisateur", "NomUtilisateur", filmViewModel.Film.NoUtilisateurMaj);
+            ViewData["BackgroundImagePath"] = HttpContext.Session.GetString("BackgroundImagePath");
             return View(filmViewModel);
         }
 
@@ -213,6 +245,7 @@ namespace ProjetWeb.Controllers
             ViewData["NoProducteur"] = new SelectList(_context.Producteurs, "NoProducteur", "Nom", filmViewModel.Film.NoProducteur);
             ViewData["NoRealisateur"] = new SelectList(_context.Realisateurs, "NoRealisateur", "Nom", filmViewModel.Film.NoRealisateur);
             ViewData["NoUtilisateurMaj"] = new SelectList(_context.Utilisateurs, "NoUtilisateur", "NomUtilisateur", filmViewModel.Film.NoUtilisateurMaj);
+            ViewData["BackgroundImagePath"] = HttpContext.Session.GetString("BackgroundImagePath");
             return View(filmViewModel);
         }
 
@@ -273,6 +306,7 @@ namespace ProjetWeb.Controllers
             ViewData["NoProducteur"] = new SelectList(_context.Producteurs, "NoProducteur", "Nom", filmViewModel.Film.NoProducteur);
             ViewData["NoRealisateur"] = new SelectList(_context.Realisateurs, "NoRealisateur", "Nom", filmViewModel.Film.NoRealisateur);
             ViewData["NoUtilisateurMaj"] = new SelectList(_context.Utilisateurs, "NoUtilisateur", "NomUtilisateur", filmViewModel.Film.NoUtilisateurMaj);
+            ViewData["BackgroundImagePath"] = HttpContext.Session.GetString("BackgroundImagePath");
             return View(filmViewModel);
         }
 
@@ -299,7 +333,7 @@ namespace ProjetWeb.Controllers
             {
                 return NotFound();
             }
-
+            ViewData["BackgroundImagePath"] = HttpContext.Session.GetString("BackgroundImagePath");
             return View(film);
         }
 
@@ -346,7 +380,7 @@ namespace ProjetWeb.Controllers
             {
                 return NotFound();
             }
-
+            ViewData["BackgroundImagePath"] = HttpContext.Session.GetString("BackgroundImagePath");
             return View(film);
         }
 

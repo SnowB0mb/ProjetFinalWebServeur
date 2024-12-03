@@ -1,0 +1,28 @@
+﻿@{
+    ViewData["Title"] = "Environement";
+    Layout = "_LayoutLogged";
+}
+
+<h2>Environement</h2>
+
+<form asp-action="UploadBackground" method="post" enctype="multipart/form-data">
+    <div>
+        <input type="checkbox" id="checkbox1" name="checkbox1">
+        <label for="checkbox1">E-mail si quelqu'un prend vos DVD'</label>
+    </div>
+    <div>
+        <input type="checkbox" id="checkbox2" name="checkbox2">
+        <label for="checkbox2">E-mail lors du retrait d'un DVD'</label>
+    </div>
+    <div>
+        <input type="checkbox" id="checkbox3" name="checkbox3">
+        <label for="checkbox3">E-mail pour un nouveau DVD</label>
+    </div>
+    <div>
+        <label for="backgroundImage">Sélectionner votre fond d'écran</label>
+        <input type="file" id="backgroundImage" name="backgroundImage" accept="image/*">
+    </div>
+    <div>
+        <button type="submit">Confirmer</button>
+    </div>
+</form>
