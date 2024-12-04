@@ -72,6 +72,17 @@ namespace ProjetWeb.Controllers
             }
             _context.Add(utilisateur);
             _context.SaveChanges();
+
+            var preferences = new List<ValeursPreference>
+    {
+        new ValeursPreference { NoUtilisateur = utilisateur.NoUtilisateur, NoPreference = 3, Valeur = "1" },
+        new ValeursPreference { NoUtilisateur = utilisateur.NoUtilisateur, NoPreference = 4, Valeur = "1" },
+        new ValeursPreference { NoUtilisateur = utilisateur.NoUtilisateur, NoPreference = 5, Valeur = "1" }
+    };
+
+            _context.ValeursPreferences.AddRange(preferences);
+            _context.SaveChanges();
+
             nomInscription = utilisateur.NomUtilisateur;
             return Redirect("Index");
         }

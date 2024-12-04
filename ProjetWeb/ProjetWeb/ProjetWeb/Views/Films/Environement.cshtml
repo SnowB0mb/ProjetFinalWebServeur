@@ -1,22 +1,38 @@
 ﻿@{
     ViewData["Title"] = "Environement";
     Layout = "_LayoutLogged";
+    var preferences = ViewBag.Preferences as Dictionary<int, string>;
 }
 
 <h2>Environement</h2>
 
 <form asp-action="UploadBackground" method="post" enctype="multipart/form-data">
-    <div>
-        <input type="checkbox" id="checkbox1" name="checkbox1">
-        <label for="checkbox1">E-mail si quelqu'un prend vos DVD'</label>
+    <div class="form-group">
+        <label>
+            <input type="hidden" name="Preferences[3]" value="0" />
+            <input type="checkbox" name="Preferences[3]" value="1"
+            @(preferences != null && preferences.ContainsKey(3) && preferences[3] == "1" ? "checked" : "")
+                   onchange="this.previousElementSibling.disabled = this.checked;" />
+            E-mail quand on prend vos DVD
+        </label>
     </div>
-    <div>
-        <input type="checkbox" id="checkbox2" name="checkbox2">
-        <label for="checkbox2">E-mail lors du retrait d'un DVD'</label>
+    <div class="form-group">
+        <label>
+            <input type="hidden" name="Preferences[4]" value="0" />
+            <input type="checkbox" name="Preferences[4]" value="1"
+            @(preferences != null && preferences.ContainsKey(4) && preferences[4] == "1" ? "checked" : "")
+                   onchange="this.previousElementSibling.disabled = this.checked;" />
+            E-mail quand un DVD est ajouté
+        </label>
     </div>
-    <div>
-        <input type="checkbox" id="checkbox3" name="checkbox3">
-        <label for="checkbox3">E-mail pour un nouveau DVD</label>
+    <div class="form-group">
+        <label>
+            <input type="hidden" name="Preferences[5]" value="0" />
+            <input type="checkbox" name="Preferences[5]" value="1"
+            @(preferences != null && preferences.ContainsKey(5) && preferences[5] == "1" ? "checked" : "")
+                   onchange="this.previousElementSibling.disabled = this.checked;" />
+            E-mail quand un DVD est supprimé
+        </label>
     </div>
     <div>
         <label for="backgroundImage">Sélectionner votre fond d'écran</label>

@@ -93,22 +93,47 @@ namespace ProjetWeb.Controllers
 
             return View(films);
         }
-            
 
-            [HttpGet("/environement")]
-            public IActionResult Environement()
+
+        [HttpGet("/environement")]
+        public IActionResult Environement()
+        {
+            if (!IsConnected)
             {
-                if (!IsConnected)
-                {
-                    return Redirect("/Home/Index");
-                }
-
-            ViewData["BackgroundImagePath"] = HttpContext.Session.GetString("BackgroundImagePath");
-            return View();
+                return Redirect("/Home/Index");
             }
 
-        [HttpPost("/environement/upload")]
-        public async Task<IActionResult> UploadBackground(IFormFile backgroundImage)
+            int? userId = HttpContext.Session.GetInt32(SessionKeyId);
+            if (userId == null)
+            {
+                return Redirect("/Home/Index");
+            }
+
+            var preferences = new Dictionary<int, string>
+    {
+        { 3, _context.ValeursPreferences
+             .Where(vp => vp.NoUtilisateur == userId && vp.NoPreference == 3)
+             .Select(vp => vp.Valeur)
+             .FirstOrDefault() ?? "1" },
+        { 4, _context.ValeursPreferences
+             .Where(vp => vp.NoUtilisateur == userId && vp.NoPreference == 4)
+             .Select(vp => vp.Valeur)
+             .FirstOrDefault() ?? "1" },
+        { 5, _context.ValeursPreferences
+             .Where(vp => vp.NoUtilisateur == userId && vp.NoPreference == 5)
+             .Select(vp => vp.Valeur)
+             .FirstOrDefault() ?? "1" }
+    };
+
+            ViewBag.Preferences = preferences;
+            ViewData["BackgroundImagePath"] = HttpContext.Session.GetString("BackgroundImagePath");
+
+            return View();
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> UploadBackground(IFormFile backgroundImage, Dictionary<int, string> Preferences)
         {
             if (backgroundImage != null && backgroundImage.Length > 0)
             {
@@ -124,8 +149,41 @@ namespace ProjetWeb.Controllers
                 HttpContext.Session.SetString("BackgroundImagePath", $"/uploads/{backgroundImage.FileName}");
             }
 
-            return RedirectToAction("Environement");
+            int? userId = HttpContext.Session.GetInt32(SessionKeyId);
+            if (userId == null)
+            {
+                return RedirectToAction("Index");
+            }
+
+            var preferences = new List<ValeursPreference>
+    {
+        new ValeursPreference { NoUtilisateur = userId.Value, NoPreference = 3, Valeur = Preferences.ContainsKey(3) ? Preferences[3] : "0" },
+        new ValeursPreference { NoUtilisateur = userId.Value, NoPreference = 4, Valeur = Preferences.ContainsKey(4) ? Preferences[4] : "0" },
+        new ValeursPreference { NoUtilisateur = userId.Value, NoPreference = 5, Valeur = Preferences.ContainsKey(5) ? Preferences[5] : "0" }
+    };
+
+            foreach (var preference in preferences)
+            {
+                var existingPreference = _context.ValeursPreferences
+                    .FirstOrDefault(vp => vp.NoUtilisateur == userId && vp.NoPreference == preference.NoPreference);
+
+                if (existingPreference != null)
+                {
+                    existingPreference.Valeur = preference.Valeur;
+                    _context.Update(existingPreference);
+                }
+                else
+                {
+                    _context.Add(preference);
+                }
+            }
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index");
         }
+
+
 
 
         // GET: Films/Details/5
