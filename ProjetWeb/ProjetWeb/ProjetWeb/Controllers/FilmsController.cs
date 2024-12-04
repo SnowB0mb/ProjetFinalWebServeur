@@ -109,21 +109,15 @@ namespace ProjetWeb.Controllers
                 return Redirect("/Home/Index");
             }
 
-            var preferences = new Dictionary<int, string>
-    {
-        { 3, _context.ValeursPreferences
-             .Where(vp => vp.NoUtilisateur == userId && vp.NoPreference == 3)
-             .Select(vp => vp.Valeur)
-             .FirstOrDefault() ?? "1" },
-        { 4, _context.ValeursPreferences
-             .Where(vp => vp.NoUtilisateur == userId && vp.NoPreference == 4)
-             .Select(vp => vp.Valeur)
-             .FirstOrDefault() ?? "1" },
-        { 5, _context.ValeursPreferences
-             .Where(vp => vp.NoUtilisateur == userId && vp.NoPreference == 5)
-             .Select(vp => vp.Valeur)
-             .FirstOrDefault() ?? "1" }
-    };
+            var preferenceIds = new List<int> { 3, 4, 5 };
+            var userPreferences = _context.ValeursPreferences
+                .Where(vp => vp.NoUtilisateur == userId && preferenceIds.Contains(vp.NoPreference))
+                .ToList();
+
+            var preferences = preferenceIds.ToDictionary(
+                id => id,
+                id => userPreferences.FirstOrDefault(vp => vp.NoPreference == id)?.Valeur ?? "1"
+            );
 
             ViewBag.Preferences = preferences;
             ViewData["BackgroundImagePath"] = HttpContext.Session.GetString("BackgroundImagePath");
@@ -156,26 +150,18 @@ namespace ProjetWeb.Controllers
             }
 
             var preferences = new List<ValeursPreference>
-    {
-        new ValeursPreference { NoUtilisateur = userId.Value, NoPreference = 3, Valeur = Preferences.ContainsKey(3) ? Preferences[3] : "0" },
-        new ValeursPreference { NoUtilisateur = userId.Value, NoPreference = 4, Valeur = Preferences.ContainsKey(4) ? Preferences[4] : "0" },
-        new ValeursPreference { NoUtilisateur = userId.Value, NoPreference = 5, Valeur = Preferences.ContainsKey(5) ? Preferences[5] : "0" }
-    };
+            {
+                new ValeursPreference { NoUtilisateur = userId.Value, NoPreference = 3, Valeur = Preferences.ContainsKey(3) ? Preferences[3] : "0" },
+                new ValeursPreference { NoUtilisateur = userId.Value, NoPreference = 4, Valeur = Preferences.ContainsKey(4) ? Preferences[4] : "0" },
+                new ValeursPreference { NoUtilisateur = userId.Value, NoPreference = 5, Valeur = Preferences.ContainsKey(5) ? Preferences[5] : "0" }
+            };
 
             foreach (var preference in preferences)
             {
                 var existingPreference = _context.ValeursPreferences
                     .FirstOrDefault(vp => vp.NoUtilisateur == userId && vp.NoPreference == preference.NoPreference);
-
-                if (existingPreference != null)
-                {
                     existingPreference.Valeur = preference.Valeur;
                     _context.Update(existingPreference);
-                }
-                else
-                {
-                    _context.Add(preference);
-                }
             }
 
             await _context.SaveChangesAsync();

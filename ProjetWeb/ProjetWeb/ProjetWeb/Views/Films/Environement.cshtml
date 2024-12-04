@@ -9,28 +9,22 @@
 <form asp-action="UploadBackground" method="post" enctype="multipart/form-data">
     <div class="form-group">
         <label>
-            <input type="hidden" name="Preferences[3]" value="0" />
             <input type="checkbox" name="Preferences[3]" value="1"
-            @(preferences != null && preferences.ContainsKey(3) && preferences[3] == "1" ? "checked" : "")
-                   onchange="this.previousElementSibling.disabled = this.checked;" />
+            @(preferences != null && preferences.ContainsKey(3) && preferences[3] == "1" ? "checked" : "")  />
             E-mail quand on prend vos DVD
         </label>
     </div>
     <div class="form-group">
         <label>
-            <input type="hidden" name="Preferences[4]" value="0" />
             <input type="checkbox" name="Preferences[4]" value="1"
-            @(preferences != null && preferences.ContainsKey(4) && preferences[4] == "1" ? "checked" : "")
-                   onchange="this.previousElementSibling.disabled = this.checked;" />
+            @(preferences != null && preferences.ContainsKey(4) && preferences[4] == "1" ? "checked" : "") />
             E-mail quand un DVD est ajouté
         </label>
     </div>
     <div class="form-group">
         <label>
-            <input type="hidden" name="Preferences[5]" value="0" />
             <input type="checkbox" name="Preferences[5]" value="1"
-            @(preferences != null && preferences.ContainsKey(5) && preferences[5] == "1" ? "checked" : "")
-                   onchange="this.previousElementSibling.disabled = this.checked;" />
+            @(preferences != null && preferences.ContainsKey(5) && preferences[5] == "1" ? "checked" : "") />
             E-mail quand un DVD est supprimé
         </label>
     </div>
@@ -42,3 +36,4 @@
         <button type="submit">Confirmer</button>
     </div>
 </form>
+
