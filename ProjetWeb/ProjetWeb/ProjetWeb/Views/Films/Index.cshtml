@@ -7,10 +7,11 @@
     var currentUser = (int?)ViewData["CurrentUser"];
     var filtrerUser = (int?)ViewData["FiltrerUser"];
     var totalFilms = (int?)ViewData["TotalFilms"];
+    var userType = (string?)ViewData["UserType"];
 
     Layout = "_LayoutLogged";
 }
-@if(filtrerUser == currentUser)
+@if (filtrerUser == currentUser)
 {
     <h1>DVDs en main</h1>
 }
@@ -24,7 +25,7 @@ else
 }
 <br />
 
-@if(filtrerUser is null)
+@if (filtrerUser is null)
 {
     <form method="get">
         <div class="input-group">
@@ -54,17 +55,18 @@ else
     </p>
 }
 
-@if(filtrerUser is not null && filtrerUser != currentUser)
+@if (filtrerUser is not null && filtrerUser != currentUser)
 {
     <p>
         <a class="btn btn-dark" asp-action="Index">Retour à la liste de DVDs</a>
     </p>
 }
 
-@if(totalFilms == 0)
+@if (totalFilms == 0)
 {
     <h3>Aucun DVDs!</h3>
-} else
+}
+else
 {
     <div class="container mt-5">
         <div class="row">
@@ -79,19 +81,19 @@ else
                                     <img src="~/images/@(item.ImagePochette)" class="img-fluid" width="150px" />
                                 </div>
                             }
-                              else
-                        {
-                            <div>
-                                <img src="~/images/defaut.jpg" class="img-fluid" width="150px" />
-                            </div>
-                        }
+                            else
+                            {
+                                <div>
+                                    <img src="~/images/defaut.jpg" class="img-fluid" width="150px" />
+                                </div>
+                            }
                             <div>
                                 <strong>Titre Français: </strong> @Html.DisplayFor(modelItem => item.TitreFrancais)
                             </div>
                             @if (filtrerUser is null)
                             {
                                 <div>
-                                    <strong>DVD en main par: </strong> 
+                                    <strong>DVD en main par: </strong>
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Films" asp-action="Index" asp-route-filtrerUser="@(item.NoUtilisateurMaj)"
                                        style="text-decoration: underline">
                                         @Html.DisplayFor(modelItem => item.NoUtilisateurMajNavigation.NomUtilisateur)
@@ -102,6 +104,10 @@ else
                             @if (currentUser == item.NoUtilisateurMajNavigation.NoUtilisateur)
                             {
                                 <div>
+                                    @if (userType == "S")
+                                    {
+                                        <a asp-action="Approprier" asp-route-id="@item.NoFilm" class="btn btn-info btn-sm">Approprier le DVD</a>
+                                    } |
                                     <a asp-action="Edit" asp-route-id="@item.NoFilm" class="btn btn-info btn-sm">Modifier</a> |
                                     <a asp-action="Details" asp-route-id="@item.NoFilm" class="btn btn-info btn-sm">Détails</a> |
                                     <a asp-action="Delete" asp-route-id="@item.NoFilm" class="btn btn-danger btn-sm">Supprimer</a>
@@ -112,7 +118,15 @@ else
                                 <div>
                                     <a asp-action="Edit" asp-route-id="@item.NoFilm" class="btn btn-info btn-sm">Envoyer un courriel</a> |
                                     <a asp-action="Details" asp-route-id="@item.NoFilm" class="btn btn-info btn-sm">Détails</a> |
-                                    <a asp-action="Approprier" asp-route-id="@item.NoFilm" class="btn btn-info btn-sm">S'approprier le DVD</a>
+                                    @if (userType == "S")
+                                    {
+                                        <a asp-action="Approprier" asp-route-id="@item.NoFilm" class="btn btn-info btn-sm">Approprier le DVD</a>
+                                        <a asp-action="Delete" asp-route-id="@item.NoFilm" class="btn btn-danger btn-sm">Supprimer</a>
+                                    }
+                                    else
+                                    {
+                                        <a asp-action="Approprier" asp-route-id="@item.NoFilm" class="btn btn-info btn-sm">S'approprier le DVD</a>
+                                    }
                                 </div>
                             }
                         </div>
@@ -139,11 +153,11 @@ else
         </ul>
     </div>
 
-    
+
     var urlFor12 = Url.Action("Index", new { pageSize = 12, pageNumber = 1, filtrerUser = filtrerUser });
     var urlFor24 = Url.Action("Index", new { pageSize = 24, pageNumber = 1, filtrerUser = filtrerUser });
     var urlFor48 = Url.Action("Index", new { pageSize = 48, pageNumber = 1, filtrerUser = filtrerUser });
-    
+
 
     <div class="form-group">
         <label for="pageSize">Films par page:</label>

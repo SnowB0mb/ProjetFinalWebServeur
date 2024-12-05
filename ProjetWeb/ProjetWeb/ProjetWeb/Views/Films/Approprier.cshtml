@@ -1,6 +1,7 @@
 ﻿@model ProjetWeb.Models.Film
 
 @{
+    var userType = (string?)ViewData["UserType"];
     ViewData["Title"] = "Approprier";
     Layout = "_LayoutLogged";
 }
@@ -31,6 +32,17 @@
                 }
             </dd>
             <hr />
+            @if (userType == "S")
+            {
+                <dt class="col-sm-2">
+                    <label>À qui voulez-vous l'approprier?</label>
+                </dt>
+                <dd class="col-sm-10">
+                    <select asp-for="NoUtilisateurMaj" id="selectedUserId" name="selectedUserId" class="form-control" asp-items="ViewBag.NoUtilisateurMaj">
+                    </select>
+                </dd>
+                <hr />
+            }            
             <dt class="col-sm-2">
                 <label>Année de sortie</label>
             </dt>
@@ -101,7 +113,6 @@
             <dt class="col-sm-2">
                 <label>Titre original</label>
             </dt>
-            <hr />
             <dd class="col-sm-10">
                 @Html.DisplayFor(model => model.TitreOriginal)
             </dd>

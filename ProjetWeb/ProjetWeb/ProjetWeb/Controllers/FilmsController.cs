@@ -31,6 +31,23 @@ namespace ProjetWeb.Controllers
         //    }
         //}
 
+
+        // methode qui retroune le type d'utilisateur
+        private async Task<string> GetUserTypeAsync()
+        {
+            if (_userIdConnected == null)
+            {
+                return "Guest"; // Par défaut, retournez un type d'utilisateur invité
+            }
+
+            var utilisateur = await _context.Utilisateurs
+                .Where(u => u.NoUtilisateur == _userIdConnected)
+                .Select(u => u.TypeUtilisateur)
+                .FirstOrDefaultAsync();
+
+            return utilisateur ?? "Guest"; // retourne Guest si on trouve aucun utilisateur
+        }
+
         // GET: Films
         public async Task<IActionResult> Index(int pageNumber = 1, int pageSize = 12, string searchString = "", string sortOrder = "", int filtrerUser = -1)
         {
@@ -39,6 +56,8 @@ namespace ProjetWeb.Controllers
                 return Redirect("/Home/Index");
             }
 
+            // Ajouter le type d'utilisateur dans ViewData
+            ViewData["UserType"] = await GetUserTypeAsync();
 
             // Calculer nb total de films + nb total de pages
             var totalFilms = await _context.Films.CountAsync();
@@ -330,6 +349,11 @@ namespace ProjetWeb.Controllers
             {
                 return Redirect("/Home/Index");
             }
+
+            // Ajouter le type d'utilisateur dans ViewData
+            var userType = await GetUserTypeAsync();
+            ViewData["UserType"] = userType;
+
             if (id == null)
             {
                 return NotFound();
@@ -347,33 +371,50 @@ namespace ProjetWeb.Controllers
                 return NotFound();
             }
 
+            if (userType == "S")
+            {
+                ViewData["NoUtilisateurMaj"] = new SelectList(_context.Utilisateurs, "NoUtilisateur", "NomUtilisateur");
+            }
+
             return View(film);
         }
 
-        // POST: Films/Approprier/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Approprier(int id)
+        public async Task<IActionResult> Approprier(Film film)
         {
             if (!IsConnected)
             {
                 return Redirect("/Home/Index");
             }
-            var film = await _context.Films.FindAsync(id);
-            if (film != null)
+
+            var filmToUpdate = await _context.Films.FindAsync(film.NoFilm);
+            if (filmToUpdate != null)
             {
-                film.NoUtilisateurMaj = _userIdConnected ?? 1;
-                _context.Update(film);
+                var userType = await GetUserTypeAsync();
+
+                if (userType == "S" && film.NoUtilisateurMaj > 0)
+                {
+                    // Mettre à jour avec l'utilisateur sélectionné
+                    filmToUpdate.NoUtilisateurMaj = film.NoUtilisateurMaj;
+                }
+                else
+                {
+                    // Sinon, assigner l'utilisateur connecté
+                    filmToUpdate.NoUtilisateurMaj = _userIdConnected ?? 1;
+                }
+
+                _context.Update(filmToUpdate);
+                await _context.SaveChangesAsync();
             }
-            await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
+
+
         private bool FilmExists(int id)
         {
             return _context.Films.Any(e => e.NoFilm == id);
         }
-
-
-
     }
 }
