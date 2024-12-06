@@ -145,17 +145,21 @@ namespace ProjetWeb.Controllers
         }
 
         // GET: Films/Create
-        public IActionResult Create()
+        public async Task<IActionResult> CreateAsync()
         {
             if (!IsConnected)
             {
                 return Redirect("/Home/Index");
             }
+            var userType = await GetUserTypeAsync();
+            ViewData["UserType"] = userType;
+
             ViewData["Categorie"] = new SelectList(_context.Categories, "NoCategorie", "Description");
             ViewData["Format"] = new SelectList(_context.Formats, "NoFormat", "Description");
             ViewData["NoProducteur"] = new SelectList(_context.Producteurs, "NoProducteur", "Nom");
             ViewData["NoRealisateur"] = new SelectList(_context.Realisateurs, "NoRealisateur", "Nom");
             ViewData["NoUtilisateurMaj"] = new SelectList(_context.Utilisateurs, "NoUtilisateur", "NomUtilisateur");
+
             FilmViewModel filmViewModel = new FilmViewModel();
             return View(filmViewModel);
         }
@@ -165,7 +169,7 @@ namespace ProjetWeb.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(FilmViewModel filmViewModel)
+        public async Task<IActionResult> Create(FilmViewModel filmViewModel, int selectedUserId)
         {
 
             if (!IsConnected)
@@ -174,7 +178,20 @@ namespace ProjetWeb.Controllers
             }
             filmViewModel.Film.NoFilm = _context.Films.Max(f => f.NoFilm) + 1;
             filmViewModel.Film.DateMaj = DateTime.Now;
-            filmViewModel.Film.NoUtilisateurMaj = _userIdConnected ?? 1;
+
+            var userType = await GetUserTypeAsync();
+
+            if (userType == "S" && selectedUserId > 0)
+            {
+                // Mettre à jour avec l'utilisateur sélectionné
+                filmViewModel.Film.NoUtilisateurMaj = selectedUserId;
+            }
+            else
+            {
+                // Sinon, assigner l'utilisateur connecté
+                filmViewModel.Film.NoUtilisateurMaj = _userIdConnected ?? 1;
+            }
+
             filmViewModel.Film.FilmOriginal = Convert.ToBoolean(Request.Form["checkFilmOriginal"]);
             filmViewModel.Film.VersionEtendue = Convert.ToBoolean(Request.Form["checkVersionEtendue"]);
             if (filmViewModel.Image != null)
