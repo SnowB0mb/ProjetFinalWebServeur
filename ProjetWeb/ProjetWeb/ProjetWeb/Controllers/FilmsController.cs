@@ -381,32 +381,34 @@ namespace ProjetWeb.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Approprier(Film film)
+        public async Task<IActionResult> Approprier(int id, int selectedUserId)
         {
             if (!IsConnected)
             {
                 return Redirect("/Home/Index");
             }
 
-            var filmToUpdate = await _context.Films.FindAsync(film.NoFilm);
-            if (filmToUpdate != null)
+            var film = await _context.Films.FindAsync(id);
+            if (film != null)
             {
                 var userType = await GetUserTypeAsync();
 
-                if (userType == "S" && film.NoUtilisateurMaj > 0)
+                if (userType == "S" && selectedUserId > 0)
                 {
                     // Mettre à jour avec l'utilisateur sélectionné
-                    filmToUpdate.NoUtilisateurMaj = film.NoUtilisateurMaj;
+                    film.NoUtilisateurMaj = selectedUserId;
                 }
                 else
                 {
                     // Sinon, assigner l'utilisateur connecté
-                    filmToUpdate.NoUtilisateurMaj = _userIdConnected ?? 1;
+                    film.NoUtilisateurMaj = _userIdConnected ?? 1;
                 }
 
-                _context.Update(filmToUpdate);
+                _context.Update(film);
                 await _context.SaveChangesAsync();
             }
+
+            ViewData["NoUtilisateurMaj"] = new SelectList(_context.Utilisateurs, "NoUtilisateur", "NomUtilisateur", selectedUserId);
 
             return RedirectToAction(nameof(Index));
         }
