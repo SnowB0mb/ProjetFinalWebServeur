@@ -242,6 +242,20 @@ namespace ProjetWeb.Controllers
             {
                 return NotFound();
             }
+
+            var utilisateurMaj = await _context.Utilisateurs
+                .FirstOrDefaultAsync(u => u.NoUtilisateur == film.NoUtilisateurMaj);
+
+            if (utilisateurMaj != null)
+                ViewData["NomUtilisateurMaj"] = utilisateurMaj.NomUtilisateur;
+            else
+                ViewData["NomUtilisateurMaj"] = "Utilisateur non trouvé";
+
+
+            // Ajouter le type d'utilisateur dans ViewData
+            var userType = await GetUserTypeAsync();
+            ViewData["UserType"] = userType;
+
             filmViewModel.Film = film;
             filmViewModel.Film.NoFilm = film.NoFilm;
             ViewData["Categorie"] = new SelectList(_context.Categories, "NoCategorie", "Description", filmViewModel.Film.Categorie);
@@ -268,7 +282,13 @@ namespace ProjetWeb.Controllers
                 return NotFound();
             }
             filmViewModel.Film.DateMaj = DateTime.Now;
-            filmViewModel.Film.NoUtilisateurMaj = _userIdConnected ?? 1;
+
+            var userType = await GetUserTypeAsync();
+            if (userType != "S")
+            {
+                filmViewModel.Film.NoUtilisateurMaj = _userIdConnected ?? 1;
+            }
+
             ModelState.Remove("ImagePochette");
             ModelState.Remove("Image");
             if (ModelState.IsValid)
