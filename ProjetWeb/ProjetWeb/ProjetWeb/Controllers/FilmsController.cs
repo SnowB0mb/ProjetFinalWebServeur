@@ -256,6 +256,11 @@ namespace ProjetWeb.Controllers
             var userType = await GetUserTypeAsync();
             ViewData["UserType"] = userType;
 
+            // Si pas superutilisateur et pas son dvd retourne a index
+            if (userType != "S")
+                if (_userIdConnected != film.NoUtilisateurMaj)
+                    return Redirect("/Films/Index");
+
             filmViewModel.Film = film;
             filmViewModel.Film.NoFilm = film.NoFilm;
             ViewData["Categorie"] = new SelectList(_context.Categories, "NoCategorie", "Description", filmViewModel.Film.Categorie);
@@ -338,12 +343,13 @@ namespace ProjetWeb.Controllers
             if (!IsConnected)
             {
                 return Redirect("/Home/Index");
-            }
+            }           
+
             if (id == null)
             {
                 return NotFound();
             }
-
+            
             var film = await _context.Films
                 .Include(f => f.CategorieNavigation)
                 .Include(f => f.FormatNavigation)
@@ -355,6 +361,13 @@ namespace ProjetWeb.Controllers
             {
                 return NotFound();
             }
+
+            var userType = await GetUserTypeAsync();
+            ViewData["UserType"] = userType;
+            // Si pas superutilisateur et pas son dvd retourne a index
+            if (userType != "S")
+                if (_userIdConnected != film.NoUtilisateurMaj)
+                    return Redirect("/Films/Index");
 
             return View(film);
         }
@@ -387,10 +400,6 @@ namespace ProjetWeb.Controllers
                 return Redirect("/Home/Index");
             }
 
-            // Ajouter le type d'utilisateur dans ViewData
-            var userType = await GetUserTypeAsync();
-            ViewData["UserType"] = userType;
-
             if (id == null)
             {
                 return NotFound();
@@ -408,10 +417,16 @@ namespace ProjetWeb.Controllers
                 return NotFound();
             }
 
-            if (userType == "S")
-            {
-                ViewData["NoUtilisateurMaj"] = new SelectList(_context.Utilisateurs, "NoUtilisateur", "NomUtilisateur");
-            }
+            var userType = await GetUserTypeAsync();
+            ViewData["UserType"] = userType;
+
+            // Si pas superutilisateur et c'est son dvd retourne a index
+            if (userType != "S")
+                if (_userIdConnected == film.NoUtilisateurMaj)
+                    return Redirect("/Films/Index");
+
+            if (userType == "S")            
+                ViewData["NoUtilisateurMaj"] = new SelectList(_context.Utilisateurs, "NoUtilisateur", "NomUtilisateur");         
 
             return View(film);
         }

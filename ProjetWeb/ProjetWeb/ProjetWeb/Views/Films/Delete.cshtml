@@ -1,6 +1,7 @@
 ﻿@model ProjetWeb.Models.Film
 
 @{
+    var userType = (string?)ViewData["UserType"];
     ViewData["Title"] = "Delete";
     Layout = "_LayoutLogged";
 }
@@ -9,7 +10,14 @@
 
 <div class="card border-danger">
     <div class="card-header bg-danger text-white">
-        <h3>Voulez-vous vraiment supprimer ce film?</h3>
+        @if (userType == "S")
+        {
+            <h3>Voulez-vous vraiment supprimer ce film pour @Html.DisplayFor(model => model.NoUtilisateurMajNavigation.NomUtilisateur)?</h3>
+        }
+        else
+        {
+            <h3>Voulez-vous vraiment supprimer ce film?</h3>            
+        }      
     </div>
     <div class="card-body">
         <dl class="row">
