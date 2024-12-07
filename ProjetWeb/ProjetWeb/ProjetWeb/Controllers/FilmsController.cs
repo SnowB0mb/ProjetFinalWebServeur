@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using ProjetWeb.Models;
 
 namespace ProjetWeb.Controllers
@@ -25,6 +26,43 @@ namespace ProjetWeb.Controllers
             _context = context;
             _webHostEnvironment = webHostEnvironment;
         }
+
+        [HttpGet("/Email")]
+        public IActionResult Email(string emailRaison, string filmTitle)
+        {
+            var users = new List<Utilisateur>();
+            if (!IsConnected)
+            {
+                return Redirect("/Home/Index");
+            }
+            int valeurPreference = 0;
+
+            if (emailRaison == "Les utilisateurs suivants seront notifiés de l'ajout du film:")
+            {
+                valeurPreference = 3;
+            }
+            else if (emailRaison == "Les utilisateurs suivants seront notifiés de la suppression du film : ")
+            {
+                valeurPreference = 5;
+            }
+            else if (emailRaison == "Les utilisateurs suivants seront notifiés de l'appropriation du film:")
+            {
+                valeurPreference = 4;
+            }
+
+            users = _context.ValeursPreferences
+        .Where(vp => vp.NoPreference == valeurPreference && vp.Valeur == "1")
+        .Select(vp => vp.NoUtilisateurNavigation)
+        .ToList();
+            var viewModel = new EmailViewModel
+            {
+                Users = users,
+                FilmTitle = filmTitle,
+                EmailRaison = emailRaison
+            };
+            return View(viewModel);
+        }
+
 
         // GET: Films
         public async Task<IActionResult> Index(int pageNumber = 1, int pageSize = 12, string searchString = "", string sortOrder = "", int filtrerUser = -1)
@@ -127,7 +165,7 @@ namespace ProjetWeb.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> UploadBackground(IFormFile backgroundImage, Dictionary<int, string> Preferences)
+        public async Task<IActionResult> UploadBackground(IFormFile backgroundImage, Dictionary<int, string> Preferences, string newPassword)
         {
             if (backgroundImage != null && backgroundImage.Length > 0)
             {
@@ -162,6 +200,16 @@ namespace ProjetWeb.Controllers
                     .FirstOrDefault(vp => vp.NoUtilisateur == userId && vp.NoPreference == preference.NoPreference);
                     existingPreference.Valeur = preference.Valeur;
                     _context.Update(existingPreference);
+            }
+
+            if (!string.IsNullOrEmpty(newPassword) && int.TryParse(newPassword, out int newPasswordValue) && newPasswordValue >= 11111 && newPasswordValue <= 99999)
+            {
+                var user = await _context.Utilisateurs.FindAsync(userId.Value);
+                if (user != null)
+                {
+                    user.MotPasse = newPasswordValue;
+                    _context.Update(user);
+                }
             }
 
             await _context.SaveChangesAsync();
@@ -251,10 +299,26 @@ namespace ProjetWeb.Controllers
             ModelState.Remove("Image");
             if (ModelState.IsValid)
             {
-                //Gestion importation image
                 _context.Add(filmViewModel.Film);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+                // Fetch users with preference 3 set to 1
+                var usersToNotify = _context.ValeursPreferences
+                    .Where(vp => vp.NoPreference == 3 && vp.Valeur == "1")
+                    .Select(vp => vp.NoUtilisateurNavigation)
+                    .ToList();
+
+                var raison = "Les utilisateurs suivants seront notifiés de l'ajout du film:";
+
+                // Send email to each user
+                //var emailService = new EmailService("smtp.example.com", 587, "your-email@example.com", "your-email-password");
+                foreach (var user in usersToNotify)
+                {
+                    //emailService.SendEmail(user.NomUtilisateur, "Nouveau film ajouté", $"Une film nommé '{filmViewModel.Film.TitreFrancais}' à été ajouté.");
+                }
+
+                // Redirect to the Email action with the list of users
+                return RedirectToAction("Email", new { emailRaison = raison, filmTitle = filmViewModel.Film.TitreFrancais });
             }
             ViewData["Categorie"] = new SelectList(_context.Categories, "NoCategorie", "Description", filmViewModel.Film.Categorie);
             ViewData["Format"] = new SelectList(_context.Formats, "NoFormat", "Description", filmViewModel.Film.Format);
@@ -393,12 +457,16 @@ namespace ProjetWeb.Controllers
             var film = await _context.Films.FindAsync(id);
             if (film != null)
             {
-                System.IO.File.Delete("wwwroot/images/" + film.ImagePochette);
                 _context.Films.Remove(film);
-            }
+                await _context.SaveChangesAsync();
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+                return RedirectToAction("Email", new
+                {
+                    filmTitle = film.TitreFrancais,
+                    emailRaison = "Les utilisateurs suivants seront notifiés de la suppression du film : "
+                });
+            }
+            return NotFound();
         }
 
         // GET: Films/Approprier/5
@@ -442,8 +510,12 @@ namespace ProjetWeb.Controllers
             {
                 film.NoUtilisateurMaj = _userIdConnected ?? 1;
                 _context.Update(film);
+                await _context.SaveChangesAsync();
+
+                string emailRaison = "Les utilisateurs suivants seront notifiés de l'appropriation du film:";
+                return RedirectToAction("Email", new { emailRaison, filmTitle = film.TitreFrancais });
             }
-            await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
         private bool FilmExists(int id)
