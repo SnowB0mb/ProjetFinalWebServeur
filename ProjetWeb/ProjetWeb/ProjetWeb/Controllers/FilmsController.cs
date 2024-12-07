@@ -64,6 +64,23 @@ namespace ProjetWeb.Controllers
         }
 
 
+
+        // methode qui retroune le type d'utilisateur
+        private async Task<string> GetUserTypeAsync()
+        {
+            if (_userIdConnected == null)
+            {
+                return "Guest"; // Par défaut, retournez un type d'utilisateur invité
+            }
+
+            var utilisateur = await _context.Utilisateurs
+                .Where(u => u.NoUtilisateur == _userIdConnected)
+                .Select(u => u.TypeUtilisateur)
+                .FirstOrDefaultAsync();
+
+            return utilisateur ?? "Guest"; // retourne Guest si on trouve aucun utilisateur
+        }
+
         // GET: Films
         public async Task<IActionResult> Index(int pageNumber = 1, int pageSize = 12, string searchString = "", string sortOrder = "", int filtrerUser = -1)
         {
@@ -72,6 +89,8 @@ namespace ProjetWeb.Controllers
                 return Redirect("/Home/Index");
             }
 
+            // Ajouter le type d'utilisateur dans ViewData
+            ViewData["UserType"] = await GetUserTypeAsync();
 
             // Calculer nb total de films + nb total de pages
             var totalFilms = await _context.Films.CountAsync();
@@ -248,17 +267,21 @@ namespace ProjetWeb.Controllers
         }
 
         // GET: Films/Create
-        public IActionResult Create()
+        public async Task<IActionResult> CreateAsync()
         {
             if (!IsConnected)
             {
                 return Redirect("/Home/Index");
             }
+            var userType = await GetUserTypeAsync();
+            ViewData["UserType"] = userType;
+
             ViewData["Categorie"] = new SelectList(_context.Categories, "NoCategorie", "Description");
             ViewData["Format"] = new SelectList(_context.Formats, "NoFormat", "Description");
             ViewData["NoProducteur"] = new SelectList(_context.Producteurs, "NoProducteur", "Nom");
             ViewData["NoRealisateur"] = new SelectList(_context.Realisateurs, "NoRealisateur", "Nom");
             ViewData["NoUtilisateurMaj"] = new SelectList(_context.Utilisateurs, "NoUtilisateur", "NomUtilisateur");
+
             FilmViewModel filmViewModel = new FilmViewModel();
             ViewData["BackgroundImagePath"] = HttpContext.Session.GetString("BackgroundImagePath");
             return View(filmViewModel);
@@ -269,7 +292,7 @@ namespace ProjetWeb.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(FilmViewModel filmViewModel)
+        public async Task<IActionResult> Create(FilmViewModel filmViewModel, int selectedUserId)
         {
 
             if (!IsConnected)
@@ -278,7 +301,20 @@ namespace ProjetWeb.Controllers
             }
             filmViewModel.Film.NoFilm = _context.Films.Max(f => f.NoFilm) + 1;
             filmViewModel.Film.DateMaj = DateTime.Now;
-            filmViewModel.Film.NoUtilisateurMaj = _userIdConnected ?? 1;
+
+            var userType = await GetUserTypeAsync();
+
+            if (userType == "S" && selectedUserId > 0)
+            {
+                // Mettre à jour avec l'utilisateur sélectionné
+                filmViewModel.Film.NoUtilisateurMaj = selectedUserId;
+            }
+            else
+            {
+                // Sinon, assigner l'utilisateur connecté
+                filmViewModel.Film.NoUtilisateurMaj = _userIdConnected ?? 1;
+            }
+
             filmViewModel.Film.FilmOriginal = Convert.ToBoolean(Request.Form["checkFilmOriginal"]);
             filmViewModel.Film.VersionEtendue = Convert.ToBoolean(Request.Form["checkVersionEtendue"]);
             if (filmViewModel.Image != null)
@@ -346,6 +382,25 @@ namespace ProjetWeb.Controllers
             {
                 return NotFound();
             }
+
+            var utilisateurMaj = await _context.Utilisateurs
+                .FirstOrDefaultAsync(u => u.NoUtilisateur == film.NoUtilisateurMaj);
+
+            if (utilisateurMaj != null)
+                ViewData["NomUtilisateurMaj"] = utilisateurMaj.NomUtilisateur;
+            else
+                ViewData["NomUtilisateurMaj"] = "Utilisateur non trouvé";
+
+
+            // Ajouter le type d'utilisateur dans ViewData
+            var userType = await GetUserTypeAsync();
+            ViewData["UserType"] = userType;
+
+            // Si pas superutilisateur et pas son dvd retourne a index
+            if (userType != "S")
+                if (_userIdConnected != film.NoUtilisateurMaj)
+                    return Redirect("/Films/Index");
+
             filmViewModel.Film = film;
             filmViewModel.Film.NoFilm = film.NoFilm;
             ViewData["Categorie"] = new SelectList(_context.Categories, "NoCategorie", "Description", filmViewModel.Film.Categorie);
@@ -373,7 +428,13 @@ namespace ProjetWeb.Controllers
                 return NotFound();
             }
             filmViewModel.Film.DateMaj = DateTime.Now;
-            filmViewModel.Film.NoUtilisateurMaj = _userIdConnected ?? 1;
+
+            var userType = await GetUserTypeAsync();
+            if (userType != "S")
+            {
+                filmViewModel.Film.NoUtilisateurMaj = _userIdConnected ?? 1;
+            }
+
             ModelState.Remove("ImagePochette");
             ModelState.Remove("Image");
             if (ModelState.IsValid)
@@ -424,12 +485,13 @@ namespace ProjetWeb.Controllers
             if (!IsConnected)
             {
                 return Redirect("/Home/Index");
-            }
+            }           
+
             if (id == null)
             {
                 return NotFound();
             }
-
+            
             var film = await _context.Films
                 .Include(f => f.CategorieNavigation)
                 .Include(f => f.FormatNavigation)
@@ -441,7 +503,16 @@ namespace ProjetWeb.Controllers
             {
                 return NotFound();
             }
+
             ViewData["BackgroundImagePath"] = HttpContext.Session.GetString("BackgroundImagePath");
+
+            var userType = await GetUserTypeAsync();
+            ViewData["UserType"] = userType;
+            // Si pas superutilisateur et pas son dvd retourne a index
+            if (userType != "S")
+                if (_userIdConnected != film.NoUtilisateurMaj)
+                    return Redirect("/Films/Index");
+
             return View(film);
         }
 
@@ -476,6 +547,7 @@ namespace ProjetWeb.Controllers
             {
                 return Redirect("/Home/Index");
             }
+
             if (id == null)
             {
                 return NotFound();
@@ -493,37 +565,62 @@ namespace ProjetWeb.Controllers
                 return NotFound();
             }
             ViewData["BackgroundImagePath"] = HttpContext.Session.GetString("BackgroundImagePath");
+            var userType = await GetUserTypeAsync();
+            ViewData["UserType"] = userType;
+
+            // Si pas superutilisateur et c'est son dvd retourne a index
+            if (userType != "S")
+                if (_userIdConnected == film.NoUtilisateurMaj)
+                    return Redirect("/Films/Index");
+
+            if (userType == "S")            
+                ViewData["NoUtilisateurMaj"] = new SelectList(_context.Utilisateurs, "NoUtilisateur", "NomUtilisateur");         
+                
             return View(film);
         }
 
-        // POST: Films/Approprier/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Approprier(int id)
+        public async Task<IActionResult> Approprier(int id, int selectedUserId)
         {
             if (!IsConnected)
             {
                 return Redirect("/Home/Index");
             }
+
             var film = await _context.Films.FindAsync(id);
             if (film != null)
             {
-                film.NoUtilisateurMaj = _userIdConnected ?? 1;
+                var userType = await GetUserTypeAsync();
+
+                if (userType == "S" && selectedUserId > 0)
+                {
+                    // Mettre à jour avec l'utilisateur sélectionné
+                    film.NoUtilisateurMaj = selectedUserId;
+                }
+                else
+                {
+                    // Sinon, assigner l'utilisateur connecté
+                    film.NoUtilisateurMaj = _userIdConnected ?? 1;
+                }
+
                 _context.Update(film);
                 await _context.SaveChangesAsync();
+                ViewData["NoUtilisateurMaj"] = new SelectList(_context.Utilisateurs, "NoUtilisateur", "NomUtilisateur", selectedUserId);
+
 
                 string emailRaison = "Les utilisateurs suivants seront notifiés de l'appropriation du film:";
                 return RedirectToAction("Email", new { emailRaison, filmTitle = film.TitreFrancais });
             }
 
+            
             return RedirectToAction(nameof(Index));
         }
+
+
         private bool FilmExists(int id)
         {
             return _context.Films.Any(e => e.NoFilm == id);
         }
-
-
-
     }
 }
