@@ -1,6 +1,7 @@
 ﻿@model ProjetWeb.Models.FilmViewModel
 
 @{
+    var userType = (string?)ViewData["UserType"];
     ViewData["Title"] = "Edit";
     Layout = "_LayoutLogged";
 }
@@ -33,7 +34,15 @@
 
                     @* conserve l'id en mémoire *@
                     <input asp-for="Film.NoFilm" type="hidden" id="noFilm" class="form-control" />
+                    <input asp-for="Film.NoUtilisateurMaj" type="hidden" />
 
+                    @if (userType == "S")
+                    {
+                        <div>
+                            <label>Vous modifiez ce film pour:</label>
+                            <input type="text" class="form-control" value="@ViewData["NomUtilisateurMaj"]" disabled="disabled" />
+                        </div>                        
+                    }
                     <div class="form-group">
                         <label asp-for="Film.ImagePochette" class="control-label">Affiche du film</label>
                         <input asp-for="Film.ImagePochette" id="imagePochette" class="form-control" />
@@ -114,6 +123,7 @@
                         <input asp-for="Film.Xtra" class="form-control" />
                         <span asp-validation-for="Film.Xtra" class="text-danger"></span>
                     </div>
+                    <br />
                     <div class="form-group">
                         <input type="submit" value="Modifier" class="btn btn-primary" />
                     </div>

@@ -19,12 +19,13 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        @if((int?)ViewData["FiltrerUser"] != (int?)ViewData["CurrentUser"])
+                        @if ((int?)ViewData["FiltrerUser"] != (int?)ViewData["CurrentUser"])
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Films" asp-action="Index" asp-route-filtrerUser="@ViewData["CurrentUser"]">Affichage des DVDs en main</a>
                             </li>
-                        } else
+                        }
+                        else
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Films" asp-action="Index">Affichage de tous les DVDs</a>
@@ -42,7 +43,6 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Déconnexion</a>
                         </li>
-                   
                     </ul>
                 </div>
             </div>
