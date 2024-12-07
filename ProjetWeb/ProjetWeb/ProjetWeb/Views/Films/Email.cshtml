@@ -1,0 +1,33 @@
+﻿@model EmailViewModel
+
+@{
+    ViewData["Title"] = "Email Notification";
+    Layout = "_LayoutLogged";
+}
+
+<h2>Notification par courriel</h2>
+
+<p>@Model.EmailRaison "@Model.FilmTitle":</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nom d'utilisateur</th>
+            <th>Courriel</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model.Users)
+        {
+            <tr>
+                <td>@user.NomUtilisateur</td>
+                <td>@user.Courriel</td>
+            </tr>
+        }
+
+    </tbody>
+</table>
+
+<div>
+    <a asp-action="Index" class="btn btn-primary">Retour</a>
+</div>

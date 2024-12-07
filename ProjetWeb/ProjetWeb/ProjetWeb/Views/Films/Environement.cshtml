@@ -1,0 +1,44 @@
+﻿@{
+    ViewData["Title"] = "Environement";
+    Layout = "_LayoutLogged";
+    var preferences = ViewBag.Preferences as Dictionary<int, string>;
+}
+
+<h2>Environement</h2>
+
+<form asp-action="UploadBackground" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <label>
+            <input type="checkbox" name="Preferences[3]" value="1"
+            @(preferences != null && preferences.ContainsKey(3) && preferences[3] == "1" ? "checked" : "")  />
+            E-mail quand on prend vos DVD
+        </label>
+    </div>
+    <div class="form-group">
+        <label>
+            <input type="checkbox" name="Preferences[4]" value="1"
+            @(preferences != null && preferences.ContainsKey(4) && preferences[4] == "1" ? "checked" : "") />
+            E-mail quand un DVD est ajouté
+        </label>
+    </div>
+    <div class="form-group">
+        <label>
+            <input type="checkbox" name="Preferences[5]" value="1"
+            @(preferences != null && preferences.ContainsKey(5) && preferences[5] == "1" ? "checked" : "") />
+            E-mail quand un DVD est supprimé
+        </label>
+    </div>
+    <div>
+        <label for="backgroundImage">Sélectionner votre fond d'écran</label>
+        <input type="file" id="backgroundImage" name="backgroundImage" accept="image/*">
+    </div>
+    <div class="form-group">
+        <label for="newPassword">Nouveau mot de passe (optionnel) Le mot de passe ne sera changé que s'il est un nombre entre 11111 et 99999</label>
+        <input type="password" id="newPassword" name="newPassword" class="form-control">
+    </div>
+    <br />
+    <div>
+        <button type="submit">Confirmer</button>
+    </div>
+</form>
+

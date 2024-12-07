@@ -5,31 +5,64 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using ProjetWeb.Models;
 
 namespace ProjetWeb.Controllers
 {
     public class FilmsController : Controller
     {
-        private readonly FilmDbContext _context;
-        public const string SessionKeyId = "_Id";
         private int? _userIdConnected => HttpContext.Session.GetInt32(SessionKeyId);
 
         // à des fins de déboggages, changer la valeur a true
         public bool IsConnected => HttpContext.Session.GetInt32(SessionKeyId) > -1;
 
-        public FilmsController(FilmDbContext context)
+        private readonly FilmDbContext _context;
+        public const string SessionKeyId = "_Id";
+        private readonly IWebHostEnvironment _webHostEnvironment;
+
+        public FilmsController(FilmDbContext context, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
+            _webHostEnvironment = webHostEnvironment;
         }
 
-        //private void InitializeUserId()
-        //{
-        //    if (_userIdConnected == null)
-        //    {
-        //        //_userIdConnected = HttpContext.Session.GetInt32(SessionKeyId);
-        //    }
-        //}
+        [HttpGet("/Email")]
+        public IActionResult Email(string emailRaison, string filmTitle)
+        {
+            var users = new List<Utilisateur>();
+            if (!IsConnected)
+            {
+                return Redirect("/Home/Index");
+            }
+            int valeurPreference = 0;
+
+            if (emailRaison == "Les utilisateurs suivants seront notifiés de l'ajout du film:")
+            {
+                valeurPreference = 3;
+            }
+            else if (emailRaison == "Les utilisateurs suivants seront notifiés de la suppression du film : ")
+            {
+                valeurPreference = 5;
+            }
+            else if (emailRaison == "Les utilisateurs suivants seront notifiés de l'appropriation du film:")
+            {
+                valeurPreference = 4;
+            }
+
+            users = _context.ValeursPreferences
+        .Where(vp => vp.NoPreference == valeurPreference && vp.Valeur == "1")
+        .Select(vp => vp.NoUtilisateurNavigation)
+        .ToList();
+            var viewModel = new EmailViewModel
+            {
+                Users = users,
+                FilmTitle = filmTitle,
+                EmailRaison = emailRaison
+            };
+            return View(viewModel);
+        }
+
 
 
         // methode qui retroune le type d'utilisateur
@@ -113,9 +146,98 @@ namespace ProjetWeb.Controllers
             ViewData["SearchString"] = searchString;
             ViewData["CurrentUser"] = _userIdConnected;
 
+            ViewData["BackgroundImagePath"] = HttpContext.Session.GetString("BackgroundImagePath");
 
             return View(films);
         }
+
+
+        [HttpGet("/environement")]
+        public IActionResult Environement()
+        {
+            if (!IsConnected)
+            {
+                return Redirect("/Home/Index");
+            }
+
+            int? userId = HttpContext.Session.GetInt32(SessionKeyId);
+            if (userId == null)
+            {
+                return Redirect("/Home/Index");
+            }
+
+            var preferenceIds = new List<int> { 3, 4, 5 };
+            var userPreferences = _context.ValeursPreferences
+                .Where(vp => vp.NoUtilisateur == userId && preferenceIds.Contains(vp.NoPreference))
+                .ToList();
+
+            var preferences = preferenceIds.ToDictionary(
+                id => id,
+                id => userPreferences.FirstOrDefault(vp => vp.NoPreference == id)?.Valeur ?? "1"
+            );
+
+            ViewBag.Preferences = preferences;
+            ViewData["BackgroundImagePath"] = HttpContext.Session.GetString("BackgroundImagePath");
+
+            return View();
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> UploadBackground(IFormFile backgroundImage, Dictionary<int, string> Preferences, string newPassword)
+        {
+            if (backgroundImage != null && backgroundImage.Length > 0)
+            {
+                var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "uploads");
+                Directory.CreateDirectory(uploadsFolder);
+                var filePath = Path.Combine(uploadsFolder, backgroundImage.FileName);
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await backgroundImage.CopyToAsync(fileStream);
+                }
+
+                HttpContext.Session.SetString("BackgroundImagePath", $"/uploads/{backgroundImage.FileName}");
+            }
+
+            int? userId = HttpContext.Session.GetInt32(SessionKeyId);
+            if (userId == null)
+            {
+                return RedirectToAction("Index");
+            }
+
+            var preferences = new List<ValeursPreference>
+            {
+                new ValeursPreference { NoUtilisateur = userId.Value, NoPreference = 3, Valeur = Preferences.ContainsKey(3) ? Preferences[3] : "0" },
+                new ValeursPreference { NoUtilisateur = userId.Value, NoPreference = 4, Valeur = Preferences.ContainsKey(4) ? Preferences[4] : "0" },
+                new ValeursPreference { NoUtilisateur = userId.Value, NoPreference = 5, Valeur = Preferences.ContainsKey(5) ? Preferences[5] : "0" }
+            };
+
+            foreach (var preference in preferences)
+            {
+                var existingPreference = _context.ValeursPreferences
+                    .FirstOrDefault(vp => vp.NoUtilisateur == userId && vp.NoPreference == preference.NoPreference);
+                    existingPreference.Valeur = preference.Valeur;
+                    _context.Update(existingPreference);
+            }
+
+            if (!string.IsNullOrEmpty(newPassword) && int.TryParse(newPassword, out int newPasswordValue) && newPasswordValue >= 11111 && newPasswordValue <= 99999)
+            {
+                var user = await _context.Utilisateurs.FindAsync(userId.Value);
+                if (user != null)
+                {
+                    user.MotPasse = newPasswordValue;
+                    _context.Update(user);
+                }
+            }
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index");
+        }
+
+
+
 
         // GET: Films/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -140,7 +262,7 @@ namespace ProjetWeb.Controllers
             {
                 return NotFound();
             }
-
+            ViewData["BackgroundImagePath"] = HttpContext.Session.GetString("BackgroundImagePath");
             return View(film);
         }
 
@@ -161,6 +283,7 @@ namespace ProjetWeb.Controllers
             ViewData["NoUtilisateurMaj"] = new SelectList(_context.Utilisateurs, "NoUtilisateur", "NomUtilisateur");
 
             FilmViewModel filmViewModel = new FilmViewModel();
+            ViewData["BackgroundImagePath"] = HttpContext.Session.GetString("BackgroundImagePath");
             return View(filmViewModel);
         }
 
@@ -212,16 +335,33 @@ namespace ProjetWeb.Controllers
             ModelState.Remove("Image");
             if (ModelState.IsValid)
             {
-                //Gestion importation image
                 _context.Add(filmViewModel.Film);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+                // Fetch users with preference 3 set to 1
+                var usersToNotify = _context.ValeursPreferences
+                    .Where(vp => vp.NoPreference == 3 && vp.Valeur == "1")
+                    .Select(vp => vp.NoUtilisateurNavigation)
+                    .ToList();
+
+                var raison = "Les utilisateurs suivants seront notifiés de l'ajout du film:";
+
+                // Send email to each user
+                //var emailService = new EmailService("smtp.example.com", 587, "your-email@example.com", "your-email-password");
+                foreach (var user in usersToNotify)
+                {
+                    //emailService.SendEmail(user.NomUtilisateur, "Nouveau film ajouté", $"Une film nommé '{filmViewModel.Film.TitreFrancais}' à été ajouté.");
+                }
+
+                // Redirect to the Email action with the list of users
+                return RedirectToAction("Email", new { emailRaison = raison, filmTitle = filmViewModel.Film.TitreFrancais });
             }
             ViewData["Categorie"] = new SelectList(_context.Categories, "NoCategorie", "Description", filmViewModel.Film.Categorie);
             ViewData["Format"] = new SelectList(_context.Formats, "NoFormat", "Description", filmViewModel.Film.Format);
             ViewData["NoProducteur"] = new SelectList(_context.Producteurs, "NoProducteur", "Nom", filmViewModel.Film.NoProducteur);
             ViewData["NoRealisateur"] = new SelectList(_context.Realisateurs, "NoRealisateur", "Nom", filmViewModel.Film.NoRealisateur);
             ViewData["NoUtilisateurMaj"] = new SelectList(_context.Utilisateurs, "NoUtilisateur", "NomUtilisateur", filmViewModel.Film.NoUtilisateurMaj);
+            ViewData["BackgroundImagePath"] = HttpContext.Session.GetString("BackgroundImagePath");
             return View(filmViewModel);
         }
 
@@ -268,6 +408,7 @@ namespace ProjetWeb.Controllers
             ViewData["NoProducteur"] = new SelectList(_context.Producteurs, "NoProducteur", "Nom", filmViewModel.Film.NoProducteur);
             ViewData["NoRealisateur"] = new SelectList(_context.Realisateurs, "NoRealisateur", "Nom", filmViewModel.Film.NoRealisateur);
             ViewData["NoUtilisateurMaj"] = new SelectList(_context.Utilisateurs, "NoUtilisateur", "NomUtilisateur", filmViewModel.Film.NoUtilisateurMaj);
+            ViewData["BackgroundImagePath"] = HttpContext.Session.GetString("BackgroundImagePath");
             return View(filmViewModel);
         }
 
@@ -334,6 +475,7 @@ namespace ProjetWeb.Controllers
             ViewData["NoProducteur"] = new SelectList(_context.Producteurs, "NoProducteur", "Nom", filmViewModel.Film.NoProducteur);
             ViewData["NoRealisateur"] = new SelectList(_context.Realisateurs, "NoRealisateur", "Nom", filmViewModel.Film.NoRealisateur);
             ViewData["NoUtilisateurMaj"] = new SelectList(_context.Utilisateurs, "NoUtilisateur", "NomUtilisateur", filmViewModel.Film.NoUtilisateurMaj);
+            ViewData["BackgroundImagePath"] = HttpContext.Session.GetString("BackgroundImagePath");
             return View(filmViewModel);
         }
 
@@ -362,6 +504,8 @@ namespace ProjetWeb.Controllers
                 return NotFound();
             }
 
+            ViewData["BackgroundImagePath"] = HttpContext.Session.GetString("BackgroundImagePath");
+
             var userType = await GetUserTypeAsync();
             ViewData["UserType"] = userType;
             // Si pas superutilisateur et pas son dvd retourne a index
@@ -384,12 +528,16 @@ namespace ProjetWeb.Controllers
             var film = await _context.Films.FindAsync(id);
             if (film != null)
             {
-                System.IO.File.Delete("wwwroot/images/" + film.ImagePochette);
                 _context.Films.Remove(film);
-            }
+                await _context.SaveChangesAsync();
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+                return RedirectToAction("Email", new
+                {
+                    filmTitle = film.TitreFrancais,
+                    emailRaison = "Les utilisateurs suivants seront notifiés de la suppression du film : "
+                });
+            }
+            return NotFound();
         }
 
         // GET: Films/Approprier/5
@@ -416,7 +564,7 @@ namespace ProjetWeb.Controllers
             {
                 return NotFound();
             }
-
+            ViewData["BackgroundImagePath"] = HttpContext.Session.GetString("BackgroundImagePath");
             var userType = await GetUserTypeAsync();
             ViewData["UserType"] = userType;
 
@@ -427,7 +575,7 @@ namespace ProjetWeb.Controllers
 
             if (userType == "S")            
                 ViewData["NoUtilisateurMaj"] = new SelectList(_context.Utilisateurs, "NoUtilisateur", "NomUtilisateur");         
-
+                
             return View(film);
         }
 
@@ -458,10 +606,14 @@ namespace ProjetWeb.Controllers
 
                 _context.Update(film);
                 await _context.SaveChangesAsync();
+                ViewData["NoUtilisateurMaj"] = new SelectList(_context.Utilisateurs, "NoUtilisateur", "NomUtilisateur", selectedUserId);
+
+
+                string emailRaison = "Les utilisateurs suivants seront notifiés de l'appropriation du film:";
+                return RedirectToAction("Email", new { emailRaison, filmTitle = film.TitreFrancais });
             }
 
-            ViewData["NoUtilisateurMaj"] = new SelectList(_context.Utilisateurs, "NoUtilisateur", "NomUtilisateur", selectedUserId);
-
+            
             return RedirectToAction(nameof(Index));
         }
 
