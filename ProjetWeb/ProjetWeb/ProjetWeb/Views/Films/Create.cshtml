@@ -1,6 +1,7 @@
 ﻿@model ProjetWeb.Models.FilmViewModel
 
 @{
+    var userType = (string?)ViewData["UserType"];
     ViewData["Title"] = "Ajouter";
     Layout = "_LayoutLogged";
 }
@@ -29,6 +30,13 @@
                         <input asp-for="Film.ImagePochette" id="imagePochette" class="form-control" />
                         <span asp-validation-for="Film.ImagePochette" class="text-danger"></span>
                     </div>
+                    @if (userType == "S")
+                    {
+                        <div class="form-group">
+                            <label>Pour qui voulez-vous ajouter ce film?</label>
+                            <select id="selectedUserId" name="selectedUserId" class="form-control" asp-items="ViewBag.NoUtilisateurMaj"></select>
+                        </div>
+                    }
                     <div class="form-group">
                         <label asp-for="Film.AnneeSortie" class="control-label">Année de sortie</label>
                         <input asp-for="Film.AnneeSortie" class="form-control" />
@@ -88,12 +96,14 @@
                         <input asp-for="Film.Xtra" class="form-control" />
                         <span asp-validation-for="Film.Xtra" class="text-danger"></span>
                     </div>
+                    <br />
                     <div class="form-group">
                         <input type="submit" value="Ajouter le film" class="btn btn-primary" />
                     </div>
                 </div>
             </form>
         </div>
+        <br />
         <div>
             <a class="btn btn-secondary" asp-action="Index">Retour à la liste</a>
         </div>

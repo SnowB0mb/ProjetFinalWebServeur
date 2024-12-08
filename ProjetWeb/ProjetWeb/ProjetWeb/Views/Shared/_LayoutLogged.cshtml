@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var backgroundImagePath = ViewData["BackgroundImagePath"] as string;
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -8,7 +12,7 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ProjetWeb.styles.css" asp-append-version="true" />
 </head>
-<body>
+<body style="background-image: url('@backgroundImagePath'); background-size: cover;">
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
@@ -19,38 +23,21 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        @if ((int?)ViewData["CurrentUser"] == 1)
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Utilisateurs" asp-action="Create">Enregistrer un nouvel utilisateur</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Films" asp-action="Index">Affichage de tous les DVDs</a>
-                            </li>
-                        }
-                        else if((int?)ViewData["FiltrerUser"] != (int?)ViewData["CurrentUser"])
+                        @if ((int?)ViewData["FiltrerUser"] != (int?)ViewData["CurrentUser"])
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Films" asp-action="Index" asp-route-filtrerUser="@ViewData["CurrentUser"]">Affichage des DVDs en main</a>
-                            </li>
-                        } else
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Films" asp-action="Index">Affichage de tous les DVDs</a>
-                            </li>
-                        }
-                        @if((int?)ViewData["CurrentUser"] == 1)
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Utilisateurs" asp-action="Index">Gestion des utilisateurs</a>
                             </li>
                         }
                         else
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Films" asp-action="Index">Personnalisation de l'environnement</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Films" asp-action="Index">Affichage de tous les DVDs</a>
                             </li>
                         }
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Films" asp-action="environement">Personnalisation de l'environnement</a>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Films" asp-action="Index">Envoir d'un courriel</a>
                         </li>
@@ -63,7 +50,6 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Déconnexion</a>
                         </li>
-                   
                     </ul>
                 </div>
             </div>
