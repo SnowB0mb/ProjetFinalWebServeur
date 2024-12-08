@@ -53,7 +53,7 @@ namespace ProjetWeb.Controllers
         // GET: Utilisateurs/Create
         public IActionResult Create()
         {
-            ViewData["TypeUtilisateur"] = new SelectList(_context.TypesUtilisateurs, "TypeUtilisateur", "TypeUtilisateur");
+            ViewData["TypeUtilisateur"] = new SelectList(_context.TypesUtilisateurs.Where(t => t.TypeUtilisateur != "A"), "TypeUtilisateur", "TypeUtilisateur");
             ViewData["CurrentUser"] = _userIdConnected;
 
             return View();
@@ -64,15 +64,31 @@ namespace ProjetWeb.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("NoUtilisateur,NomUtilisateur,Courriel,MotPasse,TypeUtilisateur")] Utilisateur utilisateur)
+        public async Task<IActionResult> Create([Bind("NoUtilisateur,NomUtilisateur,Courriel,MotPasse, ConfirmMotPasse, TypeUtilisateur")] Utilisateur utilisateur)
         {
+            utilisateur.NoUtilisateur = _context.Utilisateurs.Max(u => u.NoUtilisateur) + 1;
+
+            if (_context.Utilisateurs.Any(u => u.NomUtilisateur == utilisateur.NomUtilisateur))
+            {
+                ModelState.AddModelError("NomUtilisateur", "Le nom est déjà prit!");
+            }
+            if (_context.Utilisateurs.Any(u => u.Courriel == utilisateur.Courriel))
+            {
+                ModelState.AddModelError("Courriel", "Le courriel est déjà prit!");
+            }
+
+            if (utilisateur.MotPasse != utilisateur.ConfirmMotPasse)
+            {
+                ModelState.AddModelError("ConfirmMotPasse", "Les mots de passe ne correspondent pas!");
+            }
+
             if (ModelState.IsValid)
             {
                 _context.Add(utilisateur);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["TypeUtilisateur"] = new SelectList(_context.TypesUtilisateurs, "TypeUtilisateur", "TypeUtilisateur", utilisateur.TypeUtilisateur);
+            ViewData["TypeUtilisateur"] = new SelectList(_context.TypesUtilisateurs.Where(t => t.TypeUtilisateur != "A"), "TypeUtilisateur", "TypeUtilisateur", utilisateur.TypeUtilisateur);
             ViewData["CurrentUser"] = _userIdConnected;
 
             return View(utilisateur);
@@ -91,7 +107,7 @@ namespace ProjetWeb.Controllers
             {
                 return NotFound();
             }
-            ViewData["TypeUtilisateur"] = new SelectList(_context.TypesUtilisateurs, "TypeUtilisateur", "TypeUtilisateur", utilisateur.TypeUtilisateur);
+            ViewData["TypeUtilisateur"] = new SelectList(_context.TypesUtilisateurs.Where(t => t.TypeUtilisateur != "A"), "TypeUtilisateur", "TypeUtilisateur", utilisateur.TypeUtilisateur);
             ViewData["CurrentUser"] = _userIdConnected;
 
             return View(utilisateur);
@@ -107,6 +123,15 @@ namespace ProjetWeb.Controllers
             if (id != utilisateur.NoUtilisateur)
             {
                 return NotFound();
+            }
+
+            if (_context.Utilisateurs.Any(u => u.NomUtilisateur == utilisateur.NomUtilisateur && u.NoUtilisateur != id))
+            {
+                ModelState.AddModelError("NomUtilisateur", "Le nom est déjà prit!");
+            }
+            if (_context.Utilisateurs.Any(u => u.Courriel == utilisateur.Courriel && u.NoUtilisateur != id))
+            {
+                ModelState.AddModelError("Courriel", "Le courriel est déjà prit!");
             }
 
             if (ModelState.IsValid)
@@ -129,7 +154,7 @@ namespace ProjetWeb.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["TypeUtilisateur"] = new SelectList(_context.TypesUtilisateurs, "TypeUtilisateur", "TypeUtilisateur", utilisateur.TypeUtilisateur);
+            ViewData["TypeUtilisateur"] = new SelectList(_context.TypesUtilisateurs.Where(t => t.TypeUtilisateur != "A"), "TypeUtilisateur", "TypeUtilisateur", utilisateur.TypeUtilisateur);
             ViewData["CurrentUser"] = _userIdConnected;
 
             return View(utilisateur);

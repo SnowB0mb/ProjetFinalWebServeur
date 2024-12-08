@@ -5,7 +5,7 @@
     Layout = "_LayoutLogged";
 }
 
-<h1>Create</h1>
+<h1>Ajouter</h1>
 
 <h4>Utilisateur</h4>
 <hr />
@@ -13,11 +13,6 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="NoUtilisateur" class="control-label"></label>
-                <input asp-for="NoUtilisateur" class="form-control" />
-                <span asp-validation-for="NoUtilisateur" class="text-danger"></span>
-            </div>
             <div class="form-group">
                 <label asp-for="NomUtilisateur" class="control-label"></label>
                 <input asp-for="NomUtilisateur" class="form-control" />
@@ -34,18 +29,23 @@
                 <span asp-validation-for="MotPasse" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="TypeUtilisateur" class="control-label"></label>
-                <select asp-for="TypeUtilisateur" class ="form-control" asp-items="ViewBag.TypeUtilisateur"></select>
+                <label asp-for="ConfirmMotPasse" class="control-label"></label>
+                <input asp-for="ConfirmMotPasse" class="form-control" />
+                <span asp-validation-for="ConfirmMotPasse" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <label asp-for="TypeUtilisateur" class="control-label"></label>
+                <select asp-for="TypeUtilisateur" class="form-control" asp-items="ViewBag.TypeUtilisateur"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Ajouter" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Retour à la liste</a>
 </div>
 
 @section Scripts {
