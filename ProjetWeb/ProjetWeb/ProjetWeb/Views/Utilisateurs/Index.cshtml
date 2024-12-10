@@ -1,0 +1,58 @@
+﻿@model IEnumerable<ProjetWeb.Models.Utilisateur>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "_LayoutLogged";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Ajouter un nouvel utilisateur</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.NomUtilisateur)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Courriel)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MotPasse)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TypeUtilisateurNavigation)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            if (item.TypeUtilisateur != "A")
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NomUtilisateur)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Courriel)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MotPasse)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TypeUtilisateurNavigation.TypeUtilisateur)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.NoUtilisateur">Mod</a> |
+                        <a asp-action="Details" asp-route-id="@item.NoUtilisateur">Détails</a> |
+                        <a asp-action="Delete" asp-route-id="@item.NoUtilisateur">Supprimer</a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

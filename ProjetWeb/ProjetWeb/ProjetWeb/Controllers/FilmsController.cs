@@ -263,6 +263,8 @@ namespace ProjetWeb.Controllers
                 return NotFound();
             }
             ViewData["BackgroundImagePath"] = HttpContext.Session.GetString("BackgroundImagePath");
+            ViewData["CurrentUser"] = _userIdConnected;
+
             return View(film);
         }
 
@@ -281,6 +283,7 @@ namespace ProjetWeb.Controllers
             ViewData["NoProducteur"] = new SelectList(_context.Producteurs, "NoProducteur", "Nom");
             ViewData["NoRealisateur"] = new SelectList(_context.Realisateurs, "NoRealisateur", "Nom");
             ViewData["NoUtilisateurMaj"] = new SelectList(_context.Utilisateurs, "NoUtilisateur", "NomUtilisateur");
+            ViewData["CurrentUser"] = _userIdConnected;
 
             FilmViewModel filmViewModel = new FilmViewModel();
             ViewData["BackgroundImagePath"] = HttpContext.Session.GetString("BackgroundImagePath");
@@ -362,6 +365,8 @@ namespace ProjetWeb.Controllers
             ViewData["NoRealisateur"] = new SelectList(_context.Realisateurs, "NoRealisateur", "Nom", filmViewModel.Film.NoRealisateur);
             ViewData["NoUtilisateurMaj"] = new SelectList(_context.Utilisateurs, "NoUtilisateur", "NomUtilisateur", filmViewModel.Film.NoUtilisateurMaj);
             ViewData["BackgroundImagePath"] = HttpContext.Session.GetString("BackgroundImagePath");
+            ViewData["CurrentUser"] = _userIdConnected;
+
             return View(filmViewModel);
         }
 
@@ -396,8 +401,8 @@ namespace ProjetWeb.Controllers
             var userType = await GetUserTypeAsync();
             ViewData["UserType"] = userType;
 
-            // Si pas superutilisateur et pas son dvd retourne a index
-            if (userType != "S")
+            // Si un utilisateur et pas son dvd retourne a index
+            if (userType == "U")
                 if (_userIdConnected != film.NoUtilisateurMaj)
                     return Redirect("/Films/Index");
 
@@ -409,6 +414,8 @@ namespace ProjetWeb.Controllers
             ViewData["NoRealisateur"] = new SelectList(_context.Realisateurs, "NoRealisateur", "Nom", filmViewModel.Film.NoRealisateur);
             ViewData["NoUtilisateurMaj"] = new SelectList(_context.Utilisateurs, "NoUtilisateur", "NomUtilisateur", filmViewModel.Film.NoUtilisateurMaj);
             ViewData["BackgroundImagePath"] = HttpContext.Session.GetString("BackgroundImagePath");
+            ViewData["CurrentUser"] = _userIdConnected;
+
             return View(filmViewModel);
         }
 
@@ -430,7 +437,7 @@ namespace ProjetWeb.Controllers
             filmViewModel.Film.DateMaj = DateTime.Now;
 
             var userType = await GetUserTypeAsync();
-            if (userType != "S")
+            if (userType == "U")
             {
                 filmViewModel.Film.NoUtilisateurMaj = _userIdConnected ?? 1;
             }
@@ -476,6 +483,8 @@ namespace ProjetWeb.Controllers
             ViewData["NoRealisateur"] = new SelectList(_context.Realisateurs, "NoRealisateur", "Nom", filmViewModel.Film.NoRealisateur);
             ViewData["NoUtilisateurMaj"] = new SelectList(_context.Utilisateurs, "NoUtilisateur", "NomUtilisateur", filmViewModel.Film.NoUtilisateurMaj);
             ViewData["BackgroundImagePath"] = HttpContext.Session.GetString("BackgroundImagePath");
+            ViewData["CurrentUser"] = _userIdConnected;
+
             return View(filmViewModel);
         }
 

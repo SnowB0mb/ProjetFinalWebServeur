@@ -36,7 +36,7 @@
                     <input asp-for="Film.NoFilm" type="hidden" id="noFilm" class="form-control" />
                     <input asp-for="Film.NoUtilisateurMaj" type="hidden" />
 
-                    @if (userType == "S")
+                    @if (userType != "U")
                     {
                         <div>
                             <label>Vous modifiez ce film pour:</label>

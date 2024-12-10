@@ -1,0 +1,43 @@
+﻿@model ProjetWeb.Models.Utilisateur
+
+@{
+    ViewData["Title"] = "Détails";
+    Layout = "_LayoutLogged";
+}
+
+<h1>Détails</h1>
+
+<div>
+    <h4>Utilisateur</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.NomUtilisateur)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.NomUtilisateur)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Courriel)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Courriel)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.MotPasse)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.MotPasse)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TypeUtilisateurNavigation)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TypeUtilisateurNavigation.TypeUtilisateur)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.NoUtilisateur">Modifier</a> |
+    <a asp-action="Index">Retour à la liste</a>
+</div>

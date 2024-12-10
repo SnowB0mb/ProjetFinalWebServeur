@@ -23,6 +23,9 @@ public partial class Utilisateur
     [Range(11111, 99999, ErrorMessage = "Le mot de passe doit être un nombre entre 11111 et 99999")]
     public int MotPasse { get; set; }
 
+    [NotMapped]
+    public int? ConfirmMotPasse { get; set; }
+
     [StringLength(1)]
     [Required(ErrorMessage = "Le type d'utilisateur est requis")]
     public string TypeUtilisateur { get; set; } = null!;
