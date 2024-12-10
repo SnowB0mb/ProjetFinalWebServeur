@@ -5,9 +5,9 @@
     Layout = "_LayoutLogged";
 }
 
-<h1>Delete</h1>
+<h1>Supprimer</h1>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>Êtes-vous sûr de supprimer l'utilisateur?</h3>
 <div>
     <h4>Utilisateur</h4>
     <hr />
@@ -40,7 +40,7 @@
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="NoUtilisateur" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <input type="submit" value="Supprimer" class="btn btn-danger" /> |
+        <a asp-action="Index">Retour à la liste</a>
     </form>
 </div>
